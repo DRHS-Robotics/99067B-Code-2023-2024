@@ -51,7 +51,7 @@ void autonomous() {
 	//First thing:
 	//Make sure all of the motor ports match up with the motor ports in the globals.cpp file.
 	////////////////////////////////////////////////////////////////////////////
-	// initializeAutoTapaTask();
+	initializeAutoTapaTask();
 	tapaSpeedControl.tapaSet(127, 127);
 	//Leave these lines of code in here
 	//These make sure the classes in the control.h file work
@@ -69,9 +69,9 @@ void autonomous() {
 	intake2.move(0);
 	control_turn(150, 100, 0.02);
 	matchLoad.set_value(true);
-	// moveState = true;
+	moveState = true;
 	pros::delay(42000);
-	// moveState = false;
+	moveState = false;
 	matchLoad.set_value(false);
 	control_turn(203.5, 110, 0.025);
 	Drive.control_drive(800, 120, 203.5);
