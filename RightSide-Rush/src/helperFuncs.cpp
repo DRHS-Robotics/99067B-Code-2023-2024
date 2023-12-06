@@ -150,32 +150,32 @@ void initializeTapaTask(){
 }
 
 void setWings(){
-	if(wingsExpand == nullptr){
-		wingsExpand = new pros::Task{[=]{
-			while(true){
-				if(wing1Expand){
-					wings1.set_value(true);
-				}else{
-					wings1.set_value(false);
-				}
+// 	if(wingsExpand == nullptr){
+// 		wingsExpand = new pros::Task{[=]{
+// 			while(true){
+// 				if(wing1Expand){
+// 					wings1.set_value(true);
+// 				}else{
+// 					wings1.set_value(false);
+// 				}
 
-				if(wing2Expand){
-					wings2.set_value(true);
-				}else{
-					wings2.set_value(false);
-				}
+// 				if(wing2Expand){
+// 					wings2.set_value(true);
+// 				}else{
+// 					wings2.set_value(false);
+// 				}
 
-				if(bothWingsExpand){
-					wings1.set_value(true);
-					wings2.set_value(true);
-				}else{
-					wings1.set_value(false);
-					wings2.set_value(false);
-				}
-				pros::Task::delay(20);
-			}
-		}};
-	}
+// 				if(bothWingsExpand){
+// 					wings1.set_value(true);
+// 					wings2.set_value(true);
+// 				}else{
+// 					wings1.set_value(false);
+// 					wings2.set_value(false);
+// 				}
+// 				pros::Task::delay(20);
+// 			}
+// 		}};
+// 	}
 }
 
 double ArcTurn::calculatePower(double radius, double error, double maxOppPower, double kP, double kI, double kD){
@@ -611,6 +611,19 @@ void DrivePID::control_drive(double target, double maxPower, double currentDesir
 		current = position();
 		pastCurrent = this->classPastCurrent;
 		this->classPastCurrent = current;
+		
+		if(pastCurrent == current){
+			exitCount++;
+		}else{
+			exitCount = 0;
+		}
+
+		if(exitCount > 1){
+			driveProportion = 0;
+			driveDerivative = 0;
+			driveLastError = 0;
+			break;
+		}
 		currentActualAngle = returnThetaInRange(angle());
 
 		angleError = (currentDesiredAngle-currentActualAngle);
@@ -638,19 +651,6 @@ void DrivePID::control_drive(double target, double maxPower, double currentDesir
 		}
 
 		if(current >= (target+17)){
-			driveProportion = 0;
-			driveDerivative = 0;
-			driveLastError = 0;
-			break;
-		}
-
-		if(pastCurrent == current){
-			exitCount++;
-		}else{
-			exitCount = 0;
-		}
-
-		if(exitCount > 3){
 			driveProportion = 0;
 			driveDerivative = 0;
 			driveLastError = 0;
