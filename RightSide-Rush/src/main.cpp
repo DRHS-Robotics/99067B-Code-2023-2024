@@ -59,21 +59,21 @@ void autonomous() {
 	Drive.control_drive(200,120,0);
 	control_turn(6.5, 115, 0.1);
 	intake2.move(127);
-	Drive.control_drive(2000, 110, 6.5);
-	arcTurn.FArcTurn(35, 2, 110, 0.018);
+	Drive.control_drive(2100, 110, 6.5);
+	arcTurn.FArcTurn(35, 4, 115, 0.025);
 	//Drive.control_drive(300, 80, 6.5);
 	control_turn(135, 110, 0.007);
 	intake2.move(-127);
 	pros::delay(100);
 	Drive.control_drive(1350, 127, 135);
 	Drive.control_drive_back(300, 120, 135);
-	Drive.control_drive(500, 120, 136);
-	Drive.control_drive_back(300, 120, 136);
+	Drive.control_drive(500, 120, 135);
+	Drive.control_drive_back(300, 120, 135);
 	// // GETS FIRST TWO TRIBALS IN, ON AUTONOMUS LINE
 
 	control_turn(277, 110, 0.006);
 	intake2.move(127);
-	Drive.control_drive(1000, 120, 280);
+	Drive.control_drive(1150, 120, 277);
 	control_turn(0, 110, 0.007);
 	Drive.control_drive_back(1750, 120, 0);
 	control_turn(90, 110, 0.009);
