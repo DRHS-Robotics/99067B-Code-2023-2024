@@ -56,46 +56,32 @@ void autonomous() {
 	//These make sure the classes in the control.h file work
 	Drive.set(0);
 	arcTurn.set(0);
+	Drive.control_drive(200,120,0);
+	control_turn(6.5, 115, 0.1);
 	intake2.move(127);
-	Drive.control_drive(300, 110, 0);
-	pros::delay(400);
-	//control_turn(355, 110, 0.45);
-	Drive.control_drive_back(1350, 90, 0);
-	arcTurn.BArcTurn(278, 25, 100, 0.015);
-	Drive.control_drive_back(550, 127, 278);
-	Drive.control_drive(400, 127, 278);
-	//wing2Expand = true;
-	//wings2.set_value(true);
-	//control_turn(270, 90, 0.016);
-	//pros::delay(250);
-	//wings2.set_value(false);
-	//control_turn(127, 100, 0.012);
-	//intake2.move(-127);
-	//Drive.control_drive(825, 120, 127);
-	control_turn(93, 102, 0.006);
+	Drive.control_drive(2000, 110, 6.5);
+	arcTurn.FArcTurn(35, 2, 110, 0.018);
+	//Drive.control_drive(300, 80, 6.5);
+	control_turn(135, 110, 0.007);
 	intake2.move(-127);
-	Drive.control_drive(700, 127, 93);
-	Drive.control_drive_back(450, 127, 93);
-	intake2.move(0);
-	control_turn(26, 100, 0.024);
-	intake2.move(127);
-	pros::delay(75);
-	Drive.control_drive(2000, 80, 26);
-	pros::delay(75);
-	control_turn(160, 110, 0.0081);
-	intake2.move(-127);
-	Drive.control_drive(1400, 100, 160);
-	arcTurn.BArcTurn(61, 1, 100, 0.009);
 	pros::delay(100);
+	Drive.control_drive(1350, 127, 135);
+	Drive.control_drive_back(300, 120, 135);
+	Drive.control_drive(500, 120, 136);
+	Drive.control_drive_back(300, 120, 136);
+	// // GETS FIRST TWO TRIBALS IN, ON AUTONOMUS LINE
+
+	control_turn(277, 110, 0.006);
 	intake2.move(127);
-	Drive.control_drive(1175, 90, 61);
-	control_turn(180, 100, 0.01);
+	Drive.control_drive(1000, 120, 280);
+	control_turn(0, 110, 0.007);
+	Drive.control_drive_back(1750, 120, 0);
+	control_turn(90, 110, 0.009);
 	intake2.move(-127);
-	Drive.control_drive(1400, 127, 180);
-	Drive.control_drive_back(700, 127, 180);
-	//wings2.set_value(false);
-	intake2.move(0);
-	
+	arcTurn.FArcTurn(50, 7, 115, 0.03);
+	Drive.control_drive(600, 120, 50);
+
+
 	//This is how to activate the pneumatics
 	//Set the value to false to deactivate the pneumatics.
 	//wings1.set_value(true);
