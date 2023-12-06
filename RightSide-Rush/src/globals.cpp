@@ -5,7 +5,8 @@ pros::Motor bl_drive(3, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNT
 pros::Motor ptoR_drive(7, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
 pros::Motor tr_drive(8, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);//top right
 pros::Motor br_drive(9, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor tapa(6, pros::E_MOTOR_GEARSET_36, 0, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor tapa(20, pros::E_MOTOR_GEARSET_36, 0, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor flywheel(6, pros::E_MOTOR_GEARSET_36, 0, pros::E_MOTOR_ENCODER_COUNTS);
 pros::Motor intake2(5, pros::E_MOTOR_GEARSET_18, 1, pros::E_MOTOR_ENCODER_COUNTS);
 pros::ADIDigitalIn tapaSwitch('H');
 pros::ADIDigitalOut wings1('A');
@@ -20,6 +21,7 @@ int sgn(double num);
 double returnThetaInRange(double thetaAngle);
 void drive(double left, double right);
 void initializeTapaTask();
+void control_flywheel_fn();
 void PTO_Drive(double left, double right);
 int sgn(double num);
 void resetPos();
@@ -33,6 +35,7 @@ const double maxtapaShoot = 1150.0;
 tapaSpeed tapaSpeedControl;
 pros::Task* tapaTask = nullptr;
 pros::Task* wingsExpand = nullptr;
+pros::Task* flywheelTask = nullptr;
 bool wing1Expand = false;
 bool wing2Expand = false;
 bool bothWingsExpand = false;
@@ -57,3 +60,6 @@ double angleLastError = 0.0;
 double turnIntegral = 0.0;
 double turnDerivative = 0.0;
 double turnLastError = 0.0;
+
+bool flywheelOn = false;
+int targetVoltage = 0;
