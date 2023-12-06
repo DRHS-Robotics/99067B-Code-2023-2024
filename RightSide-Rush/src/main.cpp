@@ -78,7 +78,7 @@ void autonomous() {
 	Drive.control_drive_back(1750, 120, 0);
 	control_turn(90, 110, 0.009);
 	intake2.move(-127);
-	arcTurn.FArcTurn(50, 7, 115, 0.03);
+	arcTurn.FArcTurn(50, 20, 115, 0.03);
 	Drive.control_drive(600, 120, 50);
 
 
