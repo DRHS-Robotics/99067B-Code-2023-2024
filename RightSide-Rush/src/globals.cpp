@@ -31,6 +31,8 @@ void control_turn(double target, double maxPower, double turnkI);
 
 bool frontSlapaState = false;
 bool backSlapaState = false;
+bool flywheelOn = false;
+int targetVoltage = 0;
 const double maxtapaShoot = 1150.0;
 tapaSpeed tapaSpeedControl;
 pros::Task* tapaTask = nullptr;
@@ -42,8 +44,6 @@ bool bothWingsExpand = false;
 
 DrivePID Drive;
 ArcTurn arcTurn;
-
-
 
 double arcIntegral = 0.0;
 double arcDerivative = 0.0;
@@ -60,6 +60,3 @@ double angleLastError = 0.0;
 double turnIntegral = 0.0;
 double turnDerivative = 0.0;
 double turnLastError = 0.0;
-
-bool flywheelOn = false;
-int targetVoltage = 0;
