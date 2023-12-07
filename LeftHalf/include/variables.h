@@ -23,9 +23,16 @@ extern double turnDerivative;
 extern double turnLastError;
 
 extern pros::Task* tapaTask;
-extern pros::Task* autoTapaTask;
+extern pros::Task* wingsExpand;
+extern bool wing1Expand;
+extern bool wing2Expand;
+extern bool bothWingsExpand;
 
-extern bool moveState;
+extern bool reset;
+extern bool flywheelOn;
+extern int targetVoltage;
+extern pros::Task* flywheelTask;
+
 
 
 #endif
