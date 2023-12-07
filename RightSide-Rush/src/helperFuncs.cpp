@@ -92,7 +92,7 @@ void control_flywheel_fn(){
 
 		while(true){
 			if(flywheelOn){ //If flywheel is set to be on
-				rpm = fabs((flywheel.get_actual_velocity())*6);
+				rpm = fabs((flywheel.get_actual_velocity())*5);
 				rpmTarget = (targetVoltage/kV);
 				rpmError = rpmTarget - rpm;
 				//Obtain RPM error
@@ -160,6 +160,7 @@ void control_flywheel_fn(){
 		}};
 	}
 }
+
 
 void initializeTapaTask(){
 	if(tapaTask == nullptr){

@@ -28,9 +28,9 @@ extern bool wing1Expand;
 extern bool wing2Expand;
 extern bool bothWingsExpand;
 
+extern bool reset;
 extern bool flywheelOn;
 extern int targetVoltage;
-extern bool reset;
 extern pros::Task* flywheelTask;
 
 
