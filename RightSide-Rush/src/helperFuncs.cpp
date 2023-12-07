@@ -82,12 +82,12 @@ void control_flywheel_fn(){
 
 		//Tuneable constants to reduce osciallation
 		//of precision-state flywheel PID
-		const double kP = 5.7332;
-		const double kI = 0.7115;
-		const double kD = 4; //Conversion from RPM to voltage
-		const double kV = (10/3);
-		const double threshold = 60;
-		const double startkI = 160;
+		const double kP = 3;
+		const double kI = 0;
+		const double kD = 1; 
+		const double kV = (10/3); //Conversion from RPM to voltage
+		const double threshold = 150;
+		const double startkI = 100;
 		const int time_delay = 20;
 
 		while(true){
@@ -134,7 +134,7 @@ void control_flywheel_fn(){
 
 				rpmPastError = rpmError;
 				//Past error for derivative.
-
+				std::cout << "Motor Voltage " << motorVoltage << std::endl;
 				flywheel.move_voltage(motorVoltage);
 				//Move flywheel certain voltage based on error
 

@@ -6,7 +6,7 @@ pros::Motor ptoR_drive(7, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COU
 pros::Motor tr_drive(8, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);//top right
 pros::Motor br_drive(9, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
 pros::Motor tapa(20, pros::E_MOTOR_GEARSET_36, 0, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor flywheel(6, pros::E_MOTOR_GEARSET_36, 1, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor flywheel(6, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
 pros::Motor intake2(5, pros::E_MOTOR_GEARSET_18, 1, pros::E_MOTOR_ENCODER_COUNTS);
 pros::ADIDigitalIn tapaSwitch('H');
 pros::ADIDigitalOut wings1('A');

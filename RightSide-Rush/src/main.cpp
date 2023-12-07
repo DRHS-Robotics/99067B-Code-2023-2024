@@ -158,7 +158,7 @@ void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	// initializeTapaTask();
 	control_flywheel_fn();
-	int tapaPosition = tapa.get_position();
+	// int tapaPosition = tapa.get_position();
 	bool speedControl = false;
 	bool wingsState = false;
 	bool PTO_State = false;
@@ -218,10 +218,10 @@ void opcontrol() {
 
 		if(speedControl){
 			// tapaSpeedControl.tapaSet(127, 127);
-			targetVoltage = 12000;
+			targetVoltage = 10000;
 		}else{
 			// tapaSpeedControl.tapaSet(127, 127);
-			targetVoltage = 10000;
+			targetVoltage = 5000;
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
