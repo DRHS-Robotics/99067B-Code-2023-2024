@@ -57,12 +57,13 @@ void autonomous() {
 	Drive.set(0);
 	arcTurn.set(0);
 	Drive.control_drive(200,120,0);
-	control_turn(6.5, 115, 0.1);
+	control_turn(9, 115, 0.15);
 	intake2.move(127);
-	Drive.control_drive(2100, 110, 6.5);
-	arcTurn.FArcTurn(35, 5, 115, 0.04);
-	//Drive.control_drive(300, 80, 6.5);
-	control_turn(135, 110, 0.007);
+	// arcTurn.FArcTurn(8, 20, 120, 0.06);
+	Drive.control_drive(2000, 110, 9);
+	control_turn(357, 127, 0.5);
+	Drive.control_drive(400, 80, 357);
+	control_turn(135, 100, 0.008);
 	intake2.move(-127);
 	pros::delay(100);
 	Drive.control_drive(1350, 127, 135);
@@ -71,15 +72,18 @@ void autonomous() {
 	Drive.control_drive_back(300, 120, 135);
 	// // GETS FIRST TWO TRIBALS IN, ON AUTONOMUS LINE
 
-	control_turn(277, 110, 0.006);
+	control_turn(277, 90, 0.008);
 	intake2.move(127);
 	Drive.control_drive(1150, 120, 277);
-	control_turn(0, 110, 0.007);
-	Drive.control_drive_back(1750, 120, 0);
+	control_turn(357, 110, 0.01);
+	Drive.control_drive_back(1750, 120, 357);
 	control_turn(90, 110, 0.011);
 	intake2.move(-127);
 	arcTurn.FArcTurn(50, 40, 115, 0.03);
 	Drive.control_drive(600, 120, 50);
+	Drive.control_drive_back(400, 110, 50);
+	Drive.control_drive(400, 127, 50);
+	Drive.control_drive_back(500, 120, 50);
 
 
 	//This is how to activate the pneumatics
@@ -152,7 +156,8 @@ void autonomous() {
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	initializeTapaTask();
+	// initializeTapaTask();
+	control_flywheel_fn();
 	int tapaPosition = tapa.get_position();
 	bool speedControl = false;
 	bool wingsState = false;
@@ -161,6 +166,7 @@ void opcontrol() {
 	bool rightWing = false;
 	bool climbState = false;
 	bool matchLoadState = false;
+	bool flywheelState = false;
 
 
 	while (true) {
@@ -188,13 +194,22 @@ void opcontrol() {
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
-			backSlapaState = !backSlapaState;
-			frontSlapaState = false;
+			// backSlapaState = !backSlapaState;
+			// frontSlapaState = false;
+			flywheelState = !flywheelState;
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
-			frontSlapaState = !frontSlapaState;
-			backSlapaState = false;
+		// if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
+		// 	frontSlapaState = !frontSlapaState;
+		// 	backSlapaState = false;
+		// }
+
+		if(flywheelState){
+			flywheelOn = true;
+			reset = false;
+		}else{
+			flywheelOn = false;
+			reset = true;
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
@@ -202,9 +217,11 @@ void opcontrol() {
 		}
 
 		if(speedControl){
-			tapaSpeedControl.tapaSet(127, 127);
+			// tapaSpeedControl.tapaSet(127, 127);
+			targetVoltage = 12000;
 		}else{
-			tapaSpeedControl.tapaSet(127, 127);
+			// tapaSpeedControl.tapaSet(127, 127);
+			targetVoltage = 10000;
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){

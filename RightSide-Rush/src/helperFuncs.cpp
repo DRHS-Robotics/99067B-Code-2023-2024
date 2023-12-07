@@ -85,14 +85,14 @@ void control_flywheel_fn(){
 		const double kP = 5.7332;
 		const double kI = 0.7115;
 		const double kD = 4; //Conversion from RPM to voltage
-		const double kV = (12/3);
+		const double kV = (10/3);
 		const double threshold = 60;
 		const double startkI = 160;
 		const int time_delay = 20;
 
 		while(true){
 			if(flywheelOn){ //If flywheel is set to be on
-				rpm = fabs((flywheel.get_actual_velocity())*5);
+				rpm = fabs((flywheel.get_actual_velocity())*6);
 				rpmTarget = (targetVoltage/kV);
 				rpmError = rpmTarget - rpm;
 				//Obtain RPM error
