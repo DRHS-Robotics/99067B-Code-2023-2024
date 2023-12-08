@@ -82,13 +82,14 @@ void control_flywheel_fn(){
 
 		//Tuneable constants to reduce osciallation
 		//of precision-state flywheel PID
-		const double kP = 3;
-		const double kI = 0;
-		const double kD = 1; 
-		const double kV = (10/3); //Conversion from RPM to voltage
-		const double threshold = 150;
-		const double startkI = 100;
+		const double kP = 5.7332;
+		const double kI = 0.7125;
+		const double kD = 4; //Conversion from RPM to voltage
+		const double kV = (10/3);
+		const double threshold = 120;
+		const double startkI = 160;
 		const int time_delay = 20;
+
 
 		while(true){
 			if(flywheelOn){ //If flywheel is set to be on

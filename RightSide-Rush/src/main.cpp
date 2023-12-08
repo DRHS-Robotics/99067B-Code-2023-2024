@@ -218,10 +218,10 @@ void opcontrol() {
 
 		if(speedControl){
 			// tapaSpeedControl.tapaSet(127, 127);
-			targetVoltage = 10000;
+			targetVoltage = 8000;
 		}else{
 			// tapaSpeedControl.tapaSet(127, 127);
-			targetVoltage = 5000;
+			targetVoltage = 7000;
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){

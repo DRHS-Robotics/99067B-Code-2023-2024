@@ -58,17 +58,17 @@ void autonomous() {
 	//Initializes the class variables
 	Drive.set(0);
 	arcTurn.set(0);
-	Drive.control_drive(250, 100, 0);
-	arcTurn.BArcTurn(90, 18, 100, 0.009);
+	Drive.control_drive(100, 40, 0);
+	arcTurn.BArcTurn(90, 20, 80, 0.009);
 	Drive.control_drive_back(450, 100, 90);
 	Drive.control_drive(350, 100, 90);
-	control_turn(240, 100, 0.008);
-	Drive.control_drive_back(500, 100, 240);
-	wings2.set_value(true);
-	control_turn(195, 115, 0.028);
+	control_turn(60, 110, 0.037);
+	Drive.control_drive(500, 100, 60);
+	wings1.set_value(true);
+	control_turn(0, 120, 0.028);
+	control_turn(202, 60, 0.002);
 	// Drive.control_drive_back(300, 100, 250);
-	wings2.set_value(false);
-	Drive.control_drive_back(1750, 50, 195);
+	Drive.control_drive_back(1850, 90, 202);
 	// matchLoad.set_value(true);
 
 	
