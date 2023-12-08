@@ -166,8 +166,9 @@ void autonomous() {
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	initializeTapaTask();
-	int tapaPosition = tapa.get_position();
+	// initializeTapaTask();
+	control_flywheel_fn();
+	// int tapaPosition = tapa.get_position();
 	bool speedControl = false;
 	bool wingsState = false;
 	bool PTO_State = false;
@@ -175,6 +176,7 @@ void opcontrol() {
 	bool rightWing = false;
 	bool climbState = false;
 	bool matchLoadState = false;
+	bool flywheelState = false;
 
 
 	while (true) {
@@ -202,13 +204,22 @@ void opcontrol() {
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
-			backSlapaState = !backSlapaState;
-			frontSlapaState = false;
+			// backSlapaState = !backSlapaState;
+			// frontSlapaState = false;
+			flywheelState = !flywheelState;
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
-			frontSlapaState = !frontSlapaState;
-			backSlapaState = false;
+		// if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
+		// 	frontSlapaState = !frontSlapaState;
+		// 	backSlapaState = false;
+		// }
+
+		if(flywheelState){
+			flywheelOn = true;
+			reset = false;
+		}else{
+			flywheelOn = false;
+			reset = true;
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
@@ -216,9 +227,11 @@ void opcontrol() {
 		}
 
 		if(speedControl){
-			tapaSpeedControl.tapaSet(127, 127);
+			// tapaSpeedControl.tapaSet(127, 127);
+			targetVoltage = 8000;
 		}else{
-			tapaSpeedControl.tapaSet(127, 127);
+			// tapaSpeedControl.tapaSet(127, 127);
+			targetVoltage = 7000;
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
