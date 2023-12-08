@@ -66,6 +66,105 @@ double angle(){
     return((imu1.get_rotation() + imu2.get_rotation())/2);
 }
 
+void control_flywheel_fn(){
+	if(flywheelTask == nullptr){
+		flywheelTask = new pros::Task{[=]{
+		
+		double rpm = 0;
+		double rpmTarget = 0;
+		double rpmError = 0;
+		double rpmPastError = 0;
+		double proportion = 0;
+		double integral = 0;
+		double derivative = 0;
+		double motorVoltage = 0;
+		//Variables to track values related to
+		//RPM and voltage error
+
+		//Tuneable constants to reduce osciallation
+		//of precision-state flywheel PID
+		const double kP = 5.7332;
+		const double kI = 0.7125;
+		const double kD = 4; //Conversion from RPM to voltage
+		const double kV = (10/3);
+		const double threshold = 120;
+		const double startkI = 160;
+		const int time_delay = 20;
+
+
+		while(true){
+			if(flywheelOn){ //If flywheel is set to be on
+				rpm = fabs((flywheel.get_actual_velocity())*6);
+				rpmTarget = (targetVoltage/kV);
+				rpmError = rpmTarget - rpm;
+				//Obtain RPM error
+				proportion = rpmError;
+				//Proportion value is proportional to error
+				if(kI != 0){
+					//Integral anti-windup
+					if(fabs(rpmError) < startkI){
+						integral += rpmError; //Integral accumulation
+					}
+					if(sgn(rpmError) != sgn(rpmPastError)){
+						integral = 0;
+					}
+				}
+
+				if(derivative >= 0){
+					derivative = ((rpmError - rpmPastError));
+					//Activate derivative for slowing effect of flywheel
+				}else{
+					derivative = 0;
+				}
+
+				//Range to apply bang-bang control to flywheel
+				//Provides fastest recovery for flyhweel speed drop.
+				if(rpmError > threshold){
+					motorVoltage = 12000;
+				}else{
+					//PID used for max precision of flywheel.
+					motorVoltage = (kV * rpmTarget) + (proportion*kP) + (integral*kI) + (derivative*kD);
+				}
+
+				//Clamps flywheel to prevent values out of range from
+				//Being output to flywheel
+				if(motorVoltage > 12000){
+					motorVoltage = 12000;
+				}else if(motorVoltage < 0){
+					motorVoltage = 0;
+				}
+
+				rpmPastError = rpmError;
+				//Past error for derivative.
+				std::cout << "Motor Voltage " << motorVoltage << std::endl;
+				flywheel.move_voltage(motorVoltage);
+				//Move flywheel certain voltage based on error
+
+				if(reset){
+					//Reset values so old values are
+					//not reused in another cycle
+					proportion = 0;
+					derivative = 0;
+					integral = 0;
+					rpmError = 0;
+					rpmPastError = 0;
+					rpmTarget = 0;
+					rpm = 0;
+					motorVoltage = 0;
+				}
+
+				pros::Task::delay(time_delay); //Delay for task so kernel does not starve processor of memory.
+			}else{
+				//If flywheel is set to be off, then stop flyhweel motor.
+				flywheel.move(0);
+			}
+		}
+		}};
+	}
+}
+
+
+
 void initializeTapaTask(){
 	if(tapaTask == nullptr){
 		//Lambda task(inline task defintion so that new function does not need to be created)

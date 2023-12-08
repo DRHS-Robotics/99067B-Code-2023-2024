@@ -3,6 +3,7 @@
 
 int sgn(double num);
 void drive(double left, double right);
+void control_flywheel_fn();
 void initializeTapaTask();
 void PTO_Drive(double left, double right);
 int sgn(double num);
