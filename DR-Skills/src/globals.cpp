@@ -21,12 +21,11 @@ int sgn(double num);
 double returnThetaInRange(double thetaAngle);
 void drive(double left, double right);
 void initializeTapaTask();
-void control_flywheel_fn();
 void PTO_Drive(double left, double right);
 int sgn(double num);
 void resetPos();
 double position();
-void setWings();
+void initalizeAutoTapaTask();
 void control_turn(double target, double maxPower, double turnkI);
 
 bool frontSlapaState = false;
@@ -37,11 +36,7 @@ bool reset = false;
 const double maxtapaShoot = 1150.0;
 tapaSpeed tapaSpeedControl;
 pros::Task* tapaTask = nullptr;
-pros::Task* wingsExpand = nullptr;
-pros::Task* flywheelTask = nullptr;
-bool wing1Expand = false;
-bool wing2Expand = false;
-bool bothWingsExpand = false;
+pros::Task* autoTapaTask = nullptr;
 
 DrivePID Drive;
 ArcTurn arcTurn;
@@ -61,3 +56,5 @@ double angleLastError = 0.0;
 double turnIntegral = 0.0;
 double turnDerivative = 0.0;
 double turnLastError = 0.0;
+
+bool moveState = false;
