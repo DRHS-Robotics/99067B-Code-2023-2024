@@ -56,6 +56,7 @@ void autonomous() {
 	//Leave these lines of code in here
 	//These make sure the classes in the control.h file work
 	//Initializes the class variables
+	control_flywheel_fn();
 	Drive.set(0);
 	arcTurn.set(0);
 	arcTurn.FArcTurn(88.0, 6.0, 110, 0.015);
@@ -67,28 +68,31 @@ void autonomous() {
 	control_turn(82.0, 110, 0.35);
 	Drive.control_drive_back(600, 120, 82);
 	intake2.move(0);
+	flywheelOn = true;
+	targetVoltage = 7000;
 	control_turn(155, 100, 0.02);
 	Drive.control_drive_back(200, 100, 155);
 	matchLoad.set_value(true);
-	pros::delay(3000);
+	pros::delay(37000);
 	matchLoad.set_value(false);
+	flywheelOn = false;
 	control_turn(205, 110, 0.02);
 	Drive.control_drive(1100, 120, 205);
 	control_turn(180, 100, 0.1);
 	Drive.control_drive(2000, 120, 180);
-	arcTurn.FArcTurn(45.0, 5.0, 100, 0.0015);
+	arcTurn.FArcTurn(45.0, 5.0, 100, 0.003);
 	// Drive.control_drive(900, 120, 97);
 	// Drive.control_drive_back(650, 127, 97);
 	//control_turn(45, 100, 0.009);
 	Drive.control_drive(1300, 120, 45);
 	control_turn(90, 110, 0.02);
-	Drive.control_drive(2200, 120, 90);
-	control_turn(60, 110, 0.028);
+	Drive.control_drive(2000, 120, 90);
+	control_turn(60, 110, 0.04);
 	wings1.set_value(true);
 	wings2.set_value(true);
 	pros::delay(600);
-	Drive.control_drive_back(1300, 127, 60);
-	control_turn(0, 110, 0.025);
+	Drive.control_drive_back(1500, 127, 60);
+	control_turn(0, 110, 0.04);
 	//Drive.control_drive(800, 120, 20);
 	Drive.control_drive_back(600, 127, 0);
 	Drive.control_drive(600, 120, 0);

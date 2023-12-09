@@ -82,12 +82,12 @@ void control_flywheel_fn(){
 
 		//Tuneable constants to reduce osciallation
 		//of precision-state flywheel PID
-		const double kP = 0.5;
-		const double kI = 0.01;
-		const double kD = 0.025; //Conversion from RPM to voltage
+		const double kP = 0.539480394328;
+		const double kI = 0.008264748923;
+		const double kD = 0.985683; //Conversion from RPM to voltage
 		const double kV = (10/3);
-		const double threshold = 200;
-		const double startkI = 100;
+		const double threshold = 140;
+		const double startkI = 20;
 		const int time_delay = 20;
 
 
@@ -119,6 +119,7 @@ void control_flywheel_fn(){
 				}else{
 					//PID used for max precision of flywheel.
 					motorVoltage = (kV * rpmTarget) + (proportion*kP) + (integral*kI) + (derivative*kD);
+
 				}
 
 				//Clamps flywheel to prevent values out of range from
