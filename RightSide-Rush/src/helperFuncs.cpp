@@ -82,19 +82,19 @@ void control_flywheel_fn(){
 
 		//Tuneable constants to reduce osciallation
 		//of precision-state flywheel PID
-		const double kP = 5.7332;
-		const double kI = 0.7125;
-		const double kD = 4; //Conversion from RPM to voltage
+		const double kP = 0.5;
+		const double kI = 0.01;
+		const double kD = 0.025; //Conversion from RPM to voltage
 		const double kV = (10/3);
-		const double threshold = 120;
-		const double startkI = 160;
+		const double threshold = 200;
+		const double startkI = 100;
 		const int time_delay = 20;
 
 
 		while(true){
 			if(flywheelOn){ //If flywheel is set to be on
 				rpm = fabs((flywheel.get_actual_velocity())*6);
-				rpmTarget = (targetVoltage/kV);
+				rpmTarget = double (targetVoltage/kV);
 				rpmError = rpmTarget - rpm;
 				//Obtain RPM error
 				proportion = rpmError;
@@ -109,12 +109,8 @@ void control_flywheel_fn(){
 					}
 				}
 
-				if(derivative >= 0){
-					derivative = ((rpmError - rpmPastError));
-					//Activate derivative for slowing effect of flywheel
-				}else{
-					derivative = 0;
-				}
+				derivative = ((rpmError - rpmPastError));
+				//Activate derivative for slowing effect of flywheel
 
 				//Range to apply bang-bang control to flywheel
 				//Provides fastest recovery for flyhweel speed drop.
@@ -136,6 +132,11 @@ void control_flywheel_fn(){
 				rpmPastError = rpmError;
 				//Past error for derivative.
 				std::cout << "Motor Voltage " << motorVoltage << std::endl;
+				std::cout << "Proporional " << proportion << std::endl;
+				std::cout << "Integral : " << integral << std::endl; 
+				std::cout << "Derivative " << derivative << std::endl;
+				std::cout << "RPM : " << rpm << std::endl;
+				std::cout << "RPM TARGET : " << rpmTarget << std::endl;
 				flywheel.move_voltage(motorVoltage);
 				//Move flywheel certain voltage based on error
 

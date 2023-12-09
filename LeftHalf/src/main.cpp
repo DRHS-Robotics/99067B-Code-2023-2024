@@ -59,16 +59,16 @@ void autonomous() {
 	Drive.set(0);
 	arcTurn.set(0);
 	Drive.control_drive(100, 40, 0);
-	arcTurn.BArcTurn(90, 20, 80, 0.009);
-	Drive.control_drive_back(450, 100, 90);
-	Drive.control_drive(350, 100, 90);
-	control_turn(60, 110, 0.037);
+	arcTurn.BArcTurn(90, 7, 70, 0.009);
+	Drive.control_drive_back(450, 120, 90);
+	Drive.control_drive(300, 100, 90);
+	control_turn(60, 110, 0.039);
 	Drive.control_drive(500, 100, 60);
 	wings1.set_value(true);
-	control_turn(0, 120, 0.028);
-	control_turn(202, 60, 0.002);
+	control_turn(359, 120, 0.026);
+	control_turn(202, 40, 0.0047);
 	// Drive.control_drive_back(300, 100, 250);
-	Drive.control_drive_back(1850, 90, 202);
+	Drive.control_drive_back(1800, 100, 202);
 	// matchLoad.set_value(true);
 
 	

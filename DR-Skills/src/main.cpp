@@ -51,47 +51,49 @@ void autonomous() {
 	//First thing:
 	//Make sure all of the motor ports match up with the motor ports in the globals.cpp file.
 	////////////////////////////////////////////////////////////////////////////
-	initializeAutoTapaTask();
-	tapaSpeedControl.tapaSet(127, 127);
+	// initializeAutoTapaTask();
+	// tapaSpeedControl.tapaSet(127, 127);
 	//Leave these lines of code in here
 	//These make sure the classes in the control.h file work
 	//Initializes the class variables
 	Drive.set(0);
 	arcTurn.set(0);
-	arcTurn.FArcTurn(88.0, 4.0, 110, 0.015);
+	arcTurn.FArcTurn(88.0, 6.0, 110, 0.015);
 	intake2.move(-127);
-	Drive.control_drive(800, 127, 88);
+	Drive.control_drive(500, 127, 88);
 	Drive.control_drive_back(300, 127, 88);
 	Drive.control_drive(600, 127, 88);
 	Drive.control_drive_back(200, 127, 88);
-	control_turn(81.0, 110, 0.35);
-	Drive.control_drive_back(600, 120, 81);
+	control_turn(82.0, 110, 0.35);
+	Drive.control_drive_back(600, 120, 82);
 	intake2.move(0);
-	control_turn(150, 100, 0.02);
+	control_turn(155, 100, 0.02);
+	Drive.control_drive_back(200, 100, 155);
 	matchLoad.set_value(true);
-	moveState = true;
-	pros::delay(42000);
-	moveState = false;
+	pros::delay(3000);
 	matchLoad.set_value(false);
-	control_turn(203.5, 110, 0.025);
-	Drive.control_drive(800, 120, 203.5);
-	control_turn(180, 110, 0.15);
-	Drive.control_drive(3200, 120, 180);
-	// arcTurn.FArcTurn(100.0, 10.0, 120, 0.015);
+	control_turn(205, 110, 0.02);
+	Drive.control_drive(1100, 120, 205);
+	control_turn(180, 100, 0.1);
+	Drive.control_drive(2000, 120, 180);
+	arcTurn.FArcTurn(45.0, 5.0, 100, 0.0015);
 	// Drive.control_drive(900, 120, 97);
 	// Drive.control_drive_back(650, 127, 97);
-	control_turn(45, 100, 0.009);
-	Drive.control_drive(2000, 120, 45);
-	control_turn(90, 110, 0.04);
-	Drive.control_drive(950, 120, 90);
-	control_turn(0, 110, 0.015);
+	//control_turn(45, 100, 0.009);
+	Drive.control_drive(1300, 120, 45);
+	control_turn(90, 110, 0.02);
+	Drive.control_drive(2200, 120, 90);
+	control_turn(60, 110, 0.028);
 	wings1.set_value(true);
 	wings2.set_value(true);
-	pros::delay(300);
-	Drive.control_drive_back(1000, 127, 0);
-	Drive.control_drive(800, 120, 0);
-	Drive.control_drive_back(1000, 127, 0);
+	pros::delay(600);
+	Drive.control_drive_back(1300, 127, 60);
+	control_turn(0, 110, 0.025);
+	//Drive.control_drive(800, 120, 20);
+	Drive.control_drive_back(600, 127, 0);
 	Drive.control_drive(600, 120, 0);
+	wings1.set_value(false);
+	wings2.set_value(false);
 	// Drive.control_drive(800, 100, 147);
 	// control_turn(0, 100, 0.008);
 	// wings1.set_value(true);
