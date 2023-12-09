@@ -60,8 +60,8 @@ void autonomous() {
 	Drive.control_drive(300, 110, 0);
 	pros::delay(400);
 	//control_turn(355, 110, 0.45);
-	Drive.control_drive_back(1350, 90, 0);
-	arcTurn.BArcTurn(278, 25, 100, 0.015);
+	Drive.control_drive_back(1350, 70, 0);
+	arcTurn.BArcTurn(278, 55, 100, 0.015);
 	Drive.control_drive_back(550, 127, 278);
 	Drive.control_drive(400, 127, 278);
 	//wing2Expand = true;
@@ -72,7 +72,7 @@ void autonomous() {
 	//control_turn(127, 100, 0.012);
 	//intake2.move(-127);
 	//Drive.control_drive(825, 120, 127);
-	control_turn(93, 102, 0.006);
+	control_turn(93, 100, 0.006);
 	intake2.move(-127);
 	Drive.control_drive(700, 127, 93);
 	Drive.control_drive_back(450, 127, 93);
@@ -88,7 +88,7 @@ void autonomous() {
 	arcTurn.BArcTurn(61, 1, 100, 0.009);
 	pros::delay(100);
 	intake2.move(127);
-	Drive.control_drive(1175, 90, 61);
+	Drive.control_drive(900, 90, 61);
 	control_turn(180, 100, 0.01);
 	intake2.move(-127);
 	Drive.control_drive(1400, 127, 180);

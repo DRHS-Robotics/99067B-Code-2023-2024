@@ -65,35 +65,37 @@ void autonomous() {
 	Drive.control_drive_back(300, 127, 88);
 	Drive.control_drive(600, 127, 88);
 	Drive.control_drive_back(200, 127, 88);
+	flywheelOn = true;
+	targetVoltage = 6500;
 	control_turn(82.0, 110, 0.35);
 	Drive.control_drive_back(600, 120, 82);
 	intake2.move(0);
-	flywheelOn = true;
-	targetVoltage = 7000;
-	control_turn(155, 100, 0.02);
-	Drive.control_drive_back(200, 100, 155);
+	control_turn(163, 100, 0.017);
+	Drive.control_drive_back(100, 100, 163);
 	matchLoad.set_value(true);
-	pros::delay(37000);
+	pros::delay(30000);
 	matchLoad.set_value(false);
 	flywheelOn = false;
 	control_turn(205, 110, 0.02);
 	Drive.control_drive(1100, 120, 205);
 	control_turn(180, 100, 0.1);
 	Drive.control_drive(2000, 120, 180);
-	arcTurn.FArcTurn(45.0, 5.0, 100, 0.003);
+	arcTurn.FArcTurn(45.0, 5.0, 100, 0.0025);
 	// Drive.control_drive(900, 120, 97);
 	// Drive.control_drive_back(650, 127, 97);
 	//control_turn(45, 100, 0.009);
 	Drive.control_drive(1300, 120, 45);
-	control_turn(90, 110, 0.02);
-	Drive.control_drive(2000, 120, 90);
-	control_turn(60, 110, 0.04);
+	control_turn(90, 110, 0.017);
+	Drive.control_drive(1600, 120, 90);
+	control_turn(60, 110, 0.07);
 	wings1.set_value(true);
 	wings2.set_value(true);
 	pros::delay(600);
 	Drive.control_drive_back(1500, 127, 60);
-	control_turn(0, 110, 0.04);
+	control_turn(0, 110, 0.055);
 	//Drive.control_drive(800, 120, 20);
+	Drive.control_drive_back(600, 127, 0);
+	Drive.control_drive(600, 120, 0);
 	Drive.control_drive_back(600, 127, 0);
 	Drive.control_drive(600, 120, 0);
 	wings1.set_value(false);
@@ -240,10 +242,10 @@ void opcontrol() {
 
 		if(speedControl){
 			// tapaSpeedControl.tapaSet(127, 127);
-			targetVoltage = 8000;
+			targetVoltage = 7000;
 		}else{
 			// tapaSpeedControl.tapaSet(127, 127);
-			targetVoltage = 7000;
+			targetVoltage = 6000;
 		}
 
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
