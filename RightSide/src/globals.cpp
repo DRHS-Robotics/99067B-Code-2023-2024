@@ -1,19 +1,21 @@
 #include "main.h"
-pros::Motor ptoL_drive(2, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor tl_drive(1, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);//top left
-pros::Motor bl_drive(3, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor ptoR_drive(7, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor tr_drive(8, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);//top right
-pros::Motor br_drive(9, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor tapa(20, pros::E_MOTOR_GEARSET_36, 0, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor flywheel(6, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor intake2(5, pros::E_MOTOR_GEARSET_18, 1, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor ptoL_drive(20, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor tl_drive(7, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);//top left
+pros::Motor bl_drive(9, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor ptoR_drive(3, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor tr_drive(1, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);//top right
+pros::Motor br_drive(2, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor tapa(17, pros::E_MOTOR_GEARSET_36, 0, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor slapper(6, pros::E_MOTOR_GEARSET_36, 1, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor flywheel(12, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor intake2(5, pros::E_MOTOR_GEARSET_18, 0, pros::E_MOTOR_ENCODER_COUNTS);
 pros::ADIDigitalIn tapaSwitch('H');
 pros::ADIDigitalOut wings1('A');
 pros::ADIDigitalOut wings2('F');
-pros::ADIDigitalOut climbRelease('B');
+pros::ADIDigitalOut climbRelease('C');
 pros::ADIDigitalOut matchLoad('D');
-pros::IMU imu1(20);
+pros::ADIDigitalOut PTO('E');
+pros::IMU imu1(10);
 pros::IMU imu2(11);
 // pros::ADIDigitalOut climbRelease('D');
 
@@ -39,6 +41,7 @@ tapaSpeed tapaSpeedControl;
 pros::Task* tapaTask = nullptr;
 pros::Task* wingsExpand = nullptr;
 pros::Task* flywheelTask = nullptr;
+//bool climbState = false;
 bool wing1Expand = false;
 bool wing2Expand = false;
 bool bothWingsExpand = false;

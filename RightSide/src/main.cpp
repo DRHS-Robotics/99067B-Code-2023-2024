@@ -56,6 +56,8 @@ void autonomous() {
 	//These make sure the classes in the control.h file work
 	Drive.set(0);
 	arcTurn.set(0);
+	intake2.move(-127);
+	pros::delay(100);
 	intake2.move(127);
 	Drive.control_drive(300, 110, 0);
 	pros::delay(400);
@@ -77,7 +79,7 @@ void autonomous() {
 	Drive.control_drive(700, 127, 93);
 	Drive.control_drive_back(450, 127, 93);
 	intake2.move(0);
-	control_turn(26, 100, 0.024);
+	control_turn(26, 100, 0.026);
 	intake2.move(127);
 	pros::delay(75);
 	Drive.control_drive(2000, 80, 26);
@@ -166,8 +168,8 @@ void autonomous() {
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	// initializeTapaTask();
-	control_flywheel_fn();
+	initializeTapaTask();
+	// control_flywheel_fn();
 	// int tapaPosition = tapa.get_position();
 	bool speedControl = false;
 	bool wingsState = false;
@@ -191,6 +193,16 @@ void opcontrol() {
 
 		if(PTO_State){
 			PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+			if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+				ptoL_drive.move(127);
+				ptoR_drive.move(127);
+			}else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+				ptoL_drive.move(-127);
+				ptoR_drive.move(-127);
+			}else{
+				ptoL_drive.move(0);
+				ptoR_drive.move(0);
+			}
 		}else{
 			drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
 		}
@@ -203,10 +215,11 @@ void opcontrol() {
 			intake2.move(0);
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
 			// backSlapaState = !backSlapaState;
 			// frontSlapaState = false;
-			flywheelState = !flywheelState;
+			// flywheelState = !flywheelState;
+			frontSlapaState = !frontSlapaState;
 		}
 
 		// if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
@@ -250,22 +263,22 @@ void opcontrol() {
 			wings1.set_value(rightWing);
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
 			climbState = !climbState;
 			climbRelease.set_value(climbState);
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
-			matchLoadState = !matchLoadState;
-			matchLoad.set_value(matchLoadState);
-		}
-
-		// if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) && (fabs(yVal) > 0.)){
-		// 	PTO_State = !PTO_State;
-		// 	PTO.set_value(PTO_State);
+		// if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+		// 	matchLoadState = !matchLoadState;
+		// 	matchLoad.set_value(matchLoadState);
 		// }
 
+		if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
+			PTO_State = !PTO_State;
+			PTO.set_value(PTO_State);
+		}
 
+//&& (fabs(yVal) > 0.))
 
 		// pros::screen::print(pros::E_TEXT_MEDIUM, 3, "tapa POSITION : %3d", tapaPosition);
 

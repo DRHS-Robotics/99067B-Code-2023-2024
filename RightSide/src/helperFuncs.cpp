@@ -166,6 +166,90 @@ void control_flywheel_fn(){
 }
 
 
+// void initializeTapaTask(){
+// 	if(tapaTask == nullptr){
+// 		//Lambda task(inline task defintion so that new function does not need to be created)
+// 		tapaTask = new pros::Task{[=]{
+// 			pros::Controller master(pros::E_CONTROLLER_MASTER);
+// 			bool switchState = tapaSwitch.get_value();
+// 			double tapaPos = tapa.get_position();
+// 			const int time_delay = 20;
+// 			//Max speed for tapa match loading and tapa shooting
+// 			///////////////////////////////////////////////////
+// 			int finalCount = 0;
+// 			int countLimit = 0;
+//             bool reset = false;
+//             bool resetPos = false;
+//             bool tapaStop = false;
+
+// 			//Logic: 
+// 			//Automatically retract the tapa to a primed position
+// 			//Toggle the matchloading slapa(on or off)
+// 			//Release the tapa to shoot a singular triball, then retract back to a primed position
+
+
+// 			while(true){
+// 				switchState = tapaSwitch.get_value(); //Boolean value from the limit switch at the bottom of tapa
+// 				tapaPos = tapa.get_position();
+// 				if((!backSlapaState) && (!frontSlapaState)){
+// 					//Automatically return to a primed position
+// 					if((!switchState) && (!reset)){
+// 						tapa.move(tapaSpeedControl.tapaSingleShot);
+// 					}else{
+// 						//Count to ensure that the tapa is properly contacting the limit switch
+// 						// finalCount++;
+// 						//Reset tapa encoder position to use for single shot
+// 						// resetPos = true;
+
+// 						// if(tapaSpeedControl.tapaSingleShot > 110){
+// 						// 	countLimit = 1;
+// 						// }else if((tapaSpeedControl.tapaSingleShot < 110) && (tapaSpeedControl.tapaSingleShot > 100)){
+// 						// 	countLimit = 2;
+// 						// }else{
+// 						// 	countLimit = 7;
+// 						// }
+// 						tapa.move(0);
+// 						tapa.set_zero_position(0);
+// 						if(tapa.get_actual_velocity() > 65){
+// 							reset = false;
+// 						}else{
+// 							reset = true;
+// 						}
+//                         tapaStop = false;
+// 					}
+// 				}else if((backSlapaState) && (!frontSlapaState)){
+// 					//Reset final count so that tapa returns to position properly
+// 					reset = false;
+// 					finalCount = 0;
+// 					if(backSlapaState){
+// 						tapa.move(tapaSpeedControl.tapaMatchLoad);
+// 					}
+// 				}
+// 				else if((!backSlapaState) && (frontSlapaState)){
+// 					finalCount = 0;
+// 					reset = false;
+// 					if((tapaPos <= maxtapaShoot) && (!tapaStop)){
+// 						tapa.move(tapaSpeedControl.tapaSingleShot);
+// 					}else{
+//                         tapa.move(0);
+//                         tapaStop = true;
+//                     }
+// 				}
+// 				else{
+// 					tapa.move(0);
+// 				}
+
+// 				// if(resetPos){
+// 				// 	tapa.set_zero_position(0);
+// 				// 	resetPos = false;
+// 				// }
+
+// 				pros::Task::delay(time_delay);
+// 			}
+// 		}};
+// 	}
+// }
+
 void initializeTapaTask(){
 	if(tapaTask == nullptr){
 		//Lambda task(inline task defintion so that new function does not need to be created)
@@ -190,65 +274,18 @@ void initializeTapaTask(){
 
 			while(true){
 				switchState = tapaSwitch.get_value(); //Boolean value from the limit switch at the bottom of tapa
-				tapaPos = tapa.get_position();
-				if((!backSlapaState) && (!frontSlapaState)){
-					//Automatically return to a primed position
-					if((!switchState) && (!reset)){
-						tapa.move(tapaSpeedControl.tapaSingleShot);
-					}else{
-						//Count to ensure that the tapa is properly contacting the limit switch
-						// finalCount++;
-						//Reset tapa encoder position to use for single shot
-						// resetPos = true;
-
-						// if(tapaSpeedControl.tapaSingleShot > 110){
-						// 	countLimit = 1;
-						// }else if((tapaSpeedControl.tapaSingleShot < 110) && (tapaSpeedControl.tapaSingleShot > 100)){
-						// 	countLimit = 2;
-						// }else{
-						// 	countLimit = 7;
-						// }
-						tapa.move(0);
-						tapa.set_zero_position(0);
-						if(tapa.get_actual_velocity() > 65){
-							reset = false;
-						}else{
-							reset = true;
-						}
-                        tapaStop = false;
-					}
-				}else if((backSlapaState) && (!frontSlapaState)){
-					//Reset final count so that tapa returns to position properly
-					reset = false;
-					finalCount = 0;
-					if(backSlapaState){
-						tapa.move(tapaSpeedControl.tapaMatchLoad);
-					}
+				if(frontSlapaState){
+					slapper.move(127);
+				}else{
+					slapper.move(0);
 				}
-				else if((!backSlapaState) && (frontSlapaState)){
-					finalCount = 0;
-					reset = false;
-					if((tapaPos <= maxtapaShoot) && (!tapaStop)){
-						tapa.move(tapaSpeedControl.tapaSingleShot);
-					}else{
-                        tapa.move(0);
-                        tapaStop = true;
-                    }
-				}
-				else{
-					tapa.move(0);
-				}
-
-				// if(resetPos){
-				// 	tapa.set_zero_position(0);
-				// 	resetPos = false;
-				// }
 
 				pros::Task::delay(time_delay);
 			}
 		}};
 	}
 }
+
 
 void setWings(){
 	if(wingsExpand == nullptr){

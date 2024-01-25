@@ -11,6 +11,7 @@ extern pros::Motor intake1;
 extern pros::Motor intake2;
 extern pros::Motor tapa;
 extern pros::Motor flywheel;
+extern pros::Motor slapper;
 
 extern pros::ADIDigitalIn tapaSwitch;
 extern pros::ADIDigitalOut PTO;
