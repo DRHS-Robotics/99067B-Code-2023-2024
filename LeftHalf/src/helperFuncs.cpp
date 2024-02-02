@@ -85,7 +85,7 @@ void control_flywheel_fn(){
 		double kP = 1;
 		double kI = 0.08264748923;
 		double kD = 0.006; //Conversion from RPM to voltage
-		double kV = (10/3);
+		double kV = (10.0/3.0);
 		double threshold = 140;
 		double startkI = 100;
 		int time_delay = 20;
@@ -579,7 +579,8 @@ void ArcTurn::FArcTurn(double target, double radius, double maxPower, double arc
 			// std::cout << "Turn Side Power: "<< currentRightPower << std::endl;
 			// std::cout << "Error : " << error << std::endl;
 		}else{
-			currentLeftPower, currentRightPower = 0;
+			currentLeftPower = 0;
+			currentRightPower = 0;
 		}
 
 		if(((currentActualAngle<=(target+1))&&(currentActualAngle>=(target-1)))){
@@ -665,7 +666,8 @@ void ArcTurn::BArcTurn(double target, double radius, double maxPower, double arc
 			// std::cout << "Turn Side Power: "<< currentRightPower << std::endl;
 			// std::cout << "Error : " << error << std::endl;
 		}else{
-			currentLeftPower, currentRightPower = 0;
+			currentLeftPower = 0; 
+			currentRightPower = 0;
 		}
 
 		if(((currentActualAngle<=(target+1))&&(currentActualAngle>=(target-1)))){
