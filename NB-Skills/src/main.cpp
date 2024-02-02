@@ -51,28 +51,52 @@ void autonomous() {
 	//First thing:
 	//Make sure all of the motor ports match up with the motor ports in the globals.cpp file.
 	////////////////////////////////////////////////////////////////////////////
-	// initializeAutoTapaTask();
-	// tapaSpeedControl.tapaSet(127, 127);
+	// setWings();
 	//Leave these lines of code in here
 	//These make sure the classes in the control.h file work
-	//Initializes the class variables
 	Drive.set(0);
 	arcTurn.set(0);
-	Drive.control_drive(100, 40, 0);
-	arcTurn.BArcTurn(90, 7, 70, 0.009);
-	Drive.control_drive_back(450, 120, 90);
-	Drive.control_drive(300, 100, 90);
-	control_turn(60, 110, 0.039);
-	Drive.control_drive(500, 100, 60);
-	wings1.set_value(true);
-	control_turn(359, 120, 0.026);
-	control_turn(202, 40, 0.0047);
-	// Drive.control_drive_back(300, 100, 250);
-	Drive.control_drive_back(1800, 100, 202);
-	// matchLoad.set_value(true);
-
-	
-
+	intake2.move(-127);
+	pros::delay(100);
+	intake2.move(127);
+	Drive.control_drive(300, 110, 0);
+	pros::delay(400);
+	//control_turn(355, 110, 0.45);
+	Drive.control_drive_back(1350, 70, 0);
+	arcTurn.BArcTurn(278, 55, 100, 0.015);
+	Drive.control_drive_back(550, 127, 278);
+	Drive.control_drive(400, 127, 278);
+	//wing2Expand = true;
+	//wings2.set_value(true);
+	//control_turn(270, 90, 0.016);
+	//pros::delay(250);
+	//wings2.set_value(false);
+	//control_turn(127, 100, 0.012);
+	//intake2.move(-127);
+	//Drive.control_drive(825, 120, 127);
+	control_turn(93, 100, 0.006);
+	intake2.move(-127);
+	Drive.control_drive(700, 127, 93);
+	Drive.control_drive_back(450, 127, 93);
+	intake2.move(0);
+	control_turn(26, 100, 0.026);
+	intake2.move(127);
+	pros::delay(75);
+	Drive.control_drive(2000, 80, 26);
+	pros::delay(75);
+	control_turn(160, 110, 0.0081);
+	intake2.move(-127);
+	Drive.control_drive(1400, 100, 160);
+	arcTurn.BArcTurn(61, 1, 100, 0.009);
+	pros::delay(100);
+	intake2.move(127);
+	Drive.control_drive(900, 90, 61);
+	control_turn(180, 100, 0.01);
+	intake2.move(-127);
+	Drive.control_drive(1400, 127, 180);
+	Drive.control_drive_back(700, 127, 180);
+	//wings2.set_value(false);
+	intake2.move(0);
 	
 	//This is how to activate the pneumatics
 	//Set the value to false to deactivate the pneumatics.
@@ -144,12 +168,12 @@ void autonomous() {
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	// initializeTapaTask();
-	control_flywheel_fn();
-	int tapaPosition = tapa.get_position();
+	initializeTapaTask();
+	lift_macro();
+	// control_flywheel_fn();
+	// int tapaPosition = tapa.get_position();
 	bool speedControl = false;
 	bool wingsState = false;
-	bool PTO_State = false;
 	bool leftWing = false;
 	bool rightWing = false;
 	bool climbState = false;
@@ -165,13 +189,23 @@ void opcontrol() {
 		double xVal = master.get_analog(ANALOG_LEFT_X);
 		double yVal = master.get_analog(ANALOG_LEFT_Y);
 
+		cout << "xVal: " << xVal << endl;
+		cout << "yVal: " << yVal << endl;
+
 		// tapaPosition = tapa.get_position();
 
-		if(PTO_State){
-			PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-		}else{
-			drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-		}
+			// PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+			// if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+			// 	ptoL_drive.move(127);
+			// 	ptoR_drive.move(127);
+			// }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+			// 	ptoL_drive.move(-127);
+			// 	ptoR_drive.move(-127);
+			// }else{
+			// 	ptoL_drive.move(0);
+			// 	ptoR_drive.move(0);
+			// }
+		drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
 
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
 			intake2.move(127);
@@ -181,10 +215,11 @@ void opcontrol() {
 			intake2.move(0);
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)){
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
 			// backSlapaState = !backSlapaState;
 			// frontSlapaState = false;
-			flywheelState = !flywheelState;
+			// flywheelState = !flywheelState;
+			frontSlapaState = !frontSlapaState;
 		}
 
 		// if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
@@ -228,22 +263,21 @@ void opcontrol() {
 			wings1.set_value(rightWing);
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
 			climbState = !climbState;
 			climbRelease.set_value(climbState);
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
-			matchLoadState = !matchLoadState;
-			matchLoad.set_value(matchLoadState);
-		}
-
-		// if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) && (fabs(yVal) > 0.)){
-		// 	PTO_State = !PTO_State;
-		// 	PTO.set_value(PTO_State);
+		// if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+		// 	matchLoadState = !matchLoadState;
+		// 	matchLoad.set_value(matchLoadState);
 		// }
 
+		// if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
+			
+		// }
 
+//&& (fabs(yVal) > 0.))
 
 		// pros::screen::print(pros::E_TEXT_MEDIUM, 3, "tapa POSITION : %3d", tapaPosition);
 

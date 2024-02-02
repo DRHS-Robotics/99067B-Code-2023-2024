@@ -165,6 +165,140 @@ void control_flywheel_fn(){
 	}
 }
 
+void lift_macro(){
+	if(liftTask == nullptr){
+		liftTask = new pros::Task{[=]{
+			pros::Controller master(pros::E_CONTROLLER_MASTER);	
+			int buttonCount = 0;
+			const int liftGoal = 1000;
+			int liftDis = (ptoL_drive.get_position() + ptoR_drive.get_position()) / 2;
+			bool climbState = climbSwitch.get_value();
+			double xVal = master.get_analog(ANALOG_LEFT_X);
+			double yVal = master.get_analog(ANALOG_LEFT_Y);
+			while(true){
+			if(PTO_State){
+				xVal = master.get_analog(ANALOG_LEFT_X);
+				yVal = master.get_analog(ANALOG_LEFT_Y);
+				PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+				if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+					if(fabs(yVal) > 20){
+						PTO_State = true;
+						pros::delay(200);
+					}
+					buttonCount++;
+				}
+
+				if(buttonCount == 1){
+					if(liftDis < liftGoal){
+						ptoL_drive.move(127);
+						ptoR_drive.move(127);
+					}else{
+						ptoL_drive.move(0);
+						ptoR_drive.move(0);
+					}
+				}
+				if(buttonCount == 2){
+					climbRelease.set_value(true);
+					pros::delay(200);
+					if(!climbState){
+						ptoL_drive.move(-127);
+						ptoR_drive.move(-127);
+					}else{
+						ptoL_drive.move(0);
+						ptoR_drive.move(0);
+					}
+				}
+			}
+			pros::Task::delay(20);
+			}
+		}};
+	}
+}
+
+
+// void initializeTapaTask(){
+// 	if(tapaTask == nullptr){
+// 		//Lambda task(inline task defintion so that new function does not need to be created)
+// 		tapaTask = new pros::Task{[=]{
+// 			pros::Controller master(pros::E_CONTROLLER_MASTER);
+// 			bool switchState = tapaSwitch.get_value();
+// 			double tapaPos = tapa.get_position();
+// 			const int time_delay = 20;
+// 			//Max speed for tapa match loading and tapa shooting
+// 			///////////////////////////////////////////////////
+// 			int finalCount = 0;
+// 			int countLimit = 0;
+//             bool reset = false;
+//             bool resetPos = false;
+//             bool tapaStop = false;
+
+// 			//Logic: 
+// 			//Automatically retract the tapa to a primed position
+// 			//Toggle the matchloading slapa(on or off)
+// 			//Release the tapa to shoot a singular triball, then retract back to a primed position
+
+
+// 			while(true){
+// 				switchState = tapaSwitch.get_value(); //Boolean value from the limit switch at the bottom of tapa
+// 				tapaPos = tapa.get_position();
+// 				if((!backSlapaState) && (!frontSlapaState)){
+// 					//Automatically return to a primed position
+// 					if((!switchState) && (!reset)){
+// 						tapa.move(tapaSpeedControl.tapaSingleShot);
+// 					}else{
+// 						//Count to ensure that the tapa is properly contacting the limit switch
+// 						// finalCount++;
+// 						//Reset tapa encoder position to use for single shot
+// 						// resetPos = true;
+
+// 						// if(tapaSpeedControl.tapaSingleShot > 110){
+// 						// 	countLimit = 1;
+// 						// }else if((tapaSpeedControl.tapaSingleShot < 110) && (tapaSpeedControl.tapaSingleShot > 100)){
+// 						// 	countLimit = 2;
+// 						// }else{
+// 						// 	countLimit = 7;
+// 						// }
+// 						tapa.move(0);
+// 						tapa.set_zero_position(0);
+// 						if(tapa.get_actual_velocity() > 65){
+// 							reset = false;
+// 						}else{
+// 							reset = true;
+// 						}
+//                         tapaStop = false;
+// 					}
+// 				}else if((backSlapaState) && (!frontSlapaState)){
+// 					//Reset final count so that tapa returns to position properly
+// 					reset = false;
+// 					finalCount = 0;
+// 					if(backSlapaState){
+// 						tapa.move(tapaSpeedControl.tapaMatchLoad);
+// 					}
+// 				}
+// 				else if((!backSlapaState) && (frontSlapaState)){
+// 					finalCount = 0;
+// 					reset = false;
+// 					if((tapaPos <= maxtapaShoot) && (!tapaStop)){
+// 						tapa.move(tapaSpeedControl.tapaSingleShot);
+// 					}else{
+//                         tapa.move(0);
+//                         tapaStop = true;
+//                     }
+// 				}
+// 				else{
+// 					tapa.move(0);
+// 				}
+
+// 				// if(resetPos){
+// 				// 	tapa.set_zero_position(0);
+// 				// 	resetPos = false;
+// 				// }
+
+// 				pros::Task::delay(time_delay);
+// 			}
+// 		}};
+// 	}
+// }
 
 void initializeTapaTask(){
 	if(tapaTask == nullptr){
@@ -190,59 +324,11 @@ void initializeTapaTask(){
 
 			while(true){
 				switchState = tapaSwitch.get_value(); //Boolean value from the limit switch at the bottom of tapa
-				tapaPos = tapa.get_position();
-				if((!backSlapaState) && (!frontSlapaState)){
-					//Automatically return to a primed position
-					if((!switchState) && (!reset)){
-						tapa.move(tapaSpeedControl.tapaSingleShot);
-					}else{
-						//Count to ensure that the tapa is properly contacting the limit switch
-						// finalCount++;
-						//Reset tapa encoder position to use for single shot
-						// resetPos = true;
-
-						// if(tapaSpeedControl.tapaSingleShot > 110){
-						// 	countLimit = 1;
-						// }else if((tapaSpeedControl.tapaSingleShot < 110) && (tapaSpeedControl.tapaSingleShot > 100)){
-						// 	countLimit = 2;
-						// }else{
-						// 	countLimit = 7;
-						// }
-						tapa.move(0);
-						tapa.set_zero_position(0);
-						if(tapa.get_actual_velocity() > 65){
-							reset = false;
-						}else{
-							reset = true;
-						}
-                        tapaStop = false;
-					}
-				}else if((backSlapaState) && (!frontSlapaState)){
-					//Reset final count so that tapa returns to position properly
-					reset = false;
-					finalCount = 0;
-					if(backSlapaState){
-						tapa.move(tapaSpeedControl.tapaMatchLoad);
-					}
+				if(frontSlapaState){
+					slapper.move(127);
+				}else{
+					slapper.move(0);
 				}
-				else if((!backSlapaState) && (frontSlapaState)){
-					finalCount = 0;
-					reset = false;
-					if((tapaPos <= maxtapaShoot) && (!tapaStop)){
-						tapa.move(tapaSpeedControl.tapaSingleShot);
-					}else{
-                        tapa.move(0);
-                        tapaStop = true;
-                    }
-				}
-				else{
-					tapa.move(0);
-				}
-
-				// if(resetPos){
-				// 	tapa.set_zero_position(0);
-				// 	resetPos = false;
-				// }
 
 				pros::Task::delay(time_delay);
 			}
@@ -250,33 +336,34 @@ void initializeTapaTask(){
 	}
 }
 
+
 void setWings(){
-// 	if(wingsExpand == nullptr){
-// 		wingsExpand = new pros::Task{[=]{
-// 			while(true){
-// 				if(wing1Expand){
-// 					wings1.set_value(true);
-// 				}else{
-// 					wings1.set_value(false);
-// 				}
+	if(wingsExpand == nullptr){
+		wingsExpand = new pros::Task{[=]{
+			while(true){
+				if(wing1Expand){
+					wings1.set_value(true);
+				}else{
+					wings1.set_value(false);
+				}
 
-// 				if(wing2Expand){
-// 					wings2.set_value(true);
-// 				}else{
-// 					wings2.set_value(false);
-// 				}
+				if(wing2Expand){
+					wings2.set_value(true);
+				}else{
+					wings2.set_value(false);
+				}
 
-// 				if(bothWingsExpand){
-// 					wings1.set_value(true);
-// 					wings2.set_value(true);
-// 				}else{
-// 					wings1.set_value(false);
-// 					wings2.set_value(false);
-// 				}
-// 				pros::Task::delay(20);
-// 			}
-// 		}};
-// 	}
+				if(bothWingsExpand){
+					wings1.set_value(true);
+					wings2.set_value(true);
+				}else{
+					wings1.set_value(false);
+					wings2.set_value(false);
+				}
+				pros::Task::delay(20);
+			}
+		}};
+	}
 }
 
 double ArcTurn::calculatePower(double radius, double error, double maxOppPower, double kP, double kI, double kD){
@@ -712,19 +799,6 @@ void DrivePID::control_drive(double target, double maxPower, double currentDesir
 		current = position();
 		pastCurrent = this->classPastCurrent;
 		this->classPastCurrent = current;
-		
-		if(pastCurrent == current){
-			exitCount++;
-		}else{
-			exitCount = 0;
-		}
-
-		if(exitCount > 1){
-			driveProportion = 0;
-			driveDerivative = 0;
-			driveLastError = 0;
-			break;
-		}
 		currentActualAngle = returnThetaInRange(angle());
 
 		angleError = (currentDesiredAngle-currentActualAngle);
@@ -752,6 +826,19 @@ void DrivePID::control_drive(double target, double maxPower, double currentDesir
 		}
 
 		if(current >= (target+17)){
+			driveProportion = 0;
+			driveDerivative = 0;
+			driveLastError = 0;
+			break;
+		}
+
+		if(pastCurrent == current){
+			exitCount++;
+		}else{
+			exitCount = 0;
+		}
+
+		if(exitCount > 3){
 			driveProportion = 0;
 			driveDerivative = 0;
 			driveLastError = 0;

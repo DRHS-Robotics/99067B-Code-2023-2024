@@ -5,6 +5,7 @@ int sgn(double num);
 void drive(double left, double right);
 void initializeTapaTask();
 void control_flywheel_fn();
+void lift_macro();
 void PTO_Drive(double left, double right);
 int sgn(double num);
 void resetPos();

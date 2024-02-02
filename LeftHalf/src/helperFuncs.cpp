@@ -170,7 +170,7 @@ void lift_macro(){
 		liftTask = new pros::Task{[=]{
 			pros::Controller master(pros::E_CONTROLLER_MASTER);	
 			int buttonCount = 0;
-			const int liftGoal = 0;
+			const int liftGoal = 1000;
 			int liftDis = (ptoL_drive.get_position() + ptoR_drive.get_position()) / 2;
 			bool climbState = climbSwitch.get_value();
 			double xVal = master.get_analog(ANALOG_LEFT_X);

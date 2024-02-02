@@ -282,5 +282,5 @@ void opcontrol() {
 		// pros::screen::print(pros::E_TEXT_MEDIUM, 3, "tapa POSITION : %3d", tapaPosition);
 
 		pros::delay(20);
-
-}}
+	}
+}

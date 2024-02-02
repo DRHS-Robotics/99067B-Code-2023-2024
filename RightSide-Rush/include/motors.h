@@ -11,7 +11,7 @@ extern pros::Motor intake1;
 extern pros::Motor intake2;
 extern pros::Motor tapa;
 extern pros::Motor flywheel;
-
+extern pros::Motor slapper;
 
 extern pros::ADIDigitalIn tapaSwitch;
 extern pros::ADIDigitalOut PTO;
@@ -19,6 +19,7 @@ extern pros::ADIDigitalOut wings1;
 extern pros::ADIDigitalOut wings2;
 extern pros::ADIDigitalOut climbRelease;
 extern pros::ADIDigitalOut matchLoad;
+extern pros::ADIDigitalIn climbSwitch;
 
 extern pros::IMU imu1;
 extern pros::IMU imu2;
