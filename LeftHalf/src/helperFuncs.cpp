@@ -91,6 +91,7 @@ void control_flywheel_fn(){
 		int time_delay = 20;
 
 
+
 		while(true){
 			if(flywheelOn){ //If flywheel is set to be on
 				rpm = fabs((flywheel.get_actual_velocity())*6);
@@ -119,6 +120,7 @@ void control_flywheel_fn(){
 				}else{
 					//PID used for max precision of flywheel.
 					motorVoltage = (kV * rpmTarget) + (proportion*kP) + (integral*kI) + (derivative*kD);
+
 				}
 
 				//Clamps flywheel to prevent values out of range from
@@ -163,94 +165,61 @@ void control_flywheel_fn(){
 	}
 }
 
-void initializeTapaTask(){
-	if(tapaTask == nullptr){
-		//Lambda task(inline task defintion so that new function does not need to be created)
-		tapaTask = new pros::Task{[=]{
-			pros::Controller master(pros::E_CONTROLLER_MASTER);
-			bool switchState = tapaSwitch.get_value();
-			double tapaPos = tapa.get_position();
-			const int time_delay = 20;
-			//Max speed for tapa match loading and tapa shooting
-			///////////////////////////////////////////////////
-			int finalCount = 0;
-			int countLimit = 0;
-            bool reset = false;
-            bool resetPos = false;
-            bool tapaStop = false;
-
-			//Logic: 
-			//Automatically retract the tapa to a primed position
-			//Toggle the matchloading slapa(on or off)
-			//Release the tapa to shoot a singular triball, then retract back to a primed position
-
-
+void lift_macro(){
+	if(liftTask == nullptr){
+		liftTask = new pros::Task{[=]{
+			pros::Controller master(pros::E_CONTROLLER_MASTER);	
+			int buttonCount = 0;
+			const int liftGoal = 0;
+			int liftDis = (ptoL_drive.get_position() + ptoR_drive.get_position()) / 2;
+			bool climbState = climbSwitch.get_value();
+			double xVal = master.get_analog(ANALOG_LEFT_X);
+			double yVal = master.get_analog(ANALOG_LEFT_Y);
 			while(true){
-				switchState = tapaSwitch.get_value(); //Boolean value from the limit switch at the bottom of tapa
-				tapaPos = tapa.get_position();
-				if((!backSlapaState) && (!frontSlapaState)){
-					//Automatically return to a primed position
-					if((!switchState) && (!reset)){
-						tapa.move(tapaSpeedControl.tapaSingleShot);
-					}else{
-						//Count to ensure that the tapa is properly contacting the limit switch
-						// finalCount++;
-						//Reset tapa encoder position to use for single shot
-						// resetPos = true;
-
-						// if(tapaSpeedControl.tapaSingleShot > 110){
-						// 	countLimit = 1;
-						// }else if((tapaSpeedControl.tapaSingleShot < 110) && (tapaSpeedControl.tapaSingleShot > 100)){
-						// 	countLimit = 2;
-						// }else{
-						// 	countLimit = 7;
-						// }
-						tapa.move(0);
-						tapa.set_zero_position(0);
-						if(tapa.get_actual_velocity() > 65){
-							reset = false;
-						}else{
-							reset = true;
-						}
-                        tapaStop = false;
+			if(PTO_State){
+				xVal = master.get_analog(ANALOG_LEFT_X);
+				yVal = master.get_analog(ANALOG_LEFT_Y);
+				PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+				if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+					if(fabs(yVal) > 20){
+						PTO_State = true;
+						pros::delay(200);
 					}
-				}else if((backSlapaState) && (!frontSlapaState)){
-					//Reset final count so that tapa returns to position properly
-					reset = false;
-					finalCount = 0;
-					if(backSlapaState){
-						tapa.move(tapaSpeedControl.tapaMatchLoad);
+					buttonCount++;
+				}
+
+				if(buttonCount == 1){
+					if(liftDis < liftGoal){
+						ptoL_drive.move(127);
+						ptoR_drive.move(127);
+					}else{
+						ptoL_drive.move(0);
+						ptoR_drive.move(0);
 					}
 				}
-				else if((!backSlapaState) && (frontSlapaState)){
-					finalCount = 0;
-					reset = false;
-					if((tapaPos <= maxtapaShoot) && (!tapaStop)){
-						tapa.move(tapaSpeedControl.tapaSingleShot);
+				if(buttonCount == 2){
+					climbRelease.set_value(true);
+					pros::delay(200);
+					if(!climbState){
+						ptoL_drive.move(-127);
+						ptoR_drive.move(-127);
 					}else{
-                        tapa.move(0);
-                        tapaStop = true;
-                    }
+						ptoL_drive.move(0);
+						ptoR_drive.move(0);
+					}
 				}
-				else{
-					tapa.move(0);
-				}
-
-				// if(resetPos){
-				// 	tapa.set_zero_position(0);
-				// 	resetPos = false;
-				// }
-
-				pros::Task::delay(time_delay);
+			}
+			pros::Task::delay(20);
 			}
 		}};
 	}
 }
 
-// void initializeAutoTapaTask(){
-// 	if(autoTapaTask == nullptr){
+
+// void initializeTapaTask(){
+// 	if(tapaTask == nullptr){
 // 		//Lambda task(inline task defintion so that new function does not need to be created)
-// 		autoTapaTask = new pros::Task{[=]{
+// 		tapaTask = new pros::Task{[=]{
 // 			pros::Controller master(pros::E_CONTROLLER_MASTER);
 // 			bool switchState = tapaSwitch.get_value();
 // 			double tapaPos = tapa.get_position();
@@ -272,7 +241,7 @@ void initializeTapaTask(){
 // 			while(true){
 // 				switchState = tapaSwitch.get_value(); //Boolean value from the limit switch at the bottom of tapa
 // 				tapaPos = tapa.get_position();
-// 				if((!moveState)){
+// 				if((!backSlapaState) && (!frontSlapaState)){
 // 					//Automatically return to a primed position
 // 					if((!switchState) && (!reset)){
 // 						tapa.move(tapaSpeedControl.tapaSingleShot);
@@ -298,14 +267,25 @@ void initializeTapaTask(){
 // 						}
 //                         tapaStop = false;
 // 					}
-// 				}else if(moveState){
+// 				}else if((backSlapaState) && (!frontSlapaState)){
 // 					//Reset final count so that tapa returns to position properly
 // 					reset = false;
 // 					finalCount = 0;
-// 					if(moveState){
+// 					if(backSlapaState){
 // 						tapa.move(tapaSpeedControl.tapaMatchLoad);
 // 					}
-// 				}else{
+// 				}
+// 				else if((!backSlapaState) && (frontSlapaState)){
+// 					finalCount = 0;
+// 					reset = false;
+// 					if((tapaPos <= maxtapaShoot) && (!tapaStop)){
+// 						tapa.move(tapaSpeedControl.tapaSingleShot);
+// 					}else{
+//                         tapa.move(0);
+//                         tapaStop = true;
+//                     }
+// 				}
+// 				else{
 // 					tapa.move(0);
 // 				}
 
@@ -320,25 +300,91 @@ void initializeTapaTask(){
 // 	}
 // }
 
-double ArcTurn::calculatePower(double radius, double error, double maxOppPower, double kP, double kI, double kD){
-		double proportion;
-		double oppPower;
+void initializeTapaTask(){
+	if(tapaTask == nullptr){
+		//Lambda task(inline task defintion so that new function does not need to be created)
+		tapaTask = new pros::Task{[=]{
+			pros::Controller master(pros::E_CONTROLLER_MASTER);
+			bool switchState = tapaSwitch.get_value();
+			double tapaPos = tapa.get_position();
+			const int time_delay = 20;
+			//Max speed for tapa match loading and tapa shooting
+			///////////////////////////////////////////////////
+			int finalCount = 0;
+			int countLimit = 0;
+            bool reset = false;
+            bool resetPos = false;
+            bool tapaStop = false;
 
-		proportion = error * kP;
-		arcIntegral = arcIntegral + (error*kI);
-		std::cout << "Arc Integral : " << arcIntegral << std::endl;
+			//Logic: 
+			//Automatically retract the tapa to a primed position
+			//Toggle the matchloading slapa(on or off)
+			//Release the tapa to shoot a singular triball, then retract back to a primed position
 
-		arcDerivative = (error - arcLastError) * kD;
-		oppPower = proportion + arcIntegral + arcDerivative;
 
-		arcLastError = error;
+			while(true){
+				switchState = tapaSwitch.get_value(); //Boolean value from the limit switch at the bottom of tapa
+				if(frontSlapaState){
+					slapper.move(127);
+				}else{
+					slapper.move(0);
+				}
 
-		if(fabs(oppPower) > maxOppPower){
-			oppPower = sgn(oppPower) * maxOppPower;
-		}
-
-		return oppPower;
+				pros::Task::delay(time_delay);
+			}
+		}};
 	}
+}
+
+
+void setWings(){
+	if(wingsExpand == nullptr){
+		wingsExpand = new pros::Task{[=]{
+			while(true){
+				if(wing1Expand){
+					wings1.set_value(true);
+				}else{
+					wings1.set_value(false);
+				}
+
+				if(wing2Expand){
+					wings2.set_value(true);
+				}else{
+					wings2.set_value(false);
+				}
+
+				if(bothWingsExpand){
+					wings1.set_value(true);
+					wings2.set_value(true);
+				}else{
+					wings1.set_value(false);
+					wings2.set_value(false);
+				}
+				pros::Task::delay(20);
+			}
+		}};
+	}
+}
+
+double ArcTurn::calculatePower(double radius, double error, double maxOppPower, double kP, double kI, double kD){
+	double proportion;
+	double oppPower;
+
+	proportion = error * kP;
+	arcIntegral = arcIntegral + (error*kI);
+	std::cout << "Arc Integral : " << arcIntegral << std::endl;
+
+	arcDerivative = (error - arcLastError) * kD;
+	oppPower = proportion + arcIntegral + arcDerivative;
+
+	arcLastError = error;
+
+	if(fabs(oppPower) > maxOppPower){
+		oppPower = sgn(oppPower) * maxOppPower;
+	}
+
+	return oppPower;
+}
 
 double ArcTurn::calculateTurnSide(double target, double error, double startError, double radius, bool left){
 	const double pi = 2*acos(0);
@@ -346,7 +392,7 @@ double ArcTurn::calculateTurnSide(double target, double error, double startError
 	double arcLengthLeft = 0;
 	double arcLengthRight = 0;
 	double powerRatio = 0;
-	const double robotWidth = 15.0;
+	const double robotWidth = 13.5; //Changed from 15 inches
 	double turnSidePower;
 
 	if(left){
@@ -437,6 +483,8 @@ bool TurnPID::calculate(double target, double angle){
 		left = false;
 	}else if(rTurnVal > lTurnVal){
 		left = true;
+	}else if(lTurnVal == rTurnVal){
+		left = false;
 	}
 
 	return left;
@@ -485,8 +533,8 @@ void ArcTurn::FArcTurn(double target, double radius, double maxPower, double arc
 	double pastCurrent = 0.0;
 	double currentLeftPower = 0;
 	double currentRightPower = 0;
-	float arckP = 1.75;
-	float arckD = 1.1;
+	float arckP = 1; //Changed from 1.9
+	float arckD = 1;
 	double error = target-currentActualAngle;
 	const double startError = error;
 	int count = 0;
@@ -497,6 +545,7 @@ void ArcTurn::FArcTurn(double target, double radius, double maxPower, double arc
 
 	while((!(((currentActualAngle<=(target+1))) && (currentActualAngle>=(target-1))))){
 		currentActualAngle = returnThetaInRange(angle());
+		std::cout << "Current angle: " << currentActualAngle << std::endl;
 		currentPos = position();
 		pastCurrent = this->currPos;
 		this->currPos = currentPos;
@@ -550,7 +599,7 @@ void ArcTurn::FArcTurn(double target, double radius, double maxPower, double arc
 			exitCount = 0;
 		}
 
-		if(exitCount > 6){
+		if(exitCount > 3){
 			arcIntegral = 0;
 			arcDerivative = 0;
 			arcLastError = 0;
@@ -572,7 +621,7 @@ void ArcTurn::BArcTurn(double target, double radius, double maxPower, double arc
 	double pastCurrent = 0.0;
 	double currentLeftPower = 0;
 	double currentRightPower = 0;
-	float arckP = 1.75;
+	float arckP = 1; //Changed from 1.75
 	float arckD = 1;
 	double error = target-currentActualAngle;
 	const double startError = error;
@@ -623,7 +672,7 @@ void ArcTurn::BArcTurn(double target, double radius, double maxPower, double arc
 			count++;
 		}
 
-		if(count > 1){
+		if(count > 0){
 			arcIntegral = 0;
 			arcDerivative = 0;
 			arcLastError = 0;
@@ -636,7 +685,7 @@ void ArcTurn::BArcTurn(double target, double radius, double maxPower, double arc
 			exitCount = 0;
 		}
 
-		if(exitCount > 6){
+		if(exitCount > 3){
 			arcIntegral = 0;
 			arcDerivative = 0;
 			arcLastError = 0;
@@ -667,6 +716,7 @@ void control_turn(double target, double maxPower, double turnkI){
 
 	while((!(((currentActualAngle<=(target+0.4))) && (currentActualAngle>=(target-0.4))))){
 		currentActualAngle = returnThetaInRange(angle());
+		std::cout << "Current angle: " << currentActualAngle << std::endl;
 
 
 		left = turnPID.calculate(target, currentActualAngle);
@@ -681,10 +731,12 @@ void control_turn(double target, double maxPower, double turnkI){
 				error = error - 360;
 			}
 		}
+		std::cout << "Turn Error : " << error << std::endl;
+
 
 		if(left){
 			error = (360 - error);
-			std::cout << "Error : " << error << std::endl;
+			std::cout << "Turn Error : " << error << std::endl;
 			turnPower = turnPID.calculatePower(error, maxPower, turnkP, turnkI, turnkD);
 		}else if(!left){
 			turnPower = turnPID.calculatePower(error, maxPower, turnkP, turnkI, turnkD);
@@ -737,8 +789,8 @@ void DrivePID::control_drive(double target, double maxPower, double currentDesir
 	double currentRightPower = 0;
 	const float drivekP = 0.20;
 	const float drivekD = 0.04;
-	const float turnkP = 0.05;
-	const float turnkD = 0.1;
+	const float turnkP = 0.2; //Changed from 0.04
+	const float turnkD = 0.15;
 	double angleError = 0;
     const double angleMaxPower = 20.;
 	DrivePID drivePID;
@@ -786,7 +838,7 @@ void DrivePID::control_drive(double target, double maxPower, double currentDesir
 			exitCount = 0;
 		}
 
-		if(exitCount > 4){
+		if(exitCount > 3){
 			driveProportion = 0;
 			driveDerivative = 0;
 			driveLastError = 0;
@@ -815,7 +867,7 @@ void DrivePID::control_drive_back(double target, double maxPower, double current
 	double currentRightPower = 0;
 	const float drivekP = 0.21;
 	const float drivekD = 0.04;
-	const float turnkP = 0.05;
+	const float turnkP = 0.2; //Changed from 0.04
 	const float turnkD = 0.1;
 	double angleError = 0;
     const double angleMaxPower = 20.;
