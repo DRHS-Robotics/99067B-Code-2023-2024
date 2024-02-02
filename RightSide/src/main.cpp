@@ -169,6 +169,7 @@ void autonomous() {
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	initializeTapaTask();
+	lift_macro();
 	// control_flywheel_fn();
 	// int tapaPosition = tapa.get_position();
 	bool speedControl = false;
@@ -187,6 +188,9 @@ void opcontrol() {
 		
 		double xVal = master.get_analog(ANALOG_LEFT_X);
 		double yVal = master.get_analog(ANALOG_LEFT_Y);
+
+		cout << "xVal: " << xVal << endl;
+		cout << "yVal: " << yVal << endl;
 
 		// tapaPosition = tapa.get_position();
 
@@ -269,9 +273,9 @@ void opcontrol() {
 		// 	matchLoad.set_value(matchLoadState);
 		// }
 
-		if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
-			PTO_State = !PTO_State;
-		}
+		// if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
+			
+		// }
 
 //&& (fabs(yVal) > 0.))
 

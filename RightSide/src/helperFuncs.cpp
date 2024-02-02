@@ -181,11 +181,14 @@ void lift_macro(){
 				yVal = master.get_analog(ANALOG_LEFT_Y);
 				PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
 				if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+					if(fabs(yVal) > 20){
+						PTO_State = true;
+						pros::delay(200);
+					}
 					buttonCount++;
 				}
 
 				if(buttonCount == 1){
-					PTO.set_value(PTO_State);
 					if(liftDis < liftGoal){
 						ptoL_drive.move(127);
 						ptoR_drive.move(127);
@@ -196,6 +199,7 @@ void lift_macro(){
 				}
 				if(buttonCount == 2){
 					climbRelease.set_value(true);
+					pros::delay(200);
 					if(!climbState){
 						ptoL_drive.move(-127);
 						ptoR_drive.move(-127);
@@ -205,6 +209,7 @@ void lift_macro(){
 					}
 				}
 			}
+			pros::Task::delay(20);
 			}
 		}};
 	}

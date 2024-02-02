@@ -15,7 +15,7 @@ pros::ADIDigitalOut wings2('F');
 pros::ADIDigitalOut climbRelease('C');
 pros::ADIDigitalOut matchLoad('D');
 pros::ADIDigitalOut PTO('E');
-pros::ADIDigitalIn climbSwitch('H');
+pros::ADIDigitalIn climbSwitch('B');
 pros::IMU imu1(10);
 pros::IMU imu2(11);
 // pros::ADIDigitalOut climbRelease('D');
