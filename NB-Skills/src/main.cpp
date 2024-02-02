@@ -1,4 +1,5 @@
 #include "main.h"
+#include "pros/misc.h"
 using namespace std;
 
 // DRIVE MOTORS
@@ -179,6 +180,7 @@ void opcontrol() {
 	bool climbState = false;
 	bool matchLoadState = false;
 	bool flywheelState = false;
+	int count = 0;
 
 
 	while (true) {
@@ -192,7 +194,14 @@ void opcontrol() {
 		cout << "xVal: " << xVal << endl;
 		cout << "yVal: " << yVal << endl;
 
+		if(count < 5){
+			climbRelease.set_value(true);
+		}
+
 		// tapaPosition = tapa.get_position();
+		if(PTO_State){
+			PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+		}
 
 			// PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
 			// if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
@@ -235,9 +244,9 @@ void opcontrol() {
 			reset = true;
 		}
 
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-			speedControl = !speedControl;
-		}
+		// if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+		// 	speedControl = !speedControl;
+		// }
 
 		if(speedControl){
 			// tapaSpeedControl.tapaSet(127, 127);
@@ -273,9 +282,24 @@ void opcontrol() {
 		// 	matchLoad.set_value(matchLoadState);
 		// }
 
-		// if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
+		if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
+			buttonCount++;
+			if(buttonCount == 1){
+				PTO_State = true;
+				PTO.set_value(PTO_State);
+			}
+
+			if(buttonCount == 2){
+				climbRelease.set_value(false);
+				pros::delay(500);
+			}
 			
-		// }
+		}
+		if(count < 10){
+			count++;
+		}else{
+			count = 11;
+		}
 
 //&& (fabs(yVal) > 0.))
 
