@@ -15,6 +15,7 @@ pros::ADIDigitalOut wings2('F');
 pros::ADIDigitalOut climbRelease('C');
 pros::ADIDigitalOut matchLoad('D');
 pros::ADIDigitalOut PTO('E');
+pros::ADIDigitalIn climbSwitch('H');
 pros::IMU imu1(10);
 pros::IMU imu2(11);
 // pros::ADIDigitalOut climbRelease('D');
@@ -24,6 +25,7 @@ double returnThetaInRange(double thetaAngle);
 void drive(double left, double right);
 void initializeTapaTask();
 void control_flywheel_fn();
+void lift_macro();
 void PTO_Drive(double left, double right);
 int sgn(double num);
 void resetPos();
@@ -41,10 +43,14 @@ tapaSpeed tapaSpeedControl;
 pros::Task* tapaTask = nullptr;
 pros::Task* wingsExpand = nullptr;
 pros::Task* flywheelTask = nullptr;
+pros::Task* liftTask = nullptr;
 //bool climbState = false;
 bool wing1Expand = false;
 bool wing2Expand = false;
 bool bothWingsExpand = false;
+
+bool PTO_State = false;
+
 
 DrivePID Drive;
 ArcTurn arcTurn;

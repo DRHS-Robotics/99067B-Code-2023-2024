@@ -173,7 +173,6 @@ void opcontrol() {
 	// int tapaPosition = tapa.get_position();
 	bool speedControl = false;
 	bool wingsState = false;
-	bool PTO_State = false;
 	bool leftWing = false;
 	bool rightWing = false;
 	bool climbState = false;
@@ -191,21 +190,18 @@ void opcontrol() {
 
 		// tapaPosition = tapa.get_position();
 
-		if(PTO_State){
-			PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-			if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-				ptoL_drive.move(127);
-				ptoR_drive.move(127);
-			}else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-				ptoL_drive.move(-127);
-				ptoR_drive.move(-127);
-			}else{
-				ptoL_drive.move(0);
-				ptoR_drive.move(0);
-			}
-		}else{
-			drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-		}
+			// PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+			// if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+			// 	ptoL_drive.move(127);
+			// 	ptoR_drive.move(127);
+			// }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+			// 	ptoL_drive.move(-127);
+			// 	ptoR_drive.move(-127);
+			// }else{
+			// 	ptoL_drive.move(0);
+			// 	ptoR_drive.move(0);
+			// }
+		drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
 
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
 			intake2.move(127);
@@ -275,7 +271,6 @@ void opcontrol() {
 
 		if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
 			PTO_State = !PTO_State;
-			PTO.set_value(PTO_State);
 		}
 
 //&& (fabs(yVal) > 0.))

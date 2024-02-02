@@ -19,6 +19,7 @@ extern pros::ADIDigitalOut wings1;
 extern pros::ADIDigitalOut wings2;
 extern pros::ADIDigitalOut climbRelease;
 extern pros::ADIDigitalOut matchLoad;
+extern pros::ADIDigitalIn climbSwitch;
 
 extern pros::IMU imu1;
 extern pros::IMU imu2;

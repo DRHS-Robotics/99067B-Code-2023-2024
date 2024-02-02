@@ -165,6 +165,51 @@ void control_flywheel_fn(){
 	}
 }
 
+void lift_macro(){
+	if(liftTask == nullptr){
+		liftTask = new pros::Task{[=]{
+			pros::Controller master(pros::E_CONTROLLER_MASTER);	
+			int buttonCount = 0;
+			const int liftGoal = 0;
+			int liftDis = (ptoL_drive.get_position() + ptoR_drive.get_position()) / 2;
+			bool climbState = climbSwitch.get_value();
+			double xVal = master.get_analog(ANALOG_LEFT_X);
+			double yVal = master.get_analog(ANALOG_LEFT_Y);
+			while(true){
+			if(PTO_State){
+				xVal = master.get_analog(ANALOG_LEFT_X);
+				yVal = master.get_analog(ANALOG_LEFT_Y);
+				PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+				if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)){
+					buttonCount++;
+				}
+
+				if(buttonCount == 1){
+					PTO.set_value(PTO_State);
+					if(liftDis < liftGoal){
+						ptoL_drive.move(127);
+						ptoR_drive.move(127);
+					}else{
+						ptoL_drive.move(0);
+						ptoR_drive.move(0);
+					}
+				}
+				if(buttonCount == 2){
+					climbRelease.set_value(true);
+					if(!climbState){
+						ptoL_drive.move(-127);
+						ptoR_drive.move(-127);
+					}else{
+						ptoL_drive.move(0);
+						ptoR_drive.move(0);
+					}
+				}
+			}
+			}
+		}};
+	}
+}
+
 
 // void initializeTapaTask(){
 // 	if(tapaTask == nullptr){

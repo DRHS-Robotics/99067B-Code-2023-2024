@@ -33,6 +33,12 @@ extern bool flywheelOn;
 extern int targetVoltage;
 extern pros::Task* flywheelTask;
 
+extern bool PTO_State;
+extern pros::Task* liftTask;
+
+
+
+
 
 
 #endif
