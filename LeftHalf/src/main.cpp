@@ -262,7 +262,7 @@ void opcontrol() {
 
             if(buttonCount == 2){
                 climbRelease.set_value(false);
-                pros::delay(500);
+                pros::delay(200);
             }
             
         }

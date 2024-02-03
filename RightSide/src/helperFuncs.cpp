@@ -172,7 +172,11 @@ void lift_macro(){
             const int liftGoal = 2500;
             int liftDis = (ptoL_drive.get_position() + ptoR_drive.get_position()) / 2;
             bool climbState = climbSwitch.get_value();
+			int limCount = 0;
             while(true){
+				if(climbState){
+					limCount++;
+				}
                 liftDis = (ptoL_drive.get_position() + ptoR_drive.get_position()) / 2;
                 climbState = climbSwitch.get_value();
                 if(PTO_State){
@@ -186,7 +190,7 @@ void lift_macro(){
                         }
                     }
                 if(buttonCount == 2){
-                    if(!climbState){
+                    if((!climbState) && (limCount < 1)){
                         ptoL_drive.move(-127);
                         ptoR_drive.move(-127);
                     }else{
@@ -200,7 +204,6 @@ void lift_macro(){
         }};
     }
 }
-
 
 // void initializeTapaTask(){
 // 	if(tapaTask == nullptr){
