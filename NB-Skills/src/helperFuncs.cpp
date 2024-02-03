@@ -166,41 +166,40 @@ void control_flywheel_fn(){
 }
 
 void lift_macro(){
-	if(liftTask == nullptr){
-		liftTask = new pros::Task{[=]{
-			pros::Controller master(pros::E_CONTROLLER_MASTER);	
-			const int liftGoal = 2500;
-			int liftDis = (ptoL_drive.get_position() + ptoR_drive.get_position()) / 2;
-			bool climbState = climbSwitch.get_value();
-			while(true){
-				liftDis = (ptoL_drive.get_position() + ptoR_drive.get_position()) / 2;
-				climbState = climbSwitch.get_value();
-				if(PTO_State){
-					if(buttonCount == 1){
-						if(liftDis < liftGoal){
-							ptoL_drive.move(127);
-							ptoR_drive.move(127);
-						}else{
-							ptoL_drive.move(0);
-							ptoR_drive.move(0);
-						}
-					}
-				if(buttonCount == 2){
-					if(!climbState){
-						ptoL_drive.move(-127);
-						ptoR_drive.move(-127);
-					}else{
-						ptoL_drive.move(0);
-						ptoR_drive.move(0);
-					}
-				}
-			}
-			pros::Task::delay(20);
-			}
-		}};
-	}
+    if(liftTask == nullptr){
+        liftTask = new pros::Task{[=]{
+            pros::Controller master(pros::E_CONTROLLER_MASTER); 
+            const int liftGoal = 2500;
+            int liftDis = (ptoL_drive.get_position() + ptoR_drive.get_position()) / 2;
+            bool climbState = climbSwitch.get_value();
+            while(true){
+                liftDis = (ptoL_drive.get_position() + ptoR_drive.get_position()) / 2;
+                climbState = climbSwitch.get_value();
+                if(PTO_State){
+                    if(buttonCount == 1){
+                        if(liftDis < liftGoal){
+                            ptoL_drive.move(127);
+                            ptoR_drive.move(127);
+                        }else{
+                            ptoL_drive.move(0);
+                            ptoR_drive.move(0);
+                        }
+                    }
+                if(buttonCount == 2){
+                    if(!climbState){
+                        ptoL_drive.move(-127);
+                        ptoR_drive.move(-127);
+                    }else{
+                        ptoL_drive.move(0);
+                        ptoR_drive.move(0);
+                    }
+                }
+            }
+            pros::Task::delay(20);
+            }
+        }};
+    }
 }
-
 
 // void initializeTapaTask(){
 // 	if(tapaTask == nullptr){

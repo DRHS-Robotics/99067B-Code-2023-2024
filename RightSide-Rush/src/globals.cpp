@@ -50,6 +50,7 @@ bool wing2Expand = false;
 bool bothWingsExpand = false;
 
 bool PTO_State = false;
+int buttonCount = false;
 
 
 DrivePID Drive;
