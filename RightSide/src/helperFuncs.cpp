@@ -666,7 +666,11 @@ void ArcTurn::BArcTurn(double target, double radius, double maxPower, double arc
 			// std::cout << "Turn Side Power: "<< currentRightPower << std::endl;
 			// std::cout << "Error : " << error << std::endl;
 		}else{
+<<<<<<< HEAD
 			currentLeftPower = 0; 
+=======
+			currentLeftPower = 0;
+>>>>>>> 5ca4b11d11b565c9215a32b17bc55a6dbb9c2fb3
 			currentRightPower = 0;
 		}
 
