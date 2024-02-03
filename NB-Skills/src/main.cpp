@@ -63,8 +63,9 @@ void autonomous() {
 	Drive.control_drive_back(300, 127, 88);
 	Drive.control_drive(600, 127, 88);
 	Drive.control_drive_back(200, 127, 88);
-	flywheelOn = true;
-	targetVoltage = 6500;
+    slapper.move(100);
+	// flywheelOn = true;
+	// targetVoltage = 6500;
 	control_turn(82.0, 110, 0.35);
 	Drive.control_drive_back(600, 120, 82);
 	intake2.move(0);
