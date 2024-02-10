@@ -169,7 +169,7 @@ void autonomous() {
 void opcontrol() {
     pros::Controller master(pros::E_CONTROLLER_MASTER);
     initializeTapaTask();
-    lift_macro();
+    // lift_macro();
     // control_flywheel_fn();
     // int tapaPosition = tapa.get_position();
     bool speedControl = false;
@@ -193,9 +193,9 @@ void opcontrol() {
         cout << "xVal: " << xVal << endl;
         cout << "yVal: " << yVal << endl;
 
-        if(count < 5){
-            climbRelease.set_value(true);
-        }
+        // if(count < 5){
+        //     climbRelease.set_value(true);
+        // }
 
         // tapaPosition = tapa.get_position();
         if(PTO_State){
@@ -276,24 +276,38 @@ void opcontrol() {
             climbRelease.set_value(climbState);
         }
 
-        // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+        // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y){
         //  matchLoadState = !matchLoadState;
         //  matchLoad.set_value(matchLoadState);
         // }
 
-        if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
+          if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
             buttonCount++;
             if(buttonCount == 1){
+                ptoL_drive.set_zero_position(0);
+                ptoR_drive.set_zero_position(0);
                 PTO_State = true;
                 PTO.set_value(PTO_State);
             }
-
-            if(buttonCount == 2){
-                climbRelease.set_value(false);
-                pros::delay(200);
-            }
             
         }
+
+        if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))){
+            climbRelease.set_value(true);
+        }
+
+
+       if((master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))){
+            ptoL_drive.move(127);
+            ptoR_drive.move(127);
+       }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+            ptoL_drive.move(-127);
+            ptoR_drive.move(-127);
+       }else{
+            ptoL_drive.move(0);
+            ptoR_drive.move(0);
+       }
+       
         if(count < 10){
             count++;
         }else{

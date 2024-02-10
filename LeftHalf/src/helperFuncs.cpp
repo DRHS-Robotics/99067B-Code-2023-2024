@@ -174,13 +174,9 @@ void lift_macro(){
             bool climbState = climbSwitch.get_value();
 			int limCount = 0;
             while(true){
-				if(climbState){
-					limCount++;
-				}
                 liftDis = (ptoL_drive.get_position() + ptoR_drive.get_position()) / 2;
                 climbState = climbSwitch.get_value();
-                if(PTO_State){
-                    if(buttonCount == 1){
+                    if(PTO_State){
                         if(liftDis < liftGoal){
                             ptoL_drive.move(127);
                             ptoR_drive.move(127);
@@ -189,8 +185,11 @@ void lift_macro(){
                             ptoR_drive.move(0);
                         }
                     }
-                if(buttonCount == 2){
-                    if((!climbState) && (limCount < 1)){
+                if(climbOn){
+					if(climbState){
+						limCount++; 
+					}
+                    if((!climbState) && (!limCount >= 0)){
                         ptoL_drive.move(-127);
                         ptoR_drive.move(-127);
                     }else{
@@ -198,7 +197,7 @@ void lift_macro(){
                         ptoR_drive.move(0);
                     }
                 }
-            }
+
             pros::Task::delay(20);
             }
         }};
@@ -314,7 +313,7 @@ void initializeTapaTask(){
 			while(true){
 				switchState = tapaSwitch.get_value(); //Boolean value from the limit switch at the bottom of tapa
 				if(frontSlapaState){
-					slapper.move(127);
+					slapper.move(100);
 				}else{
 					slapper.move(0);
 				}

@@ -309,8 +309,8 @@
       }
     },
     "upload_options": {
-      "slot": 4,
-      "icon": "alien",
+      "slot": 3,
+      "icon": "pros",
       "after": "screen"
     }
   }

@@ -56,17 +56,38 @@ void autonomous() {
 	//These make sure the classes in the control.h file work
 	Drive.set(0);
 	arcTurn.set(0);
-	Drive.control_drive(100, 40, 0);
-	arcTurn.BArcTurn(90, 15, 100, 0.009);
-	Drive.control_drive_back(550, 120, 90);
-	Drive.control_drive(300, 100, 90);
-	control_turn(60, 110, 0.039);
-	Drive.control_drive(500, 100, 60);
-	wings1.set_value(true);
-	control_turn(359, 120, 0.03);
-	control_turn(206, 40, 0.004);
-	// Drive.control_drive_back(300, 100, 250);
-	Drive.control_drive_back(1800, 90, 203);
+    intake2.move(127);
+    pros::delay(200);
+    intake2.move(0);
+    intake2.move(-127);
+    Drive.control_drive(1650, 100, 0);
+    pros::delay(550);
+    Drive.control_drive_back(250, 100, 0);
+    control_turn(267, 107, 0.02);
+    wings2.set_value(true);
+    Drive.control_drive_back(700, 127, 267);
+    control_turn(0, 115, 0.01);
+    wings2.set_value(false);
+    // control_turn(0, 100, 0.015);
+    // Drive.control_drive(1700, 100, 0);
+    // control_turn(270,  100, 0.015);
+    // Drive.control_drive(400, 70, 0);
+
+
+
+	// Drive.control_drive(100, 40, 0);
+	// arcTurn.BArcTurn(90, 15, 100, 0.009);
+    // intake2.move(0);
+	// Drive.control_drive_back(450, 120, 90);
+	// Drive.control_drive(300, 100, 90);
+	// control_turn(60, 110, 0.039);
+	// Drive.control_drive(700, 100, 60);
+	// wings2.set_value(true);
+	// control_turn(340, 120, 0.045);
+    // wings2.set_value(false);
+	// control_turn(200, 40, 0.0035);
+	// // Drive.control_drive_back(300, 100, 250);
+	// Drive.control_drive_back(1750, 80, 200);
 	// matchLoad.set_value(true);
 	
 	//This is how to activate the pneumatics
@@ -148,7 +169,6 @@ void opcontrol() {
     bool wingsState = false;
     bool leftWing = false;
     bool rightWing = false;
-    bool climbState = false;
     bool matchLoadState = false;
     bool flywheelState = false;
     int count = 0;
@@ -165,9 +185,9 @@ void opcontrol() {
         cout << "xVal: " << xVal << endl;
         cout << "yVal: " << yVal << endl;
 
-        if(count < 5){
-            climbRelease.set_value(true);
-        }
+        // if(count < 5){
+        //     climbRelease.set_value(true);
+        // }
 
         // tapaPosition = tapa.get_position();
         if(PTO_State){
@@ -243,29 +263,49 @@ void opcontrol() {
             wings1.set_value(rightWing);
         }
 
-        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
-            climbState = !climbState;
-            climbRelease.set_value(climbState);
-        }
+        // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+        //     climbState = !climbState;
+        //     climbRelease.set_value(climbState);
+        // }
 
         // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
         //  matchLoadState = !matchLoadState;
         //  matchLoad.set_value(matchLoadState);
         // }
 
-        if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
+          if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
             buttonCount++;
-            if(buttonCount == 1){
-                PTO_State = true;
-                PTO.set_value(PTO_State);
-            }
-
-            if(buttonCount == 2){
-                climbRelease.set_value(false);
-                pros::delay(200);
-            }
-            
         }
+
+         if(buttonCount == 1){
+            // ptoL_drive.set_zero_position(0);
+            // ptoR_drive.set_zero_position(0);
+            PTO_State = true;
+            PTO.set_value(PTO_State);
+            pros::delay(100);
+        }
+        if(buttonCount == 2){
+            climbOn = true;
+            climbRelease.set_value(climbOn);
+        }
+
+        // if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))){
+        //     climbRelease.set_value(true);
+        // }
+
+        // if(PTO_State){
+        //     if((master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))){
+        //     ptoL_drive.move(127);
+        //     ptoR_drive.move(127);
+        //  }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+        //     ptoL_drive.move(-100);
+        //     ptoR_drive.move(-100);
+        // }else{
+        //     ptoL_drive.move(0);
+        //     ptoR_drive.move(0);
+        // }
+        // }
+       
         if(count < 10){
             count++;
         }else{

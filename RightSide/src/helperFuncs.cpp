@@ -189,15 +189,10 @@ void lift_macro(){
                             ptoR_drive.move(0);
                         }
                     }
-                if(buttonCount == 2){
-                    if((!climbState) && (limCount < 1)){
-                        ptoL_drive.move(-127);
-                        ptoR_drive.move(-127);
-                    }else{
-                        ptoL_drive.move(0);
-                        ptoR_drive.move(0);
-                    }
-                }
+                if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+					ptoL_drive.move(-127);
+					ptoR_drive.move(-127);
+				}
             }
             pros::Task::delay(20);
             }
