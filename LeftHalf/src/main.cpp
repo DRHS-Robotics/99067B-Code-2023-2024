@@ -54,6 +54,7 @@ void autonomous() {
 	// setWings();
 	//Leave these lines of code in here
 	//These make sure the classes in the control.h file work
+    //control_turn(angle, maxSpeed, turnkP);
 	Drive.set(0);
 	arcTurn.set(0);
     intake2.move(127);
@@ -63,10 +64,10 @@ void autonomous() {
     Drive.control_drive(1650, 100, 0);
     pros::delay(550);
     Drive.control_drive_back(250, 100, 0);
-    control_turn(267, 107, 0.02);
+    control_turn(267, 107, 2.0);
     wings2.set_value(true);
     Drive.control_drive_back(700, 127, 267);
-    control_turn(0, 115, 0.01);
+    control_turn(0, 115, 1.5);
     wings2.set_value(false);
     // control_turn(0, 100, 0.015);
     // Drive.control_drive(1700, 100, 0);
@@ -125,7 +126,7 @@ void autonomous() {
 	//Or increase the distance if not going far enough.
 
 	//Turns:
-	//control_turn(target angle, maxSpeed, kI constant);
+	//control_turn(target angle, maxSpeed, kP constant);
 	//Target angle is the angle you want to turn towards(limited from 0 to 360 degrees)
 	//Max speed is limited from -127 and +127.
 	//kI constant is something that is really finicky. The only way to get the perfect kI value is tune
@@ -178,12 +179,14 @@ void opcontrol() {
         pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
         (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
         (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
+
+        initialSlapaMovement = true;
         
         double xVal = master.get_analog(ANALOG_LEFT_X);
         double yVal = master.get_analog(ANALOG_LEFT_Y);
 
-        cout << "xVal: " << xVal << endl;
-        cout << "yVal: " << yVal << endl;
+        // cout << "xVal: " << xVal << endl;
+        // cout << "yVal: " << yVal << endl;
 
         // if(count < 5){
         //     climbRelease.set_value(true);
@@ -191,7 +194,9 @@ void opcontrol() {
 
         // tapaPosition = tapa.get_position();
         if(PTO_State){
-            PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+            PTO_Drive((yVal+xVal), (yVal-xVal));
+        }else{
+            drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
         }
 
             // PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
@@ -205,7 +210,6 @@ void opcontrol() {
             //  ptoL_drive.move(0);
             //  ptoR_drive.move(0);
             // }
-        drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
 
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intake2.move(127);
@@ -220,6 +224,7 @@ void opcontrol() {
             // frontSlapaState = false;
             // flywheelState = !flywheelState;
             frontSlapaState = !frontSlapaState;
+            initialSlapaMovement = false;
         }
 
         // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
@@ -273,37 +278,24 @@ void opcontrol() {
         //  matchLoad.set_value(matchLoadState);
         // }
 
-          if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
+        if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
             buttonCount++;
         }
 
-         if(buttonCount == 1){
+        if(buttonCount == 1){
             // ptoL_drive.set_zero_position(0);
             // ptoR_drive.set_zero_position(0);
             PTO_State = true;
             PTO.set_value(PTO_State);
-            pros::delay(100);
+            pros::delay(200);
         }
         if(buttonCount == 2){
-            climbOn = true;
-            climbRelease.set_value(climbOn);
+            climbOnC = true;
+            climbRelease.set_value(climbOnC);
         }
 
         // if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))){
         //     climbRelease.set_value(true);
-        // }
-
-        // if(PTO_State){
-        //     if((master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))){
-        //     ptoL_drive.move(127);
-        //     ptoR_drive.move(127);
-        //  }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-        //     ptoL_drive.move(-100);
-        //     ptoR_drive.move(-100);
-        // }else{
-        //     ptoL_drive.move(0);
-        //     ptoR_drive.move(0);
-        // }
         // }
        
         if(count < 10){

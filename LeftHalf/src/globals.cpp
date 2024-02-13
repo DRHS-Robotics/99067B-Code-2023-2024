@@ -18,6 +18,8 @@ pros::ADIDigitalOut PTO('E');
 pros::ADIDigitalIn climbSwitch('B');
 pros::IMU imu1(10);
 pros::IMU imu2(11);
+pros::Rotation climbRot(12);
+pros::Optical optical_slapper(19);
 // pros::ADIDigitalOut climbRelease('D');
 
 int sgn(double num);
@@ -31,9 +33,10 @@ int sgn(double num);
 void resetPos();
 double position();
 void setWings();
-void control_turn(double target, double maxPower, double turnkI);
+void control_turn(double target, double maxPower, double turnkP);
 
 bool frontSlapaState = false;
+bool initialSlapaMovement = false;
 bool backSlapaState = false;
 bool flywheelOn = false;
 int targetVoltage = 0;
@@ -51,7 +54,7 @@ bool bothWingsExpand = false;
 
 bool PTO_State = false;
 int buttonCount = 0;
-bool climbOn = false;
+bool climbOnC = false;
 
 
 DrivePID Drive;
