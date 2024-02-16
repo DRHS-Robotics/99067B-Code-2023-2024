@@ -1,8 +1,8 @@
 #include "main.h"
-pros::Motor ptoL_drive(20, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor ptoL_drive(20, pros::E_MOTOR_GEARSET_18, 0, pros::E_MOTOR_ENCODER_COUNTS);
 pros::Motor tl_drive(7, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);//top left
 pros::Motor bl_drive(9, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor ptoR_drive(3, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor ptoR_drive(3, pros::E_MOTOR_GEARSET_18, 1, pros::E_MOTOR_ENCODER_COUNTS);
 pros::Motor tr_drive(1, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);//top right
 pros::Motor br_drive(2, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
 pros::Motor tapa(17, pros::E_MOTOR_GEARSET_36, 0, pros::E_MOTOR_ENCODER_COUNTS);
@@ -18,6 +18,8 @@ pros::ADIDigitalOut PTO('E');
 pros::ADIDigitalIn climbSwitch('B');
 pros::IMU imu1(10);
 pros::IMU imu2(11);
+pros::Rotation climbRot(12);
+pros::Optical optical_slapper(19);
 // pros::ADIDigitalOut climbRelease('D');
 
 int sgn(double num);
@@ -31,9 +33,10 @@ int sgn(double num);
 void resetPos();
 double position();
 void setWings();
-void control_turn(double target, double maxPower, double turnkI);
+void control_turn(double target, double maxPower, double turnkP);
 
 bool frontSlapaState = false;
+bool initialSlapaMovement = false;
 bool backSlapaState = false;
 bool flywheelOn = false;
 int targetVoltage = 0;
@@ -48,9 +51,13 @@ pros::Task* liftTask = nullptr;
 bool wing1Expand = false;
 bool wing2Expand = false;
 bool bothWingsExpand = false;
-
 bool PTO_State = false;
-int buttonCount = false;
+bool PTO_StateD = false;
+int buttonCountC = 0;
+int buttonCountD = 0;
+int liftGoal = 0;
+bool climbOnC = false;
+bool climbOnD = false;
 
 
 DrivePID Drive;

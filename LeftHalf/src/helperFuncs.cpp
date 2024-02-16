@@ -171,13 +171,17 @@ void lift_macro(){
         liftTask = new pros::Task{[=]{
             pros::Controller master(pros::E_CONTROLLER_MASTER); 
 			climbRot.reset_position();
-            const double liftGoal = 85000;
             double liftDis = climbRot.get_position();
             bool climbState = climbSwitch.get_value();
 			int limCount = 0;
+			double xVal = master.get_analog(ANALOG_LEFT_X);
+			double yVal = master.get_analog(ANALOG_LEFT_Y);
             while(true){
 				climbRot.set_reversed(true);
+				xVal = master.get_analog(ANALOG_LEFT_X);
+				yVal = master.get_analog(ANALOG_LEFT_Y);
 				// if(PTO_State){
+            	// 	PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
 				// 	if((master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))){
 				// 		// ptoL_drive.move_voltage(12000);
 				// 		// ptoR_drive.move_voltage(12000);
@@ -196,6 +200,7 @@ void lift_macro(){
                 liftDis = climbRot.get_position();;
                 climbState = climbSwitch.get_value();
 				if(PTO_State){
+            		PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
 					if(liftDis < liftGoal){
 						ptoL_drive.move_velocity(200);
 						ptoR_drive.move_velocity(200);
@@ -203,23 +208,50 @@ void lift_macro(){
 						ptoL_drive.move_velocity(0);
 						ptoR_drive.move_velocity(0);
 					}
-				}
+				
                 if(climbOnC){
 					if(climbState){
 						limCount++; 
 						std::cout << "limCount: " << limCount << std::endl;
 					}
-                    if(!((climbState) && (limCount > 0))){
-                        ptoL_drive.move_velocity(-200);
-                        ptoR_drive.move_velocity(-200);
-						std::cout << "Yes" << std::endl;
-                    }else{
-                        ptoL_drive.move_velocity(0);
-                        ptoR_drive.move_velocity(0);
-						std::cout << "No" << std::endl;
+                    if(limCount > 0){
+						ptoL_drive.move_velocity(0);
+						ptoR_drive.move_velocity(0);
+					}else{
+						ptoL_drive.move_velocity(-200);
+						ptoR_drive.move_velocity(-200);
+					}
+                }}
 
-                    }
+				if(PTO_StateD){
+					// if(climbState){
+					// 	limCount++; 
+					// 	std::cout << "limCount: " << limCount << std::endl;
+					// }
+                    // if(limCount > 0){
+					// 	ptoL_drive.move_velocity(0);
+					// 	ptoR_drive.move_velocity(0);
+					// }else{
+					// 	ptoL_drive.move_velocity(-200);
+					// 	ptoR_drive.move_velocity(-200);
+					// }
+            		PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+					if((master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))){
+						// ptoL_drive.move_voltage(12000);
+						// ptoR_drive.move_voltage(12000);
+						ptoL_drive.move_velocity(200);
+						ptoR_drive.move_velocity(200);
+					}else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+						// ptoL_drive.move_voltage(-12000);
+						// ptoR_drive.move_voltage(-12000);
+						ptoL_drive.move_velocity(-200);
+						ptoR_drive.move_velocity(-200);
+					}else{
+						ptoL_drive.move_velocity(0);
+						ptoR_drive.move_velocity(0);
+					}
                 }
+
 
             pros::Task::delay(20);
             }
@@ -318,6 +350,8 @@ void initializeTapaTask(){
 			pros::Controller master(pros::E_CONTROLLER_MASTER);
 			// bool switchState = tapaSwitch.get_value();
 			double slapperPos = slapper.get_position();
+			double slapperVel = slapper.get_actual_velocity();
+			double previousSlapperVel = 0;
 			const int time_delay = 20;
 			//Max speed for tapa match loading and tapa shooting
 			///////////////////////////////////////////////////
@@ -326,11 +360,12 @@ void initializeTapaTask(){
             // bool reset = false;
             // bool resetPos = false;
             // bool tapaStop = false;
-			const double correctSpot  = 400;
+			const double correctSpot  = 250;
 			const int correct_hue_green = 100;
-			const int correct_hue_red = 92;
-			const int correct_hue_blue = 92;
+			const int correct_hue_red = 7;
+			const int correct_hue_blue = 215;
 			int actual_hue = optical_slapper.get_hue();
+			slapper.set_zero_position(0);
 
 			//Logic: 
 			//Automatically retract the tapa to a primed position
@@ -343,6 +378,7 @@ void initializeTapaTask(){
 				optical_slapper.set_led_pwm(100);
 				actual_hue = optical_slapper.get_hue();
 				slapperPos = slapper.get_position();
+				slapperVel = slapper.get_actual_velocity();
 				// if(initialSlapaMovement){
 					// if(((slapperPos > correctSpot-50) && (slapperPos < correctSpot+50))){
 					// 	slapper.move(0);
@@ -351,19 +387,33 @@ void initializeTapaTask(){
 					// }
 				// }else{
 				if(frontSlapaState){
-					std::cout << "Actual Hue : " << actual_hue << std::endl;
+					// std::cout << "Actual Hue : " << actual_hue << std::endl;
+					// std::cout << "Slapper Actual Vel : " << slapper.get_actual_velocity() << std::endl; 
+					// slapper.move(127);
 
-					if(((actual_hue > (correct_hue_green-10)) && (actual_hue < (correct_hue_green+10)))){
+					if(((actual_hue > (correct_hue_green-10)) && (actual_hue < (correct_hue_green+10))) || ((actual_hue > (correct_hue_red-7)) && (actual_hue < (correct_hue_red+7))) || ((actual_hue > (correct_hue_blue-15)) && (actual_hue < (correct_hue_blue+15)))){
 						slapper.move(127);
+						std::cout << "Slapper Change Vel : " << slapperVel - previousSlapperVel << std::endl; 
+						if((slapperVel - previousSlapperVel) < 0){
+							slapper.set_zero_position(0);
+						}
 					}else{
-						slapper.move(0);
+						if(slapperPos < correctSpot){
+							slapper.move(127);
+						}else{
+							slapper.move(10);
+						}
+						// slapper.move(0);
 					}
 					// slapper.move(127);
-				}else{
+				}else if(backSlapaState){
+					slapper.move(127);
+				}
+				else{
 					slapper.move(0);
 				}
 				// }
-
+				previousSlapperVel = slapperVel;
 				pros::Task::delay(time_delay);
 			}
 		}};
@@ -742,8 +792,8 @@ void control_turn(double target, double maxPower, double turnkP){
 	double turnPower = 0;
 	double currentLeftPower = 0;
 	double currentRightPower = 0;
-	float turnkI = 0.01;
-	float turnkD = 3.0;
+	float turnkI = 0.015;
+	float turnkD = 3;
 	double error = target-currentActualAngle;
 	TurnPID turnPID;
 

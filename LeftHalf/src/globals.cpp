@@ -51,10 +51,13 @@ pros::Task* liftTask = nullptr;
 bool wing1Expand = false;
 bool wing2Expand = false;
 bool bothWingsExpand = false;
-
 bool PTO_State = false;
-int buttonCount = 0;
+bool PTO_StateD = false;
+int buttonCountC = 0;
+int buttonCountD = 0;
+int liftGoal = 0;
 bool climbOnC = false;
+bool climbOnD = false;
 
 
 DrivePID Drive;

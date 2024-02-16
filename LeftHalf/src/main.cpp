@@ -59,16 +59,23 @@ void autonomous() {
 	arcTurn.set(0);
     intake2.move(127);
     pros::delay(200);
-    intake2.move(0);
-    intake2.move(-127);
-    Drive.control_drive(1650, 100, 0);
-    pros::delay(550);
-    Drive.control_drive_back(250, 100, 0);
-    control_turn(267, 107, 2.0);
+    intake2.move(0);    
     wings2.set_value(true);
-    Drive.control_drive_back(700, 127, 267);
-    control_turn(0, 115, 1.5);
+    // Drive.control_drive(250, 100, 0);
+    control_turn(305, 127, 2);
     wings2.set_value(false);
+    control_turn(252, 127, 3);
+    intake2.move(-127);
+    Drive.control_drive(1850, 127, 252);
+    pros::delay(100);
+    Drive.control_drive_back(900, 110, 252);
+    arcTurn.BArcTurn(0, 15, 100, 0.009);
+    // control_turn(355, 115, 1.5);
+    intake2.move(127);
+    Drive.control_drive(2400, 80, 0);    
+    // control_turn(267, 115, 1.5);
+    // control_turn(0, 115, 1.5);
+    // wings2.set_value(false);
     // control_turn(0, 100, 0.015);
     // Drive.control_drive(1700, 100, 0);
     // control_turn(270,  100, 0.015);
@@ -173,6 +180,8 @@ void opcontrol() {
     bool matchLoadState = false;
     bool flywheelState = false;
     int count = 0;
+    buttonCountC = 0;
+    buttonCountD = 0;
 
 
     while (true) {
@@ -193,11 +202,10 @@ void opcontrol() {
         // }
 
         // tapaPosition = tapa.get_position();
-        if(PTO_State){
-            PTO_Drive((yVal+xVal), (yVal-xVal));
-        }else{
+        if(!PTO_State){
             drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
         }
+
 
             // PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
             // if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
@@ -224,9 +232,15 @@ void opcontrol() {
             // frontSlapaState = false;
             // flywheelState = !flywheelState;
             frontSlapaState = !frontSlapaState;
-            initialSlapaMovement = false;
         }
 
+        
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+            // backSlapaState = !backSlapaState;
+            // frontSlapaState = false;
+            // flywheelState = !flywheelState;
+            backSlapaState = !backSlapaState;
+        }
         // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
         //  frontSlapaState = !frontSlapaState;
         //  backSlapaState = false;
@@ -258,14 +272,14 @@ void opcontrol() {
             wings2.set_value(wingsState);
         }
 
-        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
-            leftWing = !leftWing;
-            wings2.set_value(leftWing);
-        }
-
         if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
             rightWing = !rightWing;
-            wings1.set_value(rightWing);
+            wings2.set_value(rightWing);
+        }
+
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
+            leftWing = !leftWing;
+            wings1.set_value(leftWing);
         }
 
         // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
@@ -278,20 +292,49 @@ void opcontrol() {
         //  matchLoad.set_value(matchLoadState);
         // }
 
-        if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
-            buttonCount++;
+        if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))){
+            buttonCountC++;
         }
 
-        if(buttonCount == 1){
+        if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
+            buttonCountD++;
+        }
+
+        if(buttonCountC == 1){
             // ptoL_drive.set_zero_position(0);
             // ptoR_drive.set_zero_position(0);
+            liftGoal = 95000;
             PTO_State = true;
             PTO.set_value(PTO_State);
             pros::delay(200);
         }
-        if(buttonCount == 2){
+        if(buttonCountC == 2){
             climbOnC = true;
             climbRelease.set_value(climbOnC);
+        }
+
+         if(buttonCountD == 1){
+            // ptoL_drive.set_zero_position(0);
+            // ptoR_drive.set_zero_position(0);
+            liftGoal = 180000;
+            PTO_StateD = true;
+            PTO.set_value(PTO_StateD);
+            pros::delay(200);
+        }
+        if(buttonCountD == 2){
+            climbOnD = true;
+            climbRelease.set_value(climbOnD);
+        }
+
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+            climbOnD = false;
+            climbOnC = false;
+            buttonCountC = 0;
+            buttonCountD = 0;
+            PTO_State = false;
+            PTO_StateD = false;
+            PTO.set_value(false);
+            climbRelease.set_value(false);
         }
 
         // if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))){

@@ -2,6 +2,7 @@
 #define VARIABLES_h
 
 extern bool frontSlapaState;
+extern bool initialSlapaMovement;
 extern bool backSlapaState;
 extern const double maxtapaShoot;
 extern DrivePID Drive;
@@ -35,11 +36,12 @@ extern pros::Task* flywheelTask;
 
 extern bool PTO_State;
 extern pros::Task* liftTask;
-extern int buttonCount;
-
-
-
-
+extern int buttonCountC;
+extern int buttonCountD;
+extern int liftGoal;
+extern  bool PTO_StateD;
+extern bool climbOnC;
+extern bool climbOnD;
 
 
 #endif

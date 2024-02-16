@@ -36,7 +36,10 @@ extern pros::Task* flywheelTask;
 
 extern bool PTO_State;
 extern pros::Task* liftTask;
-extern int buttonCount;
+extern int buttonCountC;
+extern int buttonCountD;
+extern int liftGoal;
+extern  bool PTO_StateD;
 extern bool climbOnC;
 extern bool climbOnD;
 
