@@ -61,10 +61,10 @@ void autonomous() {
     // slapper.move(100);
 	intake2.move(127);
 	arcTurn.FArcTurn(88.0, 9.0, 110, 0.015);
-	Drive.control_drive(500, 127, 88);
-	Drive.control_drive_back(300, 127, 88);
 	Drive.control_drive(600, 127, 88);
 	Drive.control_drive_back(200, 127, 88);
+	// Drive.control_drive(600, 127, 88);
+	// Drive.control_drive_back(200, 127, 88);
     frontSlapaState = true;
 	// flywheelOn = true;
 	// targetVoltage = 6500;
@@ -77,40 +77,44 @@ void autonomous() {
 	pros::delay(32000); //Run slapper for 32 seconds
 	wings2.set_value(false);
 	frontSlapaState = false;
-	control_turn(205, 110, 0.04);
-	Drive.control_drive(1100, 120, 205);
+	control_turn(207, 110, 0.028);
+	Drive.control_drive(825, 120, 207);
 	control_turn(180, 100, 0.1);
-	Drive.control_drive(2300, 120, 180);
-	arcTurn.FArcTurn(90, 20, 100, 0.0025);
+	Drive.control_drive(2000, 120, 180);
+	arcTurn.FArcTurn(45.0, 5.0, 100, 0.0025);
 	// Drive.control_drive(900, 120, 97);
 	// Drive.control_drive_back(650, 127, 97);
 	//control_turn(45, 100, 0.009);
-	Drive.control_drive(800, 120, 90);
-    Drive.control_drive_back(400, 100,90);
-	control_turn(45, 110, 0.015);
-	Drive.control_drive(1400, 120, 45);
-    control_turn(90, 110, 0.015);
-    Drive.control_drive(1500, 120, 90);
+	Drive.control_drive(1300, 120, 45);
+	control_turn(90, 110, 0.025);
+	Drive.control_drive(1000, 120, 90);
+	control_turn(0, 110, 0.035);
     wings1.set_value(true);
 	wings2.set_value(true);
-    arcTurn.BArcTurn(0, 30, 100, 0.0025);
-	// wings1.set_value(true);
+    pros::delay(100);
+    // arcTurn.BArcTurn(0, 30, 110, 0.009);
+	// // wings1.set_value(true);
+	// // wings2.set_value(true);
+	// // pros::delay(600);
+	// Drive.control_drive_back(500, 127, 0);
+    // wings1.set_value(false);
+	// wings2.set_value(false);
+	// arcTurn.FArcTurn(315, 35, 110, 0.01);
+	// Drive.control_drive(1000, 120, 315);
+    // control_turn(0, 110, 0.035);
+    // wings1.set_value(true);
 	// wings2.set_value(true);
-	// pros::delay(600);
-	Drive.control_drive_back(500, 127, 0);
-    wings1.set_value(false);
-	wings2.set_value(false);
-	control_turn(340, 110, 0.055);
-	Drive.control_drive(600, 120, 340);
-    control_turn(0, 110, 0.02);
-    wings1.set_value(true);
-	wings2.set_value(true);
 	Drive.control_drive_back(1000, 127, 0);
-	Drive.control_drive(600, 120, 0);
-	Drive.control_drive_back(600, 127, 0);
+	Drive.control_drive(200, 120, 0);
+    control_turn(330, 110, 0.05);
+    Drive.control_drive(900, 120, 0);
+    control_turn(0, 110, 0.035);
+	Drive.control_drive_back(900, 127, 0);
 	Drive.control_drive(600, 120, 0);
 	wings1.set_value(false);
 	wings2.set_value(false);
+    // control_turn(340, 100, 0.05);
+	// Drive.control_drive(100, 120, 0);
     // control_turn(267, 115, 1.5);
     // control_turn(0, 115, 1.5);
     // wings2.set_value(false);
@@ -304,18 +308,18 @@ void opcontrol() {
             targetVoltage = 7000;
         }
 
-        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
-            wingsState = !wingsState;
-            wings1.set_value(wingsState);
-            wings2.set_value(wingsState);
-        }
+        // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
+        //     wingsState = !wingsState;
+        //     wings1.set_value(wingsState);
+        //     wings2.set_value(wingsState);
+        // }
 
-        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
             rightWing = !rightWing;
             wings2.set_value(rightWing);
         }
 
-        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
             leftWing = !leftWing;
             wings1.set_value(leftWing);
         }
@@ -351,7 +355,7 @@ void opcontrol() {
             climbRelease.set_value(climbOnC);
         }
 
-         if(buttonCountD == 1){
+            if(buttonCountD == 1){
             // ptoL_drive.set_zero_position(0);
             // ptoR_drive.set_zero_position(0);
             liftGoal = 180000;
@@ -364,7 +368,7 @@ void opcontrol() {
             climbRelease.set_value(climbOnD);
         }
 
-        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
             climbOnD = false;
             climbOnC = false;
             buttonCountC = 0;

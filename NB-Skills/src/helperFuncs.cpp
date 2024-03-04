@@ -197,6 +197,7 @@ void lift_macro(){
 				// 		ptoR_drive.move_velocity(0);
 				// 	}
 				// }
+			
                 liftDis = climbRot.get_position();;
                 climbState = climbSwitch.get_value();
 				if(PTO_State){
@@ -391,7 +392,7 @@ void initializeTapaTask(){
 					// std::cout << "Slapper Actual Vel : " << slapper.get_actual_velocity() << std::endl; 
 					// slapper.move(127);
 
-					if(((actual_hue > (correct_hue_green-10)) && (actual_hue < (correct_hue_green+10))) || ((actual_hue > (correct_hue_red-7)) && (actual_hue < (correct_hue_red+7))) || ((actual_hue > (correct_hue_blue-15)) && (actual_hue < (correct_hue_blue+15)))){
+					if(((actual_hue > (correct_hue_green-10)) && (actual_hue < (correct_hue_green+10))) || ((actual_hue > (correct_hue_red-3)) && (actual_hue < (correct_hue_red+5))) || ((actual_hue > (correct_hue_blue-15)) && (actual_hue < (correct_hue_blue+15)))){
 						slapper.move(127);
 						std::cout << "Slapper Change Vel : " << slapperVel - previousSlapperVel << std::endl; 
 						if((slapperVel - previousSlapperVel) < 0){
@@ -401,7 +402,7 @@ void initializeTapaTask(){
 						if(slapperPos < correctSpot){
 							slapper.move(127);
 						}else{
-							slapper.move(10);
+							slapper.move(5);
 						}
 						// slapper.move(0);
 					}

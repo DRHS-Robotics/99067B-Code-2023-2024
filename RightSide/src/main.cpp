@@ -60,39 +60,30 @@ void autonomous() {
 	intake2.move(127);
 	pros::delay(100);
 	intake2.move(-127);
-	Drive.control_drive(200, 127, 0); 
-	control_turn(356, 110, 0.9);
-	Drive.control_drive_back(1600, 127, 356);
-	// arcTurn.BArcTurn(278, 55, 100, 0.015);
-	// Drive.control_drive_back(550, 127, 278);
-	// Drive.control_drive(400, 127, 278);
-	// wing2Expand = true;
+	Drive.control_drive(300, 127, 0); 
+	control_turn(355, 127, 0.5);
+	Drive.control_drive_back(1650, 127, 355);
 	wings1.set_value(true);
 	control_turn(274, 90, 0.016);
 	wings1.set_value(false);
-	control_turn(129, 102, 0.01);
+	control_turn(129, 102, 0.009);
 	intake2.move(127);
-	// Drive.control_drive(600, 127, 130);
-	// control_turn(96, 127, 0.1);
-	// Drive.control_drive(700, 127, 96);
-    // control_turn(100, 102, 0.06);
-    // arcTurn.FArcTurn(95, 100, 10, 0.03);
     Drive.control_drive(1200, 127, 129);
-	Drive.control_drive_back(450, 127, 129);
-    Drive.control_drive(700, 127, 129);
-	Drive.control_drive_back(450, 127, 129);
+	Drive.control_drive_back(350, 127, 129);
+    Drive.control_drive(600, 127, 129);
+	Drive.control_drive_back(350, 127, 129);
 	intake2.move(0);
-	control_turn(30, 110, 0.02);
+	control_turn(30.5, 82, 0.0175);
 	intake2.move(-127);
-	Drive.control_drive(1800, 127, 30);
-	control_turn(160, 110, 0.0075);
+	Drive.control_drive(1950, 127, 30.5);
+	control_turn(161, 88, 0.008);
 	intake2.move(127);
-	Drive.control_drive(1400, 127, 160);
-	arcTurn.BArcTurn(65, 1, 100, 0.009);
+	Drive.control_drive(1300, 127, 161);
+	arcTurn.BArcTurn(65, 0.5, 100, 0.009);
 	pros::delay(100);
 	intake2.move(-127);
-	Drive.control_drive(875, 120, 65);
-	control_turn(180, 100, 0.008);
+	Drive.control_drive(900, 120, 65);
+	control_turn(180, 91, 0.01);
 	intake2.move(127);
 	Drive.control_drive(1400, 127, 180);
 	Drive.control_drive_back(700, 127, 180);
@@ -291,13 +282,13 @@ void opcontrol() {
             targetVoltage = 7000;
         }
 
-        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
-            wingsState = !wingsState;
-            wings1.set_value(wingsState);
-            wings2.set_value(wingsState);
-        }
+        // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
+        //     wingsState = !wingsState;
+        //     wings1.set_value(wingsState);
+        //     wings2.set_value(wingsState);
+        // }
 
-        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
             rightWing = !rightWing;
             wings2.set_value(rightWing);
         }
@@ -318,8 +309,8 @@ void opcontrol() {
         // }
 
         if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))){
-            buttonCountC++;
-        }
+			buttonCountC++;
+		}
 
         if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
             buttonCountD++;
@@ -336,9 +327,10 @@ void opcontrol() {
         if(buttonCountC == 2){
             climbOnC = true;
             climbRelease.set_value(climbOnC);
+            pros::delay(200);
         }
 
-         if(buttonCountD == 1){
+            if(buttonCountD == 1){
             // ptoL_drive.set_zero_position(0);
             // ptoR_drive.set_zero_position(0);
             liftGoal = 180000;
@@ -349,9 +341,10 @@ void opcontrol() {
         if(buttonCountD == 2){
             climbOnD = true;
             climbRelease.set_value(climbOnD);
+            pros::delay(200);
         }
 
-        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
             climbOnD = false;
             climbOnC = false;
             buttonCountC = 0;

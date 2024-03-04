@@ -197,6 +197,7 @@ void lift_macro(){
 				// 		ptoR_drive.move_velocity(0);
 				// 	}
 				// }
+			
                 liftDis = climbRot.get_position();;
                 climbState = climbSwitch.get_value();
 				if(PTO_State){
@@ -786,14 +787,14 @@ void ArcTurn::BArcTurn(double target, double radius, double maxPower, double arc
 	drive(0,0);
 }
 
-void control_turn(double target, double maxPower, double turnkP){
+void control_turn(double target, double maxPower, double turnkI){
 	int count = 0;
 	double currentActualAngle = angle();
 	double turnPower = 0;
 	double currentLeftPower = 0;
 	double currentRightPower = 0;
-	float turnkI = 0.015;
-	float turnkD = 3;
+	float turnkP = 1;
+	float turnkD = 3.5;
 	double error = target-currentActualAngle;
 	TurnPID turnPID;
 

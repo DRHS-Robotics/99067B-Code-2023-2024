@@ -197,6 +197,7 @@ void lift_macro(){
 				// 		ptoR_drive.move_velocity(0);
 				// 	}
 				// }
+			
                 liftDis = climbRot.get_position();;
                 climbState = climbSwitch.get_value();
 				if(PTO_State){
