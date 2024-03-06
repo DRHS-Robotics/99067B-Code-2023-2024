@@ -37,7 +37,7 @@ int sgn(double num);
 void resetPos();
 double position();
 void setWings();
-void control_turn(double target, double maxPower, double turnkP, bool needed);
+void control_turn(double target, double maxPower, double turnkP, bool accuracy, bool needed);
 
 bool frontSlapaState = false;
 bool initialSlapaMovement = false;

@@ -170,92 +170,69 @@ void lift_macro(){
     if(liftTask == nullptr){
         liftTask = new pros::Task{[=]{
             pros::Controller master(pros::E_CONTROLLER_MASTER); 
-			climbRot.reset_position();
-            double liftDis = climbRot.get_position();
-            bool climbState = climbSwitch.get_value();
-			int limCount = 0;
-			double xVal = master.get_analog(ANALOG_LEFT_X);
-			double yVal = master.get_analog(ANALOG_LEFT_Y);
-            while(true){
-				climbRot.set_reversed(true);
-				xVal = master.get_analog(ANALOG_LEFT_X);
-				yVal = master.get_analog(ANALOG_LEFT_Y);
-				// if(PTO_State){
-            	// 	PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-				// 	if((master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))){
-				// 		// ptoL_drive.move_voltage(12000);
-				// 		// ptoR_drive.move_voltage(12000);
-				// 		ptoL_drive.move_velocity(200);
-				// 		ptoR_drive.move_velocity(200);
-				// 	}else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-				// 		// ptoL_drive.move_voltage(-12000);
-				// 		// ptoR_drive.move_voltage(-12000);
-				// 		ptoL_drive.move_velocity(-200);
-				// 		ptoR_drive.move_velocity(-200);
-				// 	}else{
-				// 		ptoL_drive.move_velocity(0);
-				// 		ptoR_drive.move_velocity(0);
-				// 	}
-				// }
-			
-                liftDis = climbRot.get_position();;
-                climbState = climbSwitch.get_value();
-				if(PTO_State){
-            		PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-					if(liftDis < liftGoal){
-						ptoL_drive.move_velocity(200);
-						ptoR_drive.move_velocity(200);
-					}else{
-						ptoL_drive.move_velocity(0);
-						ptoR_drive.move_velocity(0);
-					}
+			// climbRot.reset_position();
+            // // double liftDis = climbRot.get_position();
+			// double liftDis = climb.get_position();
+            // bool climbState = climbSwitch.get_value();
+			// int limCount = 0;
+			// double xVal = master.get_analog(ANALOG_LEFT_X);
+			// double yVal = master.get_analog(ANALOG_LEFT_Y);
+            // while(true){
+			// 	climbRot.set_reversed(true);
+			// 	xVal = master.get_analog(ANALOG_LEFT_X);
+			// 	yVal = master.get_analog(ANALOG_LEFT_Y);
+		
+            //     liftDis = climbRot.get_position();;
+            //     climbState = climbSwitch.get_value();
+			// 	if(PTO_State){
+            // 		// PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+			// 		if(liftDis < liftGoal){
+			// 			// ptoL_drive.move_velocity(200);
+			// 			// ptoR_drive.move_velocity(200);
+			// 			climb.move_velocity(200);
+			// 		}else{
+			// 			// ptoL_drive.move_velocity(1.5);
+			// 			// ptoR_drive.move_velocity(1.5);
+			// 			climb.move_velocity(0);
+			// 		}
 				
-                if(climbOnC){
-					if(climbState){
-						limCount++; 
-						std::cout << "limCount: " << limCount << std::endl;
-					}
-                    if(limCount > 0){
-						ptoL_drive.move_velocity(0);
-						ptoR_drive.move_velocity(0);
-					}else{
-						ptoL_drive.move_velocity(-200);
-						ptoR_drive.move_velocity(-200);
-					}
-                }}
+            //     if(climbOnC){
+			// 		if(climbState){
+			// 			limCount++; 
+			// 			std::cout << "limCount: " << limCount << std::endl;
+			// 		}
+            //         if(limCount > 0){
+			// 			// ptoL_drive.move_velocity(0);
+			// 			// ptoR_drive.move_velocity(0);
+			// 			climb.move_velocity(0);
 
-				if(PTO_StateD){
-					// if(climbState){
-					// 	limCount++; 
-					// 	std::cout << "limCount: " << limCount << std::endl;
-					// }
-                    // if(limCount > 0){
-					// 	ptoL_drive.move_velocity(0);
-					// 	ptoR_drive.move_velocity(0);
-					// }else{
-					// 	ptoL_drive.move_velocity(-200);
-					// 	ptoR_drive.move_velocity(-200);
-					// }
-            		PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-					if((master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))){
-						// ptoL_drive.move_voltage(12000);
-						// ptoR_drive.move_voltage(12000);
-						ptoL_drive.move_velocity(200);
-						ptoR_drive.move_velocity(200);
-					}else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-						// ptoL_drive.move_voltage(-12000);
-						// ptoR_drive.move_voltage(-12000);
-						ptoL_drive.move_velocity(-200);
-						ptoR_drive.move_velocity(-200);
-					}else{
-						ptoL_drive.move_velocity(0);
-						ptoR_drive.move_velocity(0);
-					}
-                }
+			// 		}else{
+			// 			// ptoL_drive.move_velocity(-200);
+			// 			// ptoR_drive.move_velocity(-200);
+			// 			climb.move_velocity(-200);
+			// 		}
+            //     }}
+
+			// 	if(PTO_StateD){
+            // // 		// PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+			// 		if((master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))){
+			// 			// ptoL_drive.move_velocity(200);
+			// 			// ptoR_drive.move_velocity(200);
+			// 			climb.move_velocity(100);
+			// 		}else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+			// 			// ptoL_drive.move_velocity(-200);
+			// 			// ptoR_drive.move_velocity(-200);
+			// 			climb.move_velocity(-100);
+			// 		}else{
+			// 			// ptoL_drive.move_velocity(0);
+			// 			// ptoR_drive.move_velocity(0);
+			// 			climb.move_velocity(0);
+			// 		}
+            //     }
 
 
-            pros::Task::delay(20);
-            }
+            // pros::Task::delay(20);
+            // }
         }};
     }
 }
@@ -392,7 +369,7 @@ void initializeTapaTask(){
 					// std::cout << "Slapper Actual Vel : " << slapper.get_actual_velocity() << std::endl; 
 					// slapper.move(127);
 
-					if(((actual_hue > (correct_hue_green-10)) && (actual_hue < (correct_hue_green+10))) || ((actual_hue > (correct_hue_red-7)) && (actual_hue < (correct_hue_red+7))) || ((actual_hue > (correct_hue_blue-15)) && (actual_hue < (correct_hue_blue+15)))){
+					if(((actual_hue > (correct_hue_green-10)) && (actual_hue < (correct_hue_green+10))) || ((actual_hue > (correct_hue_red-3)) && (actual_hue < (correct_hue_red+5))) || ((actual_hue > (correct_hue_blue-15)) && (actual_hue < (correct_hue_blue+15)))){
 						slapper.move(127);
 						std::cout << "Slapper Change Vel : " << slapperVel - previousSlapperVel << std::endl; 
 						if((slapperVel - previousSlapperVel) < 0){
@@ -787,15 +764,21 @@ void ArcTurn::BArcTurn(double target, double radius, double maxPower, double arc
 	drive(0,0);
 }
 
-void control_turn(double target, double maxPower, double turnkI){
+void control_turn(double target, double maxPower, double turnkI, double turnkD, bool needed){
 	int count = 0;
 	double currentActualAngle = angle();
 	double turnPower = 0;
+	double currentPos = position();
+	double pastPos = 0;
 	double currentLeftPower = 0;
 	double currentRightPower = 0;
-	float turnkP = 1.4;
-	float turnkD = 3.5;
+	float turnkP = 1.5;
+	// float turnkD = 3;
+	bool accuracy = false;
 	double error = target-currentActualAngle;
+	int turnCount = 0;
+	int accurateTurn = 0;
+	int turnCountMax = 0;
 	TurnPID turnPID;
 
 	bool left = false;
@@ -804,6 +787,7 @@ void control_turn(double target, double maxPower, double turnkI){
 	while((!(((currentActualAngle<=(target+0.4))) && (currentActualAngle>=(target-0.4))))){
 		currentActualAngle = returnThetaInRange(angle());
 		std::cout << "Current angle: " << currentActualAngle << std::endl;
+		currentPos = position();
 
 
 		left = turnPID.calculate(target, currentActualAngle);
@@ -848,10 +832,42 @@ void control_turn(double target, double maxPower, double turnkI){
 			turnIntegral = 0;
 			turnDerivative = 0;
 			turnLastError = 0;
+			// break;
+			accurateTurn++;
+		}
+
+		if(accuracy){
+			turnCountMax = 0;
+		}else{
+			turnCountMax = 1;
+		}
+
+		if(pastPos == currentPos){
+			turnCount++;
+		}else{
+			turnCount = 0;
+		}
+
+		if(accurateTurn > turnCountMax){
+			turnIntegral = 0;
+			turnDerivative = 0;
+			turnLastError = 0;
 			break;
 		}
 
+		if(needed){
+			if(turnCount == 5){
+				turnIntegral = 0;
+				turnDerivative = 0;
+				turnLastError = 0;
+				break;
+			}
+		}
+
+		
+
 		drive(currentLeftPower, currentRightPower);
+		pastPos = currentPos;
 
 		pros::delay(20);
 	}
