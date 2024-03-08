@@ -24,6 +24,8 @@ pros::IMU imu1(10);
 pros::IMU imu2(11);
 pros::Rotation climbRot(12);
 pros::Optical optical_slapper(6);
+pros::Distance distance_slapper(6);
+
 // pros::ADIDigitalOut climbRelease('D');
 
 int sgn(double num);

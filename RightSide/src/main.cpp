@@ -61,14 +61,15 @@ void autonomous() {
 	arcTurn.set(0);
 	intake2.move(127);
 	pros::delay(100);
-	intake2.move(-127);
+	intake2.move(-60);
 	Drive.control_drive(300, 127, 0); 
 	control_turn(355, 127, 0.5, 3.5, false, false);
     intake2.move(0);
-	Drive.control_drive_back(1650, 127, 355);
+	Drive.control_drive_back(1650, 100, 355);
 	wings1.set_value(true);
-	control_turn(274, 90, 0.01, 3.5, false, false);
+	control_turn(278, 105, 0.012, 3.5, false, false);
 	wings1.set_value(false);
+    pros::delay(100);
 	control_turn(129, 102, 0.009, 3.5, false, false);
 	intake2.move(127);
     Drive.control_drive(1200, 127, 129);
@@ -76,16 +77,16 @@ void autonomous() {
     Drive.control_drive(600, 127, 129);
 	Drive.control_drive_back(350, 127, 129);
 	intake2.move(0);
-	control_turn(18, 82, 0.013, 3.25, false, true);
-	intake2.move(-127);
+	control_turn(18, 75, 0.013, 3.9, false, true);
+	intake2.move(-60);
 	Drive.control_drive(1950, 127, 18);
-	control_turn(161, 88, 0.008, 3.5, false, false);
+	control_turn(161, 80, 0.008, 3.8, false, true);
 	intake2.move(127);
 	Drive.control_drive(1300, 127, 161);
-	arcTurn.BArcTurn(65, 0.5, 100, 0.009);
+	arcTurn.BArcTurn(61, 0.5, 100, 0.009);
 	pros::delay(100);
-	intake2.move(-127);
-	Drive.control_drive(900, 120, 65);
+	intake2.move(-60);
+	Drive.control_drive(900, 120, 61);
 	control_turn(180, 91, 0.01, 3.5, false, false);
 	intake2.move(127);
     frontWings1.set_value(true);
@@ -117,7 +118,7 @@ void autonomous() {
 	//For example:
 	//intake.move(127);
 	//control_drive(1000, 110, 10);
-	//intake.move(-127);
+	//intake.move(-60);
 	//Move the intake forward while driving forwards
 	//Move the intake backwards after driving forwards
 
@@ -125,14 +126,14 @@ void autonomous() {
 	//Structure of the control drive function:
 	//Drive.control_drive(target in encoder ticks to drive forward, max speed, angle you want to follow)
 	//Drive.control_drive_back(target in encoder ticks to drive backwards, max speed, angle you want to follow)
-	//Max speed limited to -127 and +127.
+	//Max speed limited to -60 and +127.
 	//These should work fine. If they aren't, then try lowering the speed if going too fast or
 	//Or increase the distance if not going far enough.
 
 	//Turns:
 	//control_turn(target angle, maxSpeed, kP constant);
 	//Target angle is the angle you want to turn towards(limited from 0 to 360 degrees)
-	//Max speed is limited from -127 and +127.
+	//Max speed is limited from -60 and +127.
 	//kI constant is something that is really finicky. The only way to get the perfect kI value is tune
 	//Start out with 0.006 for the kI constant. If the robot is turning too slow, then increase the speed
 		//You will know the kI value needs to be increased if the robot is slow to reach the target
@@ -208,8 +209,8 @@ void opcontrol() {
             //  ptoL_drive.move(127);
             //  ptoR_drive.move(127);
             // }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-            //  ptoL_drive.move(-127);
-            //  ptoR_drive.move(-127);
+            //  ptoL_drive.move(-60);
+            //  ptoR_drive.move(-60);
             // }else{
             //  ptoL_drive.move(0);
             //  ptoR_drive.move(0);

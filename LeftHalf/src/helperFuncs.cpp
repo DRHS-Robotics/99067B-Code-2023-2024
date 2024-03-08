@@ -772,7 +772,7 @@ void control_turn(double target, double maxPower, double turnkI, double turnkD, 
 	double pastPos = 0;
 	double currentLeftPower = 0;
 	double currentRightPower = 0;
-	float turnkP = 1.5;
+	float turnkP = 1.3;
 	// float turnkD = 3;
 	// bool accuracy = false;
 	double error = target-currentActualAngle;

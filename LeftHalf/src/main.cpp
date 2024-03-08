@@ -14,6 +14,8 @@ using namespace std;
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
+    imu1.reset();
+    imu2.reset();
 
 	// pros::lcd::register_btn1_cb(pros::on_center_button);
 }
@@ -63,20 +65,19 @@ void autonomous() {
     intake2.move(0);    
     wings2.set_value(true);
     // Drive.control_drive(175, 127, 0);
-    control_turn(327, 127, 0.07, 2.5, false, true);
+    control_turn(327, 127, 0.075, 2.5, false, true);
+    pros::delay(100);
     wings2.set_value(false);
-    control_turn(253, 70, 0.012, 2.8, true, false);
-    pros::delay(100);
+    control_turn(254, 45, 0.0105, 2.9, true, true);
     intake2.move(-127);
-    Drive.control_drive(1925, 127, 253);
-    pros::delay(100);
-    Drive.control_drive_back(800, 110, 253);
-    arcTurn.BArcTurn(3, 3, 100, 0.006);
+    Drive.control_drive(2000, 127, 254);
+    Drive.control_drive_back(800, 110, 254);
+    arcTurn.BArcTurn(3, 4, 100, 0.006);
     // control_turn(355, 115, 1.5);
     intake2.move(127);
-    Drive.control_drive(1050, 105, 3);
+    Drive.control_drive(900, 105, 3);
     control_turn(325, 127, 0.075, 2.5, false, false);
-    Drive.control_drive(1100, 90, 340);
+    Drive.control_drive(1050, 90, 340);
     
     // Drive.set(0);
 	// arcTurn.set(0);

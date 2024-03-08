@@ -75,20 +75,20 @@ initializeTapaTask();
 	control_turn(161, 100, 0.017, 3.5, false, false);
 	Drive.control_drive_back(100, 100, 161);
 	wings2.set_value(true);
-	pros::delay(5000); //Run slapper for 32 seconds
+	pros::delay(32000); //Run slapper for 32 seconds
 	wings2.set_value(false);
-	frontSlapaState = false;
     intake2.move(0);
 	control_turn(209, 110, 0.03, 3.5, false, false);
 	Drive.control_drive(1000, 120, 209);
 	control_turn(180, 100, 0.1, 3.5, false, false);
 	Drive.control_drive(2100, 120, 180);
+	frontSlapaState = false;
 	arcTurn.FArcTurn(45.0, 5.0, 95, 0.0008);
 	// Drive.control_drive(900, 120, 97);
 	// Drive.control_drive_back(650, 127, 97);
 	//control_turn(45, 100, 0.009);
-	Drive.control_drive(1200, 120, 45);
-	control_turn(90, 110, 0.013, 3.5, false, false);
+	Drive.control_drive(1350, 120, 45);
+	control_turn(90, 127, 0.027, 3.5, true, false);
 	Drive.control_drive(1000, 120, 90);
 	control_turn(0, 110, 0.02, 3.5, false, false);
     wings1.set_value(true);
@@ -106,7 +106,7 @@ initializeTapaTask();
     // control_turn(0, 110, 0.035);
     // wings1.set_value(true);
 	// wings2.set_value(true);
-	Drive.control_drive_back(1000, 127, 0);
+	Drive.control_drive_back(1150, 127, 0);
 	Drive.control_drive(200, 120, 0);
     wings1.set_value(false);
 	wings2.set_value(false);
@@ -114,8 +114,8 @@ initializeTapaTask();
     Drive.control_drive(900, 120, 0);
     wings1.set_value(true);
 	wings2.set_value(true);
-    control_turn(0, 110, 0.035, 3.5, false, false);
-	Drive.control_drive_back(1050, 127, 0);
+    control_turn(0, 110, 0.04, 3.5, true, false);
+	Drive.control_drive_back(1200, 127, 0);
 	Drive.control_drive(600, 120, 0);
 	wings1.set_value(false);
 	wings2.set_value(false);
@@ -219,6 +219,23 @@ void opcontrol() {
     // buttonCountC = 0;
     // buttonCountD = 0;
 
+    Drive.set(0);
+	arcTurn.set(0);
+    // slapper.move(100);
+	intake2.move(127);
+	arcTurn.FArcTurn(88.0, 9.0, 110, 0.015);
+	Drive.control_drive(600, 127, 88);
+	Drive.control_drive_back(200, 127, 88);
+	// Drive.control_drive(600, 127, 88);
+	// Drive.control_drive_back(200, 127, 88);
+    frontSlapaState = true;
+	// flywheelOn = true;
+	// targetVoltage = 6500;
+	control_turn(82.0, 110, 0.42, 3, false, false);
+	Drive.control_drive_back(600, 120, 82);
+	control_turn(161, 100, 0.017, 3.5, false, false);
+	Drive.control_drive_back(100, 100, 161);
+	wings2.set_value(true);
 
     while (true) {
         pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,

@@ -338,7 +338,7 @@ void initializeTapaTask(){
             // bool reset = false;
             // bool resetPos = false;
             // bool tapaStop = false;
-			const double correctSpot  = 250;
+			const double correctSpot = 75;
 			const int correct_hue_green = 100;
 			const int correct_hue_red = 7;
 			const int correct_hue_blue = 215;
@@ -369,7 +369,7 @@ void initializeTapaTask(){
 					// std::cout << "Slapper Actual Vel : " << slapper.get_actual_velocity() << std::endl; 
 					// slapper.move(127);
 
-					if(((actual_hue > (correct_hue_green-10)) && (actual_hue < (correct_hue_green+10))) || ((actual_hue > (correct_hue_red-3)) && (actual_hue < (correct_hue_red+5))) || ((actual_hue > (correct_hue_blue-15)) && (actual_hue < (correct_hue_blue+15)))){
+					if(((actual_hue > (correct_hue_green-15)) && (actual_hue < (correct_hue_green+15))) || ((actual_hue > (correct_hue_red-3)) && (actual_hue < (correct_hue_red+5))) || ((actual_hue > (correct_hue_blue-15)) && (actual_hue < (correct_hue_blue+15)))){
 						slapper.move(127);
 						std::cout << "Slapper Change Vel : " << slapperVel - previousSlapperVel << std::endl; 
 						if((slapperVel - previousSlapperVel) < 0){
@@ -377,16 +377,16 @@ void initializeTapaTask(){
 						}
 					}else{
 						if(slapperPos < correctSpot){
-							slapper.move(127);
+							slapper.move(120);
 						}else{
 							slapper.move(3);
 						}
 						// slapper.move(0);
 					}
 					// slapper.move(127);
-				}else if(backSlapaState){
-					slapper.move(127);
-				}
+				 }//else if(backSlapaState){
+				// 	slapper.move(127);
+				// }
 				else{
 					slapper.move(0);
 				}
@@ -856,7 +856,7 @@ void control_turn(double target, double maxPower, double turnkI, double turnkD, 
 		}
 
 		if(needed){
-			if(turnCount == 5){
+			if(turnCount > 50){
 				turnIntegral = 0;
 				turnDerivative = 0;
 				turnLastError = 0;
