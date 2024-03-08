@@ -61,53 +61,67 @@ void autonomous() {
 	arcTurn.set(0);
 	// Drive.control_drive(200,120,0);
 	// control_turn(9, 115, 1.75);
+    frontWings2.set_value(true);
 	intake2.move(127);
-    pros::delay(200);
+    pros::delay(250);
     intake2.move(0);    
 	// arcTurn.FArcTurn(8, 20, 120, 0.06);
-	intake2.move(-127);
-    pros::delay(100);
+	intake2.move(-60);
     //Get tribal 1
-    frontWings2.set_value(true);
-	Drive.control_drive(2000, 127, 0);
     frontWings2.set_value(false);
-	Drive.control_drive_back(2000, 127, 123);
-    intake2.move(-60);
+	Drive.control_drive(2000, 127, 0);
+	Drive.control_drive_back(2200, 127, 0);
+    //intake2.move(127);
     //Outtake tribal
-	control_turn(45, 127, 0.02, 3, false);
-	intake2.move(127);
-    pros::delay(500);
-	control_turn(270, 127, 0.005, 3.5, false);
+	// control_turn(20, 127, 0.03, 3.5, false, false);
+    intake2.move(127);
+    control_turn(45, 127, 0.021, 3.5, false, false);
+    pros::delay(125);
+    //grab channel triball
+	control_turn(276, 127, 0.006, 3.75, false, true);
     intake2.move(-127);
-	Drive.control_drive(1200, 127, 270);
-
-    Drive.control_drive_back(1650, 127, 270);
+	Drive.control_drive(1350, 127, 276);
+    Drive.control_drive_back(1625, 127, 276);
+    //descore matchload zone
 	wings1.set_value(true);
-	control_turn(170, 90, 0.016, 3, false);
+	control_turn(170, 127, 0.01, 3.75, false, false);
 	wings1.set_value(false);
-	control_turn(45, 102, 0.009, 3, false);
 	intake2.move(127);
+	control_turn(45, 127, 0.009, 3.75, false, false);
+    //push in goal
+    // frontWings1.set_value(true);
+    // frontWings2.set_value(true);
     Drive.control_drive(1200, 127, 45);
 	Drive.control_drive_back(350, 127, 45);
+    // frontWings1.set_value(false);
+    // frontWings2.set_value(false);
     Drive.control_drive(600, 127, 45);
 	Drive.control_drive_back(350, 127, 45);
 	intake2.move(0);
-	control_turn(340, 82, 0.0175, 3, false);
+    //5th triball
+	control_turn(300, 127, 0.013, 3.8, false, true);
 	intake2.move(-127);
-	Drive.control_drive(1950, 127, 340);
-	control_turn(161, 88, 0.008, 3, false);
-	intake2.move(127);
-	Drive.control_drive(1300, 127, 161);
-	arcTurn.BArcTurn(65, 0.5, 100, 0.009);
-	pros::delay(100);
-	intake2.move(-127);
-	Drive.control_drive(900, 120, 65);
-	control_turn(180, 91, 0.01, 3, false);
-	intake2.move(127);
-	Drive.control_drive(1400, 127, 180);
-	Drive.control_drive_back(700, 127, 180);
-	//wings2.set_value(false);
+	Drive.control_drive(1950, 127, 300);
 	intake2.move(0);
+	control_turn(90, 127, 0.005, 3.75, false, true);
+	intake2.move(127);
+    frontWings1.set_value(true);
+    frontWings2.set_value(true);
+	Drive.control_drive(1300, 127, 90);
+  
+    
+	// arcTurn.BArcTurn(350, 0.5, 127, 0.009);
+	// pros::delay(100);
+	// intake2.move(-127);
+	// Drive.control_drive(900, 120, 350);
+	// control_turn(90, 91, 0.01, 3.5, false);
+	// intake2.move(127);
+    // frontWings1.set_value(true);
+    // frontWings2.set_value(true);
+	// Drive.control_drive(1400, 127, 90);
+	// Drive.control_drive_back(700, 127, 90);
+	// //wings2.set_value(false);
+	// intake2.move(0);
 
 	//This is how to activate the pneumatics
 	//Set the value to false to deactivate the pneumatics.
@@ -229,9 +243,9 @@ void opcontrol() {
             //  ptoR_drive.move(0);
             // }
 
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
             intake2.move(127);
-        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intake2.move(-127);
         }else{
             intake2.move(0);

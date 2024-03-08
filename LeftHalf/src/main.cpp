@@ -56,39 +56,40 @@ void autonomous() {
 	//Leave these lines of code in here
 	//These make sure the classes in the control.h file work
     //control_turn(angle, maxSpeed, turnkP);
-	// Drive.set(0);
-	// arcTurn.set(0);
-    // intake2.move(127);
-    // pros::delay(200);
-    // intake2.move(0);    
-    // wings2.set_value(true);
-    // // Drive.control_drive(175, 127, 0);
-    // control_turn(327, 127, 0.075, 2.5, true);
-    // wings2.set_value(false);
-    // control_turn(254, 90, 0.012, 2.8, false);
-    // pros::delay(100);
-    // intake2.move(-127);
-    // Drive.control_drive(1800, 127, 254);
-    // pros::delay(100);
-    // Drive.control_drive_back(900, 110, 254);
-    // arcTurn.BArcTurn(0, 6, 100, 0.006);
-    // // control_turn(355, 115, 1.5);
-    // intake2.move(127);
-    // Drive.control_drive(2000, 105, 0);
-    // Drive.control_drive(500, 80, 0);
-    
-    Drive.set(0);
+	Drive.set(0);
 	arcTurn.set(0);
     intake2.move(127);
     pros::delay(200);
-    intake2.move(0);   
-    frontWings1.set_value(true);
-    // pros::delay(600);
-    frontWings1.set_value(false);
-    Drive.control_drive(1500, 127, 0);
-    control_turn(85, 127, 0.015, 3.5, false);
-    frontWings1.set_value(true);
-    Drive.control_drive(900, 127, 85);
+    intake2.move(0);    
+    wings2.set_value(true);
+    // Drive.control_drive(175, 127, 0);
+    control_turn(327, 127, 0.07, 2.5, false, true);
+    wings2.set_value(false);
+    control_turn(253, 70, 0.012, 2.8, true, false);
+    pros::delay(100);
+    intake2.move(-127);
+    Drive.control_drive(1925, 127, 253);
+    pros::delay(100);
+    Drive.control_drive_back(800, 110, 253);
+    arcTurn.BArcTurn(3, 3, 100, 0.006);
+    // control_turn(355, 115, 1.5);
+    intake2.move(127);
+    Drive.control_drive(1050, 105, 3);
+    control_turn(325, 127, 0.075, 2.5, false, false);
+    Drive.control_drive(1100, 90, 340);
+    
+    // Drive.set(0);
+	// arcTurn.set(0);
+    // intake2.move(127);
+    // pros::delay(200);
+    // intake2.move(0);   
+    // frontWings1.set_value(true);
+    // // pros::delay(600);
+    // frontWings1.set_value(false);
+    // Drive.control_drive(1500, 127, 0);
+    // control_turn(85, 127, 0.015, 3.5, false);
+    // frontWings1.set_value(true);
+    // Drive.control_drive(900, 127, 85);
     // wings2.set_value(true);
     // control_turn(267, 115, 1.5);
     // control_turn(0, 115, 1.5);
@@ -235,9 +236,9 @@ void opcontrol() {
             //  ptoR_drive.move(0);
             // }
 
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
             intake2.move(127);
-        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intake2.move(-127);
         }else{
             intake2.move(0);

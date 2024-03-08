@@ -764,7 +764,7 @@ void ArcTurn::BArcTurn(double target, double radius, double maxPower, double arc
 	drive(0,0);
 }
 
-void control_turn(double target, double maxPower, double turnkP, double turnkD, bool needed){
+void control_turn(double target, double maxPower, double turnkI, double turnkD, bool needed, bool accuracy){
 	int count = 0;
 	double currentActualAngle = angle();
 	double turnPower = 0;
@@ -772,9 +772,9 @@ void control_turn(double target, double maxPower, double turnkP, double turnkD, 
 	double pastPos = 0;
 	double currentLeftPower = 0;
 	double currentRightPower = 0;
-	float turnkI = 0.015;
+	float turnkP = 1.5;
 	// float turnkD = 3;
-	bool accuracy = false;
+	// bool accuracy = false;
 	double error = target-currentActualAngle;
 	int turnCount = 0;
 	int accurateTurn = 0;
@@ -839,7 +839,7 @@ void control_turn(double target, double maxPower, double turnkP, double turnkD, 
 		if(accuracy){
 			turnCountMax = 0;
 		}else{
-			turnCountMax = 1;
+			turnCountMax = 3;
 		}
 
 		if(pastPos == currentPos){

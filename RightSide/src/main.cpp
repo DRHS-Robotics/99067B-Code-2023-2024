@@ -56,42 +56,45 @@ void autonomous() {
 	//Leave these lines of code in here
 	//These make sure the classes in the control.h file work
     //control_turn(angle, maxSpeed, turnkP);
-	
+
     Drive.set(0);
 	arcTurn.set(0);
 	intake2.move(127);
 	pros::delay(100);
 	intake2.move(-127);
 	Drive.control_drive(300, 127, 0); 
-	control_turn(355, 127, 0.5);
+	control_turn(355, 127, 0.5, 3.5, false, false);
+    intake2.move(0);
 	Drive.control_drive_back(1650, 127, 355);
 	wings1.set_value(true);
-	control_turn(274, 90, 0.016);
+	control_turn(274, 90, 0.01, 3.5, false, false);
 	wings1.set_value(false);
-	control_turn(129, 102, 0.009);
+	control_turn(129, 102, 0.009, 3.5, false, false);
 	intake2.move(127);
     Drive.control_drive(1200, 127, 129);
 	Drive.control_drive_back(350, 127, 129);
     Drive.control_drive(600, 127, 129);
 	Drive.control_drive_back(350, 127, 129);
 	intake2.move(0);
-	control_turn(30.5, 82, 0.0175);
+	control_turn(18, 82, 0.013, 3.25, false, true);
 	intake2.move(-127);
-	Drive.control_drive(1950, 127, 30.5);
-	control_turn(161, 88, 0.008);
+	Drive.control_drive(1950, 127, 18);
+	control_turn(161, 88, 0.008, 3.5, false, false);
 	intake2.move(127);
 	Drive.control_drive(1300, 127, 161);
 	arcTurn.BArcTurn(65, 0.5, 100, 0.009);
 	pros::delay(100);
 	intake2.move(-127);
 	Drive.control_drive(900, 120, 65);
-	control_turn(180, 91, 0.01);
+	control_turn(180, 91, 0.01, 3.5, false, false);
 	intake2.move(127);
+    frontWings1.set_value(true);
+    frontWings2.set_value(true);
 	Drive.control_drive(1400, 127, 180);
 	Drive.control_drive_back(700, 127, 180);
 	//wings2.set_value(false);
 	intake2.move(0);
-	
+
 	//This is how to activate the pneumatics
 	//Set the value to false to deactivate the pneumatics.
 	//wings1.set_value(true);
@@ -212,9 +215,9 @@ void opcontrol() {
             //  ptoR_drive.move(0);
             // }
 
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
             intake2.move(127);
-        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intake2.move(-127);
         }else{
             intake2.move(0);

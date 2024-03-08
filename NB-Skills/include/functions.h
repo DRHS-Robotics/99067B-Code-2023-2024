@@ -11,6 +11,6 @@ int sgn(double num);
 void resetPos();
 double position();
 void setWings();
-void control_turn(double target, double maxPower, double turnkI);
+void control_turn(double target, double maxPower, double turnkI, double turnkD, bool needed, bool accuracy);
 
 #endif

@@ -254,9 +254,9 @@ void opcontrol() {
             //  ptoR_drive.move(0);
             // }
 
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
             intake2.move(127);
-        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intake2.move(-127);
         }else{
             intake2.move(0);
