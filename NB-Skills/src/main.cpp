@@ -205,7 +205,7 @@ initializeTapaTask();
 void opcontrol() {
     pros::Controller master(pros::E_CONTROLLER_MASTER);
     initializeTapaTask();
-    lift_macro();
+    //lift_macro();
     // control_flywheel_fn();
     // int tapaPosition = tapa.get_position();
     bool speedControl = false;

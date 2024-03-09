@@ -343,6 +343,9 @@ void initializeTapaTask(){
 			const int correct_hue_red = 7;
 			const int correct_hue_blue = 215;
 			int actual_hue = optical_slapper.get_hue();
+			double actual_distance = distance_slapper.get();
+			const int correct_distance = 100;
+			// change value 
 			slapper.set_zero_position(0);
 
 			//Logic: 
@@ -357,6 +360,8 @@ void initializeTapaTask(){
 				actual_hue = optical_slapper.get_hue();
 				slapperPos = slapper.get_position();
 				slapperVel = slapper.get_actual_velocity();
+				actual_distance = distance_slapper.get(); 
+
 				// if(initialSlapaMovement){
 					// if(((slapperPos > correctSpot-50) && (slapperPos < correctSpot+50))){
 					// 	slapper.move(0);
@@ -369,7 +374,7 @@ void initializeTapaTask(){
 					// std::cout << "Slapper Actual Vel : " << slapper.get_actual_velocity() << std::endl; 
 					// slapper.move(127);
 
-					if(((actual_hue > (correct_hue_green-15)) && (actual_hue < (correct_hue_green+15))) || ((actual_hue > (correct_hue_red-3)) && (actual_hue < (correct_hue_red+5))) || ((actual_hue > (correct_hue_blue-15)) && (actual_hue < (correct_hue_blue+15)))){
+					if(((actual_distance < (correct_distance)))){
 						slapper.move(127);
 						std::cout << "Slapper Change Vel : " << slapperVel - previousSlapperVel << std::endl; 
 						if((slapperVel - previousSlapperVel) < 0){

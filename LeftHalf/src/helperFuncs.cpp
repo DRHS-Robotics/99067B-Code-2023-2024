@@ -856,7 +856,7 @@ void control_turn(double target, double maxPower, double turnkI, double turnkD, 
 		}
 
 		if(needed){
-			if(turnCount == 5){
+			if(turnCount > 5){
 				turnIntegral = 0;
 				turnDerivative = 0;
 				turnLastError = 0;

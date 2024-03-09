@@ -28,6 +28,7 @@ extern pros::ADIDigitalOut matchLoad;
 extern pros::ADIDigitalIn climbSwitch;
 extern pros::Rotation climbRot;
 extern pros::Optical optical_slapper;
+extern pros::Distance distance_slapper;
 
 extern pros::IMU imu1;
 extern pros::IMU imu2;
