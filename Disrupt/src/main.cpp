@@ -89,23 +89,24 @@ void autonomous() {
     // frontWings1.set_value(false);
     Drive.control_drive(1900, 127, 0);
     Drive.control_drive_back(250, 127, 0);
-    control_turn(80, 127, 0.012, 4, true, false);
+    control_turn(80, 127, 0.0115, 4, true, false);
     frontWings1.set_value(true);
     Drive.control_drive(900, 127, 80);
     frontWings1.set_value(false);
     control_turn(45, 127, 0.032, 2.5, false, false);
+    intake2.move(-60);
     Drive.control_drive_back(1900, 127, 45);
     control_turn(120, 127, 0.015, 2.9, false, false);
     Drive.control_drive(400, 127, 120);
     wings2.set_value(true);
-    control_turn(82, 127, 0.043, 2.75, true, true);
+    control_turn(82, 127, 0.045, 2.75, true, true);
     wings2.set_value(false);
     control_turn(115, 127, 0.05, 3, false, false);
     pros::delay(200);
     Drive.control_drive_back(500, 127, 115);
-    control_turn(121.5, 100, 0.15, 3, false, false);
+    control_turn(121.5, 100, 0.15, 3.1, true, false);
     intake2.move(127);
-    Drive.control_drive(2000, 110, 121.5);
+    Drive.control_drive(2200, 110, 121.5);
     Drive.control_drive_back(850, 110, 90);
 
     // wings2.set_value(true);

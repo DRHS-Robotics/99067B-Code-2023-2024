@@ -65,9 +65,8 @@ void autonomous() {
     intake2.move(0);    
     wings2.set_value(true);
     // Drive.control_drive(175, 127, 0);
-    control_turn(323, 127, 0.08, 2.5, false, true);
+    control_turn(325, 127, 0.08, 2.5, true, true);
     wings2.set_value(false);
-    pros::delay(100);
     // control_turn(252, 40, 0.0105, 2.8, true, false);
     intake2.move(127);
     Drive.control_drive(1250, 100, 323);
@@ -251,6 +250,7 @@ void opcontrol() {
         }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
             climb1.move_velocity(-100);
             climb2.move_velocity(-200);
+            buttonCountC++;
         }else{
             climb1.move_velocity(0);
             climb2.move_velocity(0);
@@ -304,18 +304,18 @@ void opcontrol() {
         //     buttonCountC++;
         // }
 
-        // if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
-        //     buttonCountD++;
-        // }
+        if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
+            buttonCountC++;
+        }
 
-        // if(buttonCountC == 1){
-        //     // ptoL_drive.set_zero_position(0);
-        //     // ptoR_drive.set_zero_position(0);
-        //     liftGoal = 5000;
-        //     PTO_State = true;
-        //     // PTO.set_value(PTO_State);
-        //     pros::delay(200);
-        // }
+        if(buttonCountC == 1){
+            // ptoL_drive.set_zero_position(0);
+            // ptoR_drive.set_zero_position(0);
+            liftGoal = 3000;
+            // PTO_State = true;
+            // PTO.set_value(PTO_State);
+            // pros::delay(200);
+        }
         // if(buttonCountC == 2){
         //     climbOnC = true;
         //     climbRelease.set_value(climbOnC);
@@ -335,16 +335,18 @@ void opcontrol() {
         //     pros::delay(200);
         // }
 
-        // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
-        //     // climbOnD = false;
-        //     // climbOnC = false;
-        //     // buttonCountC = 0;
-        //     // buttonCountD = 0;
-        //     // PTO_State = false;
-        //     // PTO_StateD = false;
-        //     // PTO.set_value(false);
-        //     climbRelease.set_value(false);
-        // }
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+            // climbOnD = false;
+            // climbOnC = false;
+            buttonCountC = 0;
+            // buttonCountD = 0;
+            // PTO_State = false;
+            // PTO_StateD = false;
+            // PTO.set_value(false);
+            // climbRelease.set_value(false);
+            climb1.set_zero_position(0);
+            climb2.set_zero_position(0);
+        }
 
         // if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))){
         //     climbRelease.set_value(true);

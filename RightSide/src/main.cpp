@@ -62,38 +62,41 @@ void autonomous() {
 	intake2.move(127);
 	pros::delay(100);
 	intake2.move(-60);
-	Drive.control_drive(300, 127, 0); 
-	control_turn(355, 127, 0.5, 3.5, false, false);
-    intake2.move(0);
-	Drive.control_drive_back(1650, 100, 355);
-	wings1.set_value(true);
-	control_turn(278, 105, 0.012, 3.5, false, false);
-	wings1.set_value(false);
-    pros::delay(100);
-	control_turn(129, 102, 0.009, 3.5, false, false);
-	intake2.move(127);
-    Drive.control_drive(1200, 127, 129);
-	Drive.control_drive_back(350, 127, 129);
-    Drive.control_drive(600, 127, 129);
-	Drive.control_drive_back(350, 127, 129);
-	intake2.move(0);
-	control_turn(18, 75, 0.013, 3.9, false, true);
+    Drive.control_drive_back(2000, 127, 0);
+    Drive.control_drive(475, 127, 0);
+	// Drive.control_drive(300, 127, 0); 
+	// control_turn(355, 127, 0.5, 3.5, false, false);
+    // intake2.move(0);
+	// Drive.control_drive_back(1650, 100, 355);
+	// wings1.set_value(true);
+	// control_turn(278, 105, 0.012, 3.5, false, false);
+	// wings1.set_value(false);
+    // pros::delay(100);
+	// control_turn(129, 102, 0.009, 3.5, false, false);
+	// intake2.move(127);
+    // Drive.control_drive(1200, 127, 129);
+	// Drive.control_drive_back(350, 127, 129);
+    // Drive.control_drive(600, 127, 129);
+	// Drive.control_drive_back(350, 127, 129);
+	// intake2.move(0);
+
+	control_turn(82, 60, 0.009, 3.9, false, true);
 	intake2.move(-60);
-	Drive.control_drive(1950, 127, 18);
-	control_turn(161, 80, 0.008, 3.8, false, true);
+	Drive.control_drive(1950, 127, 85);
+	control_turn(205, 80, 0.008, 3.8, false, true);
 	intake2.move(127);
-	Drive.control_drive(1300, 127, 161);
-	arcTurn.BArcTurn(61, 0.5, 100, 0.009);
+	Drive.control_drive(1300, 127, 205);
+	arcTurn.BArcTurn(107, 0.2, 100, 0.007);
 	pros::delay(100);
 	intake2.move(-60);
-	Drive.control_drive(900, 120, 61);
-	control_turn(180, 91, 0.01, 3.5, false, false);
+	Drive.control_drive(925, 120, 107);
+	control_turn(240, 91, 0.01, 3.5, false, false);
 	intake2.move(127);
     frontWings1.set_value(true);
     frontWings2.set_value(true);
-	Drive.control_drive(1400, 127, 180);
-	Drive.control_drive_back(700, 127, 180);
-	//wings2.set_value(false);
+	Drive.control_drive(1400, 127, 240);
+	Drive.control_drive_back(700, 127, 240);
+	wings2.set_value(false);
 	intake2.move(0);
 
 	//This is how to activate the pneumatics
@@ -209,8 +212,8 @@ void opcontrol() {
             //  ptoL_drive.move(127);
             //  ptoR_drive.move(127);
             // }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-            //  ptoL_drive.move(-60);
-            //  ptoR_drive.move(-60);
+            //  ptoL_drive.move(-127);
+            //  ptoR_drive.move(-127);
             // }else{
             //  ptoL_drive.move(0);
             //  ptoR_drive.move(0);
@@ -230,6 +233,7 @@ void opcontrol() {
         }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
             climb1.move_velocity(-100);
             climb2.move_velocity(-200);
+            buttonCountC++;
         }else{
             climb1.move_velocity(0);
             climb2.move_velocity(0);
@@ -283,18 +287,18 @@ void opcontrol() {
         //     buttonCountC++;
         // }
 
-        // if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
-        //     buttonCountD++;
-        // }
+        if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))){
+            buttonCountC++;
+        }
 
-        // if(buttonCountC == 1){
-        //     // ptoL_drive.set_zero_position(0);
-        //     // ptoR_drive.set_zero_position(0);
-        //     liftGoal = 5000;
-        //     PTO_State = true;
-        //     // PTO.set_value(PTO_State);
-        //     pros::delay(200);
-        // }
+        if(buttonCountC == 1){
+            // ptoL_drive.set_zero_position(0);
+            // ptoR_drive.set_zero_position(0);
+            liftGoal = 3000;
+            // PTO_State = true;
+            // PTO.set_value(PTO_State);
+            // pros::delay(200);
+        }
         // if(buttonCountC == 2){
         //     climbOnC = true;
         //     climbRelease.set_value(climbOnC);
@@ -314,16 +318,18 @@ void opcontrol() {
         //     pros::delay(200);
         // }
 
-        // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
-        //     // climbOnD = false;
-        //     // climbOnC = false;
-        //     // buttonCountC = 0;
-        //     // buttonCountD = 0;
-        //     // PTO_State = false;
-        //     // PTO_StateD = false;
-        //     // PTO.set_value(false);
-        //     climbRelease.set_value(false);
-        // }
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+            // climbOnD = false;
+            // climbOnC = false;
+            buttonCountC = 0;
+            // buttonCountD = 0;
+            // PTO_State = false;
+            // PTO_StateD = false;
+            // PTO.set_value(false);
+            // climbRelease.set_value(false);
+            climb1.set_zero_position(0);
+            climb2.set_zero_position(0);
+        }
 
         // if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))){
         //     climbRelease.set_value(true);

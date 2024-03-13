@@ -172,29 +172,38 @@ void lift_macro(){
             pros::Controller master(pros::E_CONTROLLER_MASTER); 
 			// climbRot.reset_position();
             // // double liftDis = climbRot.get_position();
-			// double liftDis = climb.get_position();
+			double liftDis = (climb1.get_position() + climb2.get_position())/2;
             // bool climbState = climbSwitch.get_value();
 			// int limCount = 0;
 			// double xVal = master.get_analog(ANALOG_LEFT_X);
 			// double yVal = master.get_analog(ANALOG_LEFT_Y);
-            // while(true){
+             while(true){
 			// 	climbRot.set_reversed(true);
 			// 	xVal = master.get_analog(ANALOG_LEFT_X);
 			// 	yVal = master.get_analog(ANALOG_LEFT_Y);
 		
-            //     liftDis = climbRot.get_position();;
+           	liftDis = (climb1.get_position() + climb2.get_position())/2;
+			std::cout << "liftDis: " << liftDis << std::endl;
             //     climbState = climbSwitch.get_value();
 			// 	if(PTO_State){
             // 		// PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-			// 		if(liftDis < liftGoal){
-			// 			// ptoL_drive.move_velocity(200);
-			// 			// ptoR_drive.move_velocity(200);
-			// 			climb.move_velocity(200);
-			// 		}else{
-			// 			// ptoL_drive.move_velocity(1.5);
-			// 			// ptoR_drive.move_velocity(1.5);
-			// 			climb.move_velocity(0);
-			// 		}
+			if(buttonCountC == 0){
+				
+			}
+			if(buttonCountC == 1){
+					if(liftDis < liftGoal){
+						// ptoL_drive.move_velocity(200);
+						// ptoR_drive.move_velocity(200);
+						climb1.move_velocity(100);
+						climb2.move_velocity(200);
+					}else{
+						// ptoL_drive.move_velocity(1.5);
+						// ptoR_drive.move_velocity(1.5);
+						climb1.move_velocity(1);
+						climb2.move_velocity(2);
+					}
+			}
+				
 				
             //     if(climbOnC){
 			// 		if(climbState){
@@ -231,8 +240,8 @@ void lift_macro(){
             //     }
 
 
-            // pros::Task::delay(20);
-            // }
+            pros::Task::delay(20);
+            }
         }};
     }
 }
