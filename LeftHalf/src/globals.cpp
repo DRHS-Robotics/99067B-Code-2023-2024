@@ -1,16 +1,18 @@
 #include "main.h"
-pros::Motor ptoL_drive(20, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor tl_drive(7, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);//top left
-pros::Motor bl_drive(9, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor ptoR_drive(3, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor tr_drive(1, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);//top right
-pros::Motor br_drive(2, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor tapa(17, pros::E_MOTOR_GEARSET_36, 0, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor slapper(13, pros::E_MOTOR_GEARSET_18, 1, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor climb1(12, pros::E_MOTOR_GEARSET_36, 1, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor climb2(15, pros::E_MOTOR_GEARSET_18, 1, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor flywheel(21, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor intake2(14, pros::E_MOTOR_GEARSET_18, 1, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor fl_drive(2, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor ml_drive(14, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor tl_drive(11, pros::E_MOTOR_GEARSET_18, 1, pros::E_MOTOR_ENCODER_COUNTS);//top left
+pros::Motor bl_drive(13, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor fr_drive(9, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor mr_drive(17, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);//top right
+pros::Motor tr_drive(19, pros::E_MOTOR_GEARSET_18, 0, pros::E_MOTOR_ENCODER_COUNTS);//top right
+pros::Motor br_drive(20, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUNTS);
+// pros::Motor tapa(17, pros::E_MOTOR_GEARSET_36, 0, pros::E_MOTOR_ENCODER_COUNTS);
+// pros::Motor slapper(13, pros::E_MOTOR_GEARSET_18, 1, pros::E_MOTOR_ENCODER_COUNTS);
+// pros::Motor climb1(12, pros::E_MOTOR_GEARSET_36, 1, pros::E_MOTOR_ENCODER_COUNTS);
+// pros::Motor climb2(15, pros::E_MOTOR_GEARSET_18, 1, pros::E_MOTOR_ENCODER_COUNTS);
+// pros::Motor flywheel(21, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);d
+pros::Motor intake(15, pros::E_MOTOR_GEARSET_18, 0, pros::E_MOTOR_ENCODER_COUNTS);
 // pros::ADIDigitalIn tapaSwitch('H');
 pros::ADIDigitalOut wings1('C');
 pros::ADIDigitalOut wings2('F');
@@ -20,8 +22,8 @@ pros::ADIDigitalOut climbRelease('E');
 // pros::ADIDigitalOut matchLoad('D');
 // pros::ADIDigitalOut PTO('E');
 // pros::ADIDigitalIn climbSwitch('B');
-pros::IMU imu1(10);
-pros::IMU imu2(11);
+pros::IMU imu1(16);
+pros::IMU imu2(21);
 pros::Rotation climbRot(12);
 pros::Optical optical_slapper(6);
 // pros::ADIDigitalOut climbRelease('D');

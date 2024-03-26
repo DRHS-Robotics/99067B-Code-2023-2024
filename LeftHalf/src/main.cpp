@@ -60,29 +60,29 @@ void autonomous() {
     //control_turn(angle, maxSpeed, turnkP);
 	Drive.set(0);
 	arcTurn.set(0);
-    intake2.move(127);
+    intake.move(127);
     pros::delay(200);
-    intake2.move(0);    
+    intake.move(0);    
     wings2.set_value(true);
     // Drive.control_drive(175, 127, 0);
     control_turn(325, 127, 0.08, 2.5, true, true);
     wings2.set_value(false);
     // control_turn(252, 40, 0.0105, 2.8, true, false);
-    intake2.move(127);
+    intake.move(127);
     Drive.control_drive(1250, 100, 323);
     // Drive.control_drive_back(800, 110, 252);
     // arcTurn.BArcTurn(3, 4, 100, 0.006);
     // // control_turn(355, 115, 1.5);
-    // intake2.move(127);
+    // intake.move(127);
     // Drive.control_drive(900, 105, 3);
     // control_turn(325, 127, 0.075, 2.5, false, false);
     // Drive.control_drive(1050, 90, 340);
     
     // Drive.set(0);
 	// arcTurn.set(0);
-    // intake2.move(127);
+    // intake.move(127);
     // pros::delay(200);
-    // intake2.move(0);   
+    // intake.move(0);   
     // frontWings1.set_value(true);
     // // pros::delay(600);
     // frontWings1.set_value(false);
@@ -103,7 +103,7 @@ void autonomous() {
 
 	// Drive.control_drive(100, 40, 0);
 	// arcTurn.BArcTurn(90, 15, 100, 0.009);
-    // intake2.move(0);
+    // intake.move(0);
 	// Drive.control_drive_back(450, 120, 90);
 	// Drive.control_drive(300, 100, 90);
 	// control_turn(60, 110, 0.039);
@@ -236,25 +236,24 @@ void opcontrol() {
             //  ptoR_drive.move(0);
             // }
 
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
-            intake2.move(127);
-        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-            intake2.move(-127);
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+            intake.move(127);
+        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+            intake.move(-127);
         }else{
-            intake2.move(0);
+            intake.move(0);
         }
 
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-            climb1.move_velocity(100);
-            climb2.move_velocity(200);
-        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-            climb1.move_velocity(-100);
-            climb2.move_velocity(-200);
-            buttonCountC++;
-        }else{
-            climb1.move_velocity(0);
-            climb2.move_velocity(0);
-        }
+            drive(127, 127);
+        }//else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+        //     climb1.move_velocity(-100);
+        //     climb2.move_velocity(-200);
+        //     buttonCountC++;
+        // }else{
+        //     climb1.move_velocity(0);
+        //     climb2.move_velocity(0);
+        // }
 
         if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
             frontSlapaState = !frontSlapaState;
@@ -344,8 +343,8 @@ void opcontrol() {
             // PTO_StateD = false;
             // PTO.set_value(false);
             // climbRelease.set_value(false);
-            climb1.set_zero_position(0);
-            climb2.set_zero_position(0);
+            // climb1.set_zero_position(0);
+            // climb2.set_zero_position(0);
         }
 
         // if((master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))){

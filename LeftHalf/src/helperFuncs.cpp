@@ -33,32 +33,36 @@ void ArcTurn::set(double curr){
 }
 
 void drive(double left, double right){
-	ptoL_drive.move(left);
+	fl_drive.move(left);
 	tl_drive.move(left);
+	ml_drive.move(left);
 	bl_drive.move(left);
-	ptoR_drive.move(right);
+	fr_drive.move(right);
 	tr_drive.move(right);
+	mr_drive.move(right);
 	br_drive.move(right);
 }
 
 void PTO_Drive(double left, double right){
-	tl_drive.move(left);
-	bl_drive.move(left);
-	tr_drive.move(right);
-	br_drive.move(right);
+	// tl_drive.move(left);
+	// bl_drive.move(left);
+	// tr_drive.move(right);
+	// br_drive.move(right);
 }
 
 void resetPos(){
-    ptoL_drive.set_zero_position(0);
-    ptoR_drive.set_zero_position(0);
+    fl_drive.set_zero_position(0);
+    fr_drive.set_zero_position(0);
     bl_drive.set_zero_position(0);
     br_drive.set_zero_position(0);
+	ml_drive.set_zero_position(0);
+	mr_drive.set_zero_position(0);
     tl_drive.set_zero_position(0);
     tr_drive.set_zero_position(0);
 }
 
 double position(){
-	return ((ptoL_drive.get_position() + ptoR_drive.get_position() + bl_drive.get_position() + br_drive.get_position() + tl_drive.get_position() + tr_drive.get_position())/6);
+	return ((fl_drive.get_position() + fr_drive.get_position() + bl_drive.get_position() + br_drive.get_position() + tl_drive.get_position() + tr_drive.get_position())/6);
 }
 
 double angle(){
@@ -66,184 +70,184 @@ double angle(){
 }
 
 void control_flywheel_fn(){
-	if(flywheelTask == nullptr){
-		flywheelTask = new pros::Task{[=]{
+	// if(flywheelTask == nullptr){
+	// 	flywheelTask = new pros::Task{[=]{
 		
-		double rpm = 0;
-		double rpmTarget = 0;
-		double rpmError = 0;
-		double rpmPastError = 0;
-		double proportion = 0;
-		double integral = 0;
-		double derivative = 0;
-		double motorVoltage = 0;
-		//Variables to track values related to
-		//RPM and voltage error
+	// 	double rpm = 0;
+	// 	double rpmTarget = 0;
+	// 	double rpmError = 0;
+	// 	double rpmPastError = 0;
+	// 	double proportion = 0;
+	// 	double integral = 0;
+	// 	double derivative = 0;
+	// 	double motorVoltage = 0;
+	// 	//Variables to track values related to
+	// 	//RPM and voltage error
 
-		//Tuneable constants to reduce osciallation
-		//of precision-state flywheel PID
-		double kP = 1;
-		double kI = 0.08264748923;
-		double kD = 0.006; //Conversion from RPM to voltage
-		double kV = (10.0/3.0);
-		double threshold = 140;
-		double startkI = 100;
-		int time_delay = 20;
-
-
-
-		while(true){
-			if(flywheelOn){ //If flywheel is set to be on
-				rpm = fabs((flywheel.get_actual_velocity())*6);
-				rpmTarget = double (targetVoltage/kV);
-				rpmError = rpmTarget - rpm;
-				//Obtain RPM error
-				proportion = rpmError;
-				//Proportion value is proportional to error
-				if(kI != 0){
-					//Integral anti-windup
-					if(fabs(rpmError) < startkI){
-						integral += rpmError; //Integral accumulation
-					}
-					if(sgn(rpmError) != sgn(rpmPastError)){
-						integral = 0;
-					}
-				}
-
-				derivative = ((rpmError - rpmPastError));
-				//Activate derivative for slowing effect of flywheel
-
-				//Range to apply bang-bang control to flywheel
-				//Provides fastest recovery for flyhweel speed drop.
-				if(rpmError > threshold){
-					motorVoltage = 12000;
-				}else{
-					//PID used for max precision of flywheel.
-					motorVoltage = (kV * rpmTarget) + (proportion*kP) + (integral*kI) + (derivative*kD);
-
-				}
-
-				//Clamps flywheel to prevent values out of range from
-				//Being output to flywheel
-				if(motorVoltage > 12000){
-					motorVoltage = 12000;
-				}else if(motorVoltage < 0){
-					motorVoltage = 0;
-				}
+	// 	//Tuneable constants to reduce osciallation
+	// 	//of precision-state flywheel PID
+	// 	double kP = 1;
+	// 	double kI = 0.08264748923;
+	// 	double kD = 0.006; //Conversion from RPM to voltage
+	// 	double kV = (10.0/3.0);
+	// 	double threshold = 140;
+	// 	double startkI = 100;
+	// 	int time_delay = 20;
 
 
-				rpmPastError = rpmError;
-				//Past error for derivative.
-				std::cout << "Motor Voltage " << motorVoltage << std::endl;
-				std::cout << "Proporional " << proportion << std::endl;
-				std::cout << "Integral : " << integral << std::endl; 
-				std::cout << "Derivative " << derivative << std::endl;
-				std::cout << "RPM : " << rpm << std::endl;
-				std::cout << "RPM TARGET : " << rpmTarget << std::endl;
-				flywheel.move_voltage(motorVoltage);
-				//Move flywheel certain voltage based on error
 
-				if(reset){
-					//Reset values so old values are
-					//not reused in another cycle
-					proportion = 0;
-					derivative = 0;
-					integral = 0;
-					rpmError = 0;
-					rpmPastError = 0;
-					rpmTarget = 0;
-					rpm = 0;
-					motorVoltage = 0;
-				}
+	// 	while(true){
+	// 		if(flywheelOn){ //If flywheel is set to be on
+	// 			rpm = fabs((flywheel.get_actual_velocity())*6);
+	// 			rpmTarget = double (targetVoltage/kV);
+	// 			rpmError = rpmTarget - rpm;
+	// 			//Obtain RPM error
+	// 			proportion = rpmError;
+	// 			//Proportion value is proportional to error
+	// 			if(kI != 0){
+	// 				//Integral anti-windup
+	// 				if(fabs(rpmError) < startkI){
+	// 					integral += rpmError; //Integral accumulation
+	// 				}
+	// 				if(sgn(rpmError) != sgn(rpmPastError)){
+	// 					integral = 0;
+	// 				}
+	// 			}
 
-				pros::Task::delay(time_delay); //Delay for task so kernel does not starve processor of memory.
-			}else{
-				//If flywheel is set to be off, then stop flyhweel motor.
-				flywheel.move(0);
-			}
-		}
-		}};
-	}
+	// 			derivative = ((rpmError - rpmPastError));
+	// 			//Activate derivative for slowing effect of flywheel
+
+	// 			//Range to apply bang-bang control to flywheel
+	// 			//Provides fastest recovery for flyhweel speed drop.
+	// 			if(rpmError > threshold){
+	// 				motorVoltage = 12000;
+	// 			}else{
+	// 				//PID used for max precision of flywheel.
+	// 				motorVoltage = (kV * rpmTarget) + (proportion*kP) + (integral*kI) + (derivative*kD);
+
+	// 			}
+
+	// 			//Clamps flywheel to prevent values out of range from
+	// 			//Being output to flywheel
+	// 			if(motorVoltage > 12000){
+	// 				motorVoltage = 12000;
+	// 			}else if(motorVoltage < 0){
+	// 				motorVoltage = 0;
+	// 			}
+
+
+	// 			rpmPastError = rpmError;
+	// 			//Past error for derivative.
+	// 			std::cout << "Motor Voltage " << motorVoltage << std::endl;
+	// 			std::cout << "Proporional " << proportion << std::endl;
+	// 			std::cout << "Integral : " << integral << std::endl; 
+	// 			std::cout << "Derivative " << derivative << std::endl;
+	// 			std::cout << "RPM : " << rpm << std::endl;
+	// 			std::cout << "RPM TARGET : " << rpmTarget << std::endl;
+	// 			flywheel.move_voltage(motorVoltage);
+	// 			//Move flywheel certain voltage based on error
+
+	// 			if(reset){
+	// 				//Reset values so old values are
+	// 				//not reused in another cycle
+	// 				proportion = 0;
+	// 				derivative = 0;
+	// 				integral = 0;
+	// 				rpmError = 0;
+	// 				rpmPastError = 0;
+	// 				rpmTarget = 0;
+	// 				rpm = 0;
+	// 				motorVoltage = 0;
+	// 			}
+
+	// 			pros::Task::delay(time_delay); //Delay for task so kernel does not starve processor of memory.
+	// 		}else{
+	// 			//If flywheel is set to be off, then stop flyhweel motor.
+	// 			flywheel.move(0);
+	// 		}
+	// 	}
+	// 	}};
+	// }
 }
 
 void lift_macro(){
-    if(liftTask == nullptr){
-        liftTask = new pros::Task{[=]{
-            pros::Controller master(pros::E_CONTROLLER_MASTER); 
-			// climbRot.reset_position();
-            // // double liftDis = climbRot.get_position();
-			double liftDis = (climb1.get_position() + climb2.get_position())/2;
-            // bool climbState = climbSwitch.get_value();
-			// int limCount = 0;
-			// double xVal = master.get_analog(ANALOG_LEFT_X);
-			// double yVal = master.get_analog(ANALOG_LEFT_Y);
-             while(true){
-			// 	climbRot.set_reversed(true);
-			// 	xVal = master.get_analog(ANALOG_LEFT_X);
-			// 	yVal = master.get_analog(ANALOG_LEFT_Y);
+    // if(liftTask == nullptr){
+    //     liftTask = new pros::Task{[=]{
+    //         pros::Controller master(pros::E_CONTROLLER_MASTER); 
+	// 		// climbRot.reset_position();
+    //         // // double liftDis = climbRot.get_position();
+	// 		double liftDis = (climb1.get_position() + climb2.get_position())/2;
+    //         // bool climbState = climbSwitch.get_value();
+	// 		// int limCount = 0;
+	// 		// double xVal = master.get_analog(ANALOG_LEFT_X);
+	// 		// double yVal = master.get_analog(ANALOG_LEFT_Y);
+    //          while(true){
+	// 		// 	climbRot.set_reversed(true);
+	// 		// 	xVal = master.get_analog(ANALOG_LEFT_X);
+	// 		// 	yVal = master.get_analog(ANALOG_LEFT_Y);
 		
-           	liftDis = (climb1.get_position() + climb2.get_position())/2;
-			std::cout << "liftDis: " << liftDis << std::endl;
-            //     climbState = climbSwitch.get_value();
-			// 	if(PTO_State){
-            // 		// PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-			if(buttonCountC == 0){
+    //        	liftDis = (climb1.get_position() + climb2.get_position())/2;
+	// 		std::cout << "liftDis: " << liftDis << std::endl;
+    //         //     climbState = climbSwitch.get_value();
+	// 		// 	if(PTO_State){
+    //         // 		// PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+	// 		if(buttonCountC == 0){
 				
-			}
-			if(buttonCountC == 1){
-					if(liftDis < liftGoal){
-						// ptoL_drive.move_velocity(200);
-						// ptoR_drive.move_velocity(200);
-						climb1.move_velocity(100);
-						climb2.move_velocity(200);
-					}else{
-						// ptoL_drive.move_velocity(1.5);
-						// ptoR_drive.move_velocity(1.5);
-						climb1.move_velocity(1);
-						climb2.move_velocity(2);
-					}
-			}
+	// 		}
+	// 		if(buttonCountC == 1){
+	// 				if(liftDis < liftGoal){
+	// 					// fl_drive.move_velocity(200);
+	// 					// fr_drive.move_velocity(200);
+	// 					climb1.move_velocity(100);
+	// 					climb2.move_velocity(200);
+	// 				}else{
+	// 					// fl_drive.move_velocity(1.5);
+	// 					// fr_drive.move_velocity(1.5);
+	// 					climb1.move_velocity(1);
+	// 					climb2.move_velocity(2);
+	// 				}
+	// 		}
 				
 				
-            //     if(climbOnC){
-			// 		if(climbState){
-			// 			limCount++; 
-			// 			std::cout << "limCount: " << limCount << std::endl;
-			// 		}
-            //         if(limCount > 0){
-			// 			// ptoL_drive.move_velocity(0);
-			// 			// ptoR_drive.move_velocity(0);
-			// 			climb.move_velocity(0);
+    //         //     if(climbOnC){
+	// 		// 		if(climbState){
+	// 		// 			limCount++; 
+	// 		// 			std::cout << "limCount: " << limCount << std::endl;
+	// 		// 		}
+    //         //         if(limCount > 0){
+	// 		// 			// fl_drive.move_velocity(0);
+	// 		// 			// fr_drive.move_velocity(0);
+	// 		// 			climb.move_velocity(0);
 
-			// 		}else{
-			// 			// ptoL_drive.move_velocity(-200);
-			// 			// ptoR_drive.move_velocity(-200);
-			// 			climb.move_velocity(-200);
-			// 		}
-            //     }}
+	// 		// 		}else{
+	// 		// 			// fl_drive.move_velocity(-200);
+	// 		// 			// fr_drive.move_velocity(-200);
+	// 		// 			climb.move_velocity(-200);
+	// 		// 		}
+    //         //     }}
 
-			// 	if(PTO_StateD){
-            // // 		// PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-			// 		if((master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))){
-			// 			// ptoL_drive.move_velocity(200);
-			// 			// ptoR_drive.move_velocity(200);
-			// 			climb.move_velocity(100);
-			// 		}else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
-			// 			// ptoL_drive.move_velocity(-200);
-			// 			// ptoR_drive.move_velocity(-200);
-			// 			climb.move_velocity(-100);
-			// 		}else{
-			// 			// ptoL_drive.move_velocity(0);
-			// 			// ptoR_drive.move_velocity(0);
-			// 			climb.move_velocity(0);
-			// 		}
-            //     }
+	// 		// 	if(PTO_StateD){
+    //         // // 		// PTO_Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+	// 		// 		if((master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))){
+	// 		// 			// fl_drive.move_velocity(200);
+	// 		// 			// fr_drive.move_velocity(200);
+	// 		// 			climb.move_velocity(100);
+	// 		// 		}else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+	// 		// 			// fl_drive.move_velocity(-200);
+	// 		// 			// fr_drive.move_velocity(-200);
+	// 		// 			climb.move_velocity(-100);
+	// 		// 		}else{
+	// 		// 			// fl_drive.move_velocity(0);
+	// 		// 			// fr_drive.move_velocity(0);
+	// 		// 			climb.move_velocity(0);
+	// 		// 		}
+    //         //     }
 
 
-            pros::Task::delay(20);
-            }
-        }};
-    }
+    //         pros::Task::delay(20);
+    //         }
+    //     }};
+    // }
 }
 
 // void initializeTapaTask(){
@@ -331,80 +335,80 @@ void lift_macro(){
 // }
 
 void initializeTapaTask(){
-	if(tapaTask == nullptr){
-		//Lambda task(inline task defintion so that new function does not need to be created)
-		tapaTask = new pros::Task{[=]{
-			pros::Controller master(pros::E_CONTROLLER_MASTER);
-			// bool switchState = tapaSwitch.get_value();
-			double slapperPos = slapper.get_position();
-			double slapperVel = slapper.get_actual_velocity();
-			double previousSlapperVel = 0;
-			const int time_delay = 20;
-			//Max speed for tapa match loading and tapa shooting
-			///////////////////////////////////////////////////
-			// int finalCount = 0;
-			// int countLimit = 0;
-            // bool reset = false;
-            // bool resetPos = false;
-            // bool tapaStop = false;
-			const double correctSpot  = 250;
-			const int correct_hue_green = 100;
-			const int correct_hue_red = 7;
-			const int correct_hue_blue = 215;
-			int actual_hue = optical_slapper.get_hue();
-			slapper.set_zero_position(0);
+	// if(tapaTask == nullptr){
+	// 	//Lambda task(inline task defintion so that new function does not need to be created)
+	// 	tapaTask = new pros::Task{[=]{
+	// 		pros::Controller master(pros::E_CONTROLLER_MASTER);
+	// 		// bool switchState = tapaSwitch.get_value();
+	// 		double slapperPos = slapper.get_position();
+	// 		double slapperVel = slapper.get_actual_velocity();
+	// 		double previousSlapperVel = 0;
+	// 		const int time_delay = 20;
+	// 		//Max speed for tapa match loading and tapa shooting
+	// 		///////////////////////////////////////////////////
+	// 		// int finalCount = 0;
+	// 		// int countLimit = 0;
+    //         // bool reset = false;
+    //         // bool resetPos = false;
+    //         // bool tapaStop = false;
+	// 		const double correctSpot  = 250;
+	// 		const int correct_hue_green = 100;
+	// 		const int correct_hue_red = 7;
+	// 		const int correct_hue_blue = 215;
+	// 		int actual_hue = optical_slapper.get_hue();
+	// 		slapper.set_zero_position(0);
 
-			//Logic: 
-			//Automatically retract the tapa to a primed position
-			//Toggle the matchloading slapa(on or off)
-			//Release the tapa to shoot a singular triball, then retract back to a primed position
-			// switchState = tapaSwitch.get_value(); //Boolean value from the limit switch at the bottom of tapa
+	// 		//Logic: 
+	// 		//Automatically retract the tapa to a primed position
+	// 		//Toggle the matchloading slapa(on or off)
+	// 		//Release the tapa to shoot a singular triball, then retract back to a primed position
+	// 		// switchState = tapaSwitch.get_value(); //Boolean value from the limit switch at the bottom of tapa
 
 
-			while(true){
-				optical_slapper.set_led_pwm(100);
-				actual_hue = optical_slapper.get_hue();
-				slapperPos = slapper.get_position();
-				slapperVel = slapper.get_actual_velocity();
-				// if(initialSlapaMovement){
-					// if(((slapperPos > correctSpot-50) && (slapperPos < correctSpot+50))){
-					// 	slapper.move(0);
-					// }else{
-					// 	slapper.move(100);
-					// }
-				// }else{
-				if(frontSlapaState){
-					// std::cout << "Actual Hue : " << actual_hue << std::endl;
-					// std::cout << "Slapper Actual Vel : " << slapper.get_actual_velocity() << std::endl; 
-					// slapper.move(127);
+	// 		while(true){
+	// 			optical_slapper.set_led_pwm(100);
+	// 			actual_hue = optical_slapper.get_hue();
+	// 			slapperPos = slapper.get_position();
+	// 			slapperVel = slapper.get_actual_velocity();
+	// 			// if(initialSlapaMovement){
+	// 				// if(((slapperPos > correctSpot-50) && (slapperPos < correctSpot+50))){
+	// 				// 	slapper.move(0);
+	// 				// }else{
+	// 				// 	slapper.move(100);
+	// 				// }
+	// 			// }else{
+	// 			if(frontSlapaState){
+	// 				// std::cout << "Actual Hue : " << actual_hue << std::endl;
+	// 				// std::cout << "Slapper Actual Vel : " << slapper.get_actual_velocity() << std::endl; 
+	// 				// slapper.move(127);
 
-					if(((actual_hue > (correct_hue_green-10)) && (actual_hue < (correct_hue_green+10))) || ((actual_hue > (correct_hue_red-3)) && (actual_hue < (correct_hue_red+5))) || ((actual_hue > (correct_hue_blue-15)) && (actual_hue < (correct_hue_blue+15)))){
-						slapper.move(127);
-						std::cout << "Slapper Change Vel : " << slapperVel - previousSlapperVel << std::endl; 
-						if((slapperVel - previousSlapperVel) < 0){
-							slapper.set_zero_position(0);
-						}
-					}else{
-						if(slapperPos < correctSpot){
-							slapper.move(127);
-						}else{
-							slapper.move(10);
-						}
-						// slapper.move(0);
-					}
-					// slapper.move(127);
-				}else if(backSlapaState){
-					slapper.move(127);
-				}
-				else{
-					slapper.move(0);
-				}
-				// }
-				previousSlapperVel = slapperVel;
-				pros::Task::delay(time_delay);
-			}
-		}};
-	}
+	// 				if(((actual_hue > (correct_hue_green-10)) && (actual_hue < (correct_hue_green+10))) || ((actual_hue > (correct_hue_red-3)) && (actual_hue < (correct_hue_red+5))) || ((actual_hue > (correct_hue_blue-15)) && (actual_hue < (correct_hue_blue+15)))){
+	// 					slapper.move(127);
+	// 					std::cout << "Slapper Change Vel : " << slapperVel - previousSlapperVel << std::endl; 
+	// 					if((slapperVel - previousSlapperVel) < 0){
+	// 						slapper.set_zero_position(0);
+	// 					}
+	// 				}else{
+	// 					if(slapperPos < correctSpot){
+	// 						slapper.move(127);
+	// 					}else{
+	// 						slapper.move(10);
+	// 					}
+	// 					// slapper.move(0);
+	// 				}
+	// 				// slapper.move(127);
+	// 			}else if(backSlapaState){
+	// 				slapper.move(127);
+	// 			}
+	// 			else{
+	// 				slapper.move(0);
+	// 			}
+	// 			// }
+	// 			previousSlapperVel = slapperVel;
+	// 			pros::Task::delay(time_delay);
+	// 		}
+	// 	}};
+	// }
 }
 
 
