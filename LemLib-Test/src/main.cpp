@@ -27,6 +27,9 @@ void initialize() {
 	pros::lcd::set_text(1, "Hello PROS User!");
 
 	pros::lcd::register_btn1_cb(on_center_button);
+	pros::lcd::initialize(); // initialize brain screen
+    chassis.calibrate(); // calibrate the chassis
+    pros::Task screenTask(screen); // create a task to print the position to the screen
 }
 
 /**
