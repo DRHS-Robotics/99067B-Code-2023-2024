@@ -1,13 +1,17 @@
 #include "main.h"
 #include "lemlib/api.hpp"
-pros::Motor fl_drive(2, pros::E_MOTOR_GEARSET_06, 0);
-pros::Motor ml_drive(14, pros::E_MOTOR_GEARSET_06, 0);
-pros::Motor tl_drive(11, pros::E_MOTOR_GEARSET_18, 1);//top left
-pros::Motor bl_drive(13, pros::E_MOTOR_GEARSET_06, 1);
-pros::Motor fr_drive(9, pros::E_MOTOR_GEARSET_06, 1);
-pros::Motor mr_drive(17, pros::E_MOTOR_GEARSET_06, 1);//top right
-pros::Motor tr_drive(19, pros::E_MOTOR_GEARSET_18, 0);//top right
-pros::Motor br_drive(20, pros::E_MOTOR_GEARSET_06, 0);
+// pros::Motor fl_drive(2, pros::E_MOTOR_GEARSET_06, 0);
+pros::Motor fl_drive(9, pros::E_MOTOR_GEARSET_06, 1);
+// pros::Motor ml_drive(14, pros::E_MOTOR_GEARSET_06, 0);
+// pros::Motor tl_drive(11, pros::E_MOTOR_GEARSET_18, 1);//top left
+// pros::Motor bl_drive(13, pros::E_MOTOR_GEARSET_06, 1);
+pros::Motor bl_drive(16, pros::E_MOTOR_GEARSET_06, 1);
+pros::Motor fr_drive(10, pros::E_MOTOR_GEARSET_06, 0);
+// pros::Motor fr_drive(9, pros::E_MOTOR_GEARSET_06, 1);
+// pros::Motor mr_drive(17, pros::E_MOTOR_GEARSET_06, 1);//top right
+// pros::Motor tr_drive(19, pros::E_MOTOR_GEARSET_18, 0);//top right
+// pros::Motor br_drive(20, pros::E_MOTOR_GEARSET_06, 0);
+pros::Motor br_drive(17, pros::E_MOTOR_GEARSET_06, 0);
 // pros::Motor tapa(17, pros::E_MOTOR_GEARSET_36, 0, pros::E_MOTOR_ENCODER_COUNTS);
 // pros::Motor slapper(13, pros::E_MOTOR_GEARSET_18, 1, pros::E_MOTOR_ENCODER_COUNTS);
 // pros::Motor climb1(12, pros::E_MOTOR_GEARSET_36, 1, pros::E_MOTOR_ENCODER_COUNTS);
@@ -17,28 +21,38 @@ pros::Motor intake(15, pros::E_MOTOR_GEARSET_18, 0, pros::E_MOTOR_ENCODER_COUNTS
 
 ////////////////////////////////////
 //Lemlib
-pros::IMU imu(16);
-pros::IMU imu1(21);
-pros::Rotation vertEncd(12, false); //Port 12 not reversed
-pros::Rotation horiEncd(18, false); //Port 18 not reversed
-pros::MotorGroup left_side_motors({fl_drive, ml_drive, bl_drive, tl_drive});
-pros::MotorGroup right_side_motors({fl_drive, mr_drive, bl_drive, tr_drive});
+// pros::IMU imu(16);
+pros::IMU imu(20);
+
+// pros::IMU imu1(21);
+
+// pros::MotorGroup left_side_motors({fl_drive, ml_drive, bl_drive, tl_drive});
+pros::MotorGroup left_side_motors({fl_drive, bl_drive});
+// pros::MotorGroup right_side_motors({fl_drive, mr_drive, bl_drive, tr_drive});
+pros::MotorGroup right_side_motors({fl_drive, bl_drive});
+
+// lemlib::Drivetrain_t drivetrain{
+//     &left_side_motors, // left drivetrain motors
+//     &right_side_motors, // right drivetrain motors
+//     11, // track width(how wide between the wheels)
+//     3.25, // wheel diameter
+//     450 // wheel rpm
+// };
 lemlib::Drivetrain_t drivetrain{
     &left_side_motors, // left drivetrain motors
     &right_side_motors, // right drivetrain motors
-    11, // track width(how wide between the wheels)
-    3.25, // wheel diameter
-    450 // wheel rpm
+    10, // track width(how wide between the wheels)
+    4, // wheel diameter
+    343 // wheel rpm
 };
-lemlib::TrackingWheel vertTracking(&vertEncd, 2.75, 4.3, 5/3); //2.75 inch diameter, 4.3 inches from the center left and right, 5:3 gear ratio
-lemlib::TrackingWheel horiTracking(&horiEncd, 2.75, -4.3, 5/3); //2.75 inch diameter, 4.3 inches from the center forwards and backwards, 5:3 gear ratio
+//lemlib::TrackingWheel vertTracking(&vertEncd, 2.75, 4.3, 5/3); //2.75 inch diameter, 4.3 inches from the center left and right, 5:3 gear ratio
+//lemlib::TrackingWheel horiTracking(&horiEncd, 2.75, -4.3, 5/3); //2.75 inch diameter, 4.3 inches from the center forwards and backwards, 5:3 gear ratio
 lemlib::OdomSensors_t sensors {
-    &vertTracking, // vertical tracking wheel 1
+    nullptr, // vertical tracking wheel 1
     nullptr, // vertical tracking wheel 2
-    &horiTracking, // horizontal tracking wheel 1
+    nullptr, // horizontal tracking wheel 1
     nullptr, // we don't have a second tracking wheel, so we set it to nullptr
     &imu, // inertial sensor
-    &imu1
 };
 lemlib::ChassisController_t lateralController {
     8, // kP
@@ -83,3 +97,4 @@ void resetPos();
 double position();
 void setWings();
 void control_turn(double target, double maxPower, double turnkI, double turnkD, bool accuracy, bool needed);
+void screen();

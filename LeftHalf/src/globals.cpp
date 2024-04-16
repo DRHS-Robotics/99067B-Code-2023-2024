@@ -12,13 +12,14 @@ pros::Motor br_drive(20, pros::E_MOTOR_GEARSET_06, 0, pros::E_MOTOR_ENCODER_COUN
 // pros::Motor climb1(12, pros::E_MOTOR_GEARSET_36, 1, pros::E_MOTOR_ENCODER_COUNTS);
 // pros::Motor climb2(15, pros::E_MOTOR_GEARSET_18, 1, pros::E_MOTOR_ENCODER_COUNTS);
 // pros::Motor flywheel(21, pros::E_MOTOR_GEARSET_06, 1, pros::E_MOTOR_ENCODER_COUNTS);d
-pros::Motor intake(15, pros::E_MOTOR_GEARSET_18, 0, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor intake(3, pros::E_MOTOR_GEARSET_18, 0, pros::E_MOTOR_ENCODER_COUNTS);
 // pros::ADIDigitalIn tapaSwitch('H');
 pros::ADIDigitalOut wings1('C');
-pros::ADIDigitalOut wings2('F');
+pros::ADIDigitalOut wings2('D');
 pros::ADIDigitalOut frontWings1('A');
-pros::ADIDigitalOut frontWings2('B');
-pros::ADIDigitalOut climbRelease('E');
+pros::ADIDigitalOut frontWings2('F');
+pros::ADIDigitalOut climbRelease('B');
+pros::ADIDigitalOut PTO('E');
 // pros::ADIDigitalOut matchLoad('D');
 // pros::ADIDigitalOut PTO('E');
 // pros::ADIDigitalIn climbSwitch('B');

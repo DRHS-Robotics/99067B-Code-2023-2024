@@ -22,13 +22,23 @@ void on_center_button() {
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
+void screen() {
+    // loop forever
+    while (true) {
+        lemlib::Pose pose = chassis.getPose(); // get the current position of the robot
+        pros::lcd::print(0, "x: %f", pose.x); // print the x position
+        pros::lcd::print(1, "y: %f", pose.y); // print the y position
+        pros::lcd::print(2, "heading: %f", pose.theta); // print the heading
+        pros::delay(10);
+    }
+}
+
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
-
+	chassis.calibrate(); // calibrate the chassis
 	pros::lcd::register_btn1_cb(on_center_button);
-	pros::lcd::initialize(); // initialize brain screen
-    chassis.calibrate(); // calibrate the chassis
     pros::Task screenTask(screen); // create a task to print the position to the screen
 }
 
@@ -61,7 +71,9 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+	chassis.moveTo(0, 10, 500, false, 100);
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task

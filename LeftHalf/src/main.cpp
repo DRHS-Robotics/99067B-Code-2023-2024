@@ -255,14 +255,14 @@ void opcontrol() {
         //     climb2.move_velocity(0);
         // }
 
-        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
-            frontSlapaState = !frontSlapaState;
-        }
+        // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+        //     frontSlapaState = !frontSlapaState;
+        // }
 
         
-        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
-            backSlapaState = !backSlapaState;
-        }
+        // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+        //     backSlapaState = !backSlapaState;
+        // }
         // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
         //  frontSlapaState = !frontSlapaState;
         //  backSlapaState = false;
@@ -284,10 +284,16 @@ void opcontrol() {
             wings1.set_value(leftWing);
         }
 
-          if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
             ratchetState = !ratchetState;
             climbRelease.set_value(ratchetState);
         }
+
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+            PTO_State = !PTO_State;
+            PTO.set_value(PTO_State);
+        }
+
         
         // if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
         //     climbState = !climbState;

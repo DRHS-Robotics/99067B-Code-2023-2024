@@ -36,7 +36,6 @@ typedef struct {
         TrackingWheel* horizontal1;
         TrackingWheel* horizontal2;
         pros::Imu* imu;
-        pros::Imu* imu2;
 } OdomSensors_t;
 
 /**

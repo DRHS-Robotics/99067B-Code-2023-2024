@@ -1,6 +1,6 @@
+#include "lemlib/api.hpp"
 #ifndef MOTORS_h
 #define MOTORS_h
-
 extern pros::Motor fl_drive; 
 extern pros::Motor ml_drive;
 extern pros::Motor tl_drive;
@@ -21,20 +21,14 @@ extern pros::ADIDigitalOut climbRelease;
 extern pros::ADIDigitalOut matchLoad;
 extern pros::ADIDigitalIn climbSwitch;
 
-extern pros::IMU imu1;
-extern pros::IMU imu2;
-extern pros::Rotation vertEncd;
-extern pros::Rotation horiEncd;
+extern pros::IMU imu;
+// extern pros::IMU imu2;
 
 extern pros::MotorGroup left_side_motors;
 extern pros::MotorGroup right_side_motors;
 extern lemlib::Drivetrain_t drivetrain;
-extern lemlib::TrackingWheel vertTracking;
-extern lemlib::TrackingWheel horiTracking;
 extern lemlib::OdomSensors_t sensors;
 extern lemlib::ChassisController_t lateralController;
 extern lemlib::ChassisController_t angularController;
 extern lemlib::Chassis chassis; 
-
-
 #endif
