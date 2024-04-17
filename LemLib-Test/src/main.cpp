@@ -36,9 +36,7 @@ void screen() {
 
 void initialize() {
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
 	chassis.calibrate(); // calibrate the chassis
-	pros::lcd::register_btn1_cb(on_center_button);
     pros::Task screenTask(screen); // create a task to print the position to the screen
 }
 
@@ -72,7 +70,6 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	chassis.moveTo(0, 10, 500, false, 100);
 }
 
 /**
@@ -89,20 +86,69 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor left_mtr(1);
-	pros::Motor right_mtr(2);
+    pros::Controller master(pros::E_CONTROLLER_MASTER);
+    lift_macro();
+    bool speedControl = false;
+    bool wingsState = false;
+    bool leftWing = false;
+    bool rightWing = false;
+    bool matchLoadState = false;
+    bool flywheelState = false;
+    bool ratchetState = false;
+    int count = 0;
 
-	while (true) {
-		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-		int left = master.get_analog(ANALOG_LEFT_Y);
-		int right = master.get_analog(ANALOG_RIGHT_Y);
 
-		left_mtr = left;
-		right_mtr = right;
+    while (true) {
+        pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
+        (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
+        (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
 
-		pros::delay(20);
-	}
+        // initialSlapaMovement = true;
+        
+        double xVal = master.get_analog(ANALOG_LEFT_X);
+        double yVal = master.get_analog(ANALOG_LEFT_Y);
+
+        drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+            intake.move(127);
+        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+            intake.move(-127);
+        }else{
+            intake.move(0);
+        }
+
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+            drive(127, 127);
+        }
+
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
+            wingsState = !wingsState;
+            frontWings1.set_value(wingsState);
+            frontWings2.set_value(wingsState);
+        }
+
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)){
+            rightWing = !rightWing;
+            wings2.set_value(rightWing);
+        }
+
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+            leftWing = !leftWing;
+            wings1.set_value(leftWing);
+        }
+
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
+            ratchetState = !ratchetState;
+            climbRelease.set_value(ratchetState);
+        }
+
+        if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
+            PTO_State = !PTO_State;
+            PTO.set_value(PTO_State);
+            pros::delay(200);
+        }
+
+        pros::delay(20);
+    }
 }

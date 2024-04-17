@@ -26,9 +26,9 @@ extern pros::IMU imu;
 
 extern pros::MotorGroup left_side_motors;
 extern pros::MotorGroup right_side_motors;
-extern lemlib::Drivetrain_t drivetrain;
-extern lemlib::OdomSensors_t sensors;
-extern lemlib::ChassisController_t lateralController;
-extern lemlib::ChassisController_t angularController;
+extern lemlib::Drivetrain drivetrain;
+extern lemlib::OdomSensors sensors;
+extern lemlib::ControllerSettings lateralController;
+extern lemlib::ControllerSettings angularController;
 extern lemlib::Chassis chassis; 
 #endif
