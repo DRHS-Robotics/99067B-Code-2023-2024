@@ -1,7 +1,9 @@
+#include "lemlib/api.hpp"
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
 extern bool PTO_State;
-extern pros::Task liftTask;
+extern bool ratchetState;
+extern pros::Task* liftTask;
 
 #endif

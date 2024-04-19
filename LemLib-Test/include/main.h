@@ -37,6 +37,7 @@
 #include "api.h"
 #include "motors.h"
 #include "globals.h"
+#include "functions.h"
 
 /**
  * You should add more #includes here

@@ -1,4 +1,5 @@
 #include "main.h"
+#include "lemlib/api.hpp"
 
 int sgn(double num){
     if(num >= 0){
@@ -9,8 +10,14 @@ int sgn(double num){
 }
 
 void drive(double left, double right){
-	left_side_motors.move(left);
-	right_side_motors.move(right);
+	fl_drive.move(left);
+    fr_drive.move(right);
+    bl_drive.move(left);
+    br_drive.move(right);
+	ml_drive.move(left);
+	mr_drive.move(right);
+    tl_drive.move(left);
+    tr_drive.move(right);
 }
 
 void resetPos(){
@@ -33,34 +40,34 @@ double velocity(){
 }
 
 void lift_macro(){
-    if(liftTask == nullptr){
-        liftTask = new pros::Task{[=]{
+//     if(liftTask == nullptr){
+//         liftTask = new pros::Task{[=]{
         
-        while(true){
-            if(PTO_State){
-                if(velocity() > 5){
-                    fl_drive.move_velocity(600);
-                    ml_drive.move_velocity(600);
-                    tl_drive.move_velocity(200);
-                    bl_drive.move_velocity(600);
-			        fr_drive.move_velocity(600);
-			        mr_drive.move_velocity(600);
-			        tr_drive.move_velocity(200);
-			        br_drive.move_velocity(600);
-                }else{
-                    fl_drive.move_velocity(0);
-                    ml_drive.move_velocity(0);
-                    tl_drive.move_velocity(0);
-                    bl_drive.move_velocity(0);
-			        fr_drive.move_velocity(0);
-			        mr_drive.move_velocity(0);
-			        tr_drive.move_velocity(0);
-			        br_drive.move_velocity(0);
-                }
-            }
+//         while(true){
+//             if(PTO_State){
+//                 if(velocity() > 5){
+//                     fl_drive.move_velocity(600);
+//                     ml_drive.move_velocity(600);
+//                     tl_drive.move_velocity(200);
+//                     bl_drive.move_velocity(600);
+// 			        fr_drive.move_velocity(600);
+// 			        mr_drive.move_velocity(600);
+// 			        tr_drive.move_velocity(200);
+// 			        br_drive.move_velocity(600);
+//                 }else{
+//                     fl_drive.move_velocity(0);
+//                     ml_drive.move_velocity(0);
+//                     tl_drive.move_velocity(0);
+//                     bl_drive.move_velocity(0);
+// 			        fr_drive.move_velocity(0);
+// 			        mr_drive.move_velocity(0);
+// 			        tr_drive.move_velocity(0);
+// 			        br_drive.move_velocity(0);
+//                 }
+//             }
 
-            pros::Task::delay(20);
-            }
-        }};
-    }
+//             pros::Task::delay(20);
+//             }
+//         }};
+//     }
 }

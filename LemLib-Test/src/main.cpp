@@ -23,21 +23,23 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 
-void screen() {
-    // loop forever
-    while (true) {
-        lemlib::Pose pose = chassis.getPose(); // get the current position of the robot
-        pros::lcd::print(0, "x: %f", pose.x); // print the x position
-        pros::lcd::print(1, "y: %f", pose.y); // print the y position
-        pros::lcd::print(2, "heading: %f", pose.theta); // print the heading
-        pros::delay(10);
-    }
-}
-
 void initialize() {
-	pros::lcd::initialize();
-	chassis.calibrate(); // calibrate the chassis
-    pros::Task screenTask(screen); // create a task to print the position to the screen
+    pros::lcd::initialize(); // initialize brain screen
+    chassis.calibrate(); // calibrate sensors
+    
+    pros::Task screenTask([&]() {
+        chassis.setPose(0,0,0);
+        while (true) {
+            // print robot location to the brain screen
+            pros::lcd::print(1, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(2, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(3, "Theta: %f", chassis.getPose().theta); // heading
+            // log position telemetry
+            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            // delay to save resources
+            pros::delay(50);
+        }
+    });
 }
 
 /**
@@ -69,7 +71,11 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {
+
+void autonomous(){
+    // chassis.turnToHeading(200, 2000, {.minSpeed = 100});
+    chassis.moveToPoint(10, 42, 2000, {.minSpeed = 127});
+    chassis.turnToHeading(90, 2000, {.minSpeed = 100});
 }
 
 /**
@@ -94,9 +100,7 @@ void opcontrol() {
     bool rightWing = false;
     bool matchLoadState = false;
     bool flywheelState = false;
-    bool ratchetState = false;
     int count = 0;
-
 
     while (true) {
         pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
@@ -105,10 +109,10 @@ void opcontrol() {
 
         // initialSlapaMovement = true;
         
-        double xVal = master.get_analog(ANALOG_LEFT_X);
+        double xVal = master.get_analog(ANALOG_RIGHT_X);
         double yVal = master.get_analog(ANALOG_LEFT_Y);
 
-        drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+        chassis.arcade(127, 127);
 
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intake.move(127);
@@ -116,10 +120,6 @@ void opcontrol() {
             intake.move(-127);
         }else{
             intake.move(0);
-        }
-
-        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-            drive(127, 127);
         }
 
         if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
