@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "RushFar",
+    "project_name": "5-Ball-Rush",
     "target": "v5",
     "templates": {
       "LemLib": {

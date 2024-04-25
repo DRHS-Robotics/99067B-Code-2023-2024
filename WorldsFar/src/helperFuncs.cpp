@@ -78,32 +78,34 @@ void lift_macro(){
         
             if((PTO_State)){
 				// std::cout << "Position" << position() << std::endl;
-				if(count == 0){
-					resetPos();
-				}
-                if(position() < target){
-                    fl_drive.move_velocity(600);
-                    ml_drive.move_velocity(600);
-                    tl_drive.move_velocity(200);
-                    bl_drive.move_velocity(600);
-			        fr_drive.move_velocity(600);
-			        mr_drive.move_velocity(600);
-			        tr_drive.move_velocity(200);
-			        br_drive.move_velocity(600);
-                }else{
-					fl_drive.move_velocity(0);
-                    ml_drive.move_velocity(0);
-                    tl_drive.move_velocity(0);
-                    bl_drive.move_velocity(0);
-			        fr_drive.move_velocity(0);
-			        mr_drive.move_velocity(0);
-			        tr_drive.move_velocity(0);
-			        br_drive.move_velocity(0);
-				}
+                if(!(count == 1)){
+                    resetPos();
+                }
+                if(count == 1){
+                    if(position() < target){
+                        fl_drive.move_velocity(600);
+                        ml_drive.move_velocity(600);
+                        tl_drive.move_velocity(200);
+                        bl_drive.move_velocity(600);
+                        fr_drive.move_velocity(600);
+                        mr_drive.move_velocity(600);
+                        tr_drive.move_velocity(200);
+                        br_drive.move_velocity(600);
+                    }else{
+                        fl_drive.move_velocity(0);
+                        ml_drive.move_velocity(0);
+                        tl_drive.move_velocity(0);
+                        bl_drive.move_velocity(0);
+                        fr_drive.move_velocity(0);
+                        mr_drive.move_velocity(0);
+                        tr_drive.move_velocity(0);
+                        br_drive.move_velocity(0);
+                    }
 
-				if(position() > (target/2)){
-					climbRelease.set_value(PTO_State);
-				}
+                    if(position() > (target/2)){
+                        climbRelease.set_value(PTO_State);
+                    }
+                }
             }
 
             pros::Task::delay(20);

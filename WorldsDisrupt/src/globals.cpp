@@ -1,13 +1,13 @@
 #include "main.h"
 #include "lemlib/api.hpp"
-pros::Motor fl_drive(2, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor ml_drive(14, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor tl_drive(11, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_COUNTS);//top left
-pros::Motor bl_drive(13, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor fr_drive(9, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor mr_drive(17, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_COUNTS);
-pros::Motor tr_drive(19, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_COUNTS);//top right
-pros::Motor br_drive(20, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_COUNTS);
+pros::Motor fl_drive(2, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor ml_drive(14, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor tl_drive(11, pros::E_MOTOR_GEARSET_18, true);//top left
+pros::Motor bl_drive(13, pros::E_MOTOR_GEARSET_06, true);
+pros::Motor fr_drive(9, pros::E_MOTOR_GEARSET_06, true);
+pros::Motor mr_drive(17, pros::E_MOTOR_GEARSET_06, true);
+pros::Motor tr_drive(19, pros::E_MOTOR_GEARSET_18, false);//top right
+pros::Motor br_drive(20, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor intake(3, pros::E_MOTOR_GEARSET_18, 0);
 
 // pros::ADIDigitalIn tapaSwitch('H');

@@ -78,35 +78,46 @@ void competition_initialize() {}
 void autonomous(){
     //Disrupt(Code is still from the near side)
     //Use as base
+    frontWings1.set_value(true);
     intake.move(127);
-    pros::delay(150);
-    intake.move(0);
-    wings1.set_value(true);
-    chassis.turnToHeading(-90, 2000, {.maxSpeed = 110}, false);
-    wings1.set_value(false);
-    chassis.turnToHeading(25.5, 1000, {.maxSpeed = 95}, false);
-    intake.move(127);
-    chassis.moveToPoint(13, 41, 1000, {.maxSpeed = 127}, false);
+    pros::delay(200);
+    frontWings1.set_value(false);
+    chassis.moveToPoint(18, 56, 1000, {.maxSpeed = 127}, false);
     // Drive.control_drive_back(600, 127, 21);
-    chassis.moveToPoint(11.5, 36.5, 1000, {.maxSpeed = 100}, false);
-    chassis.turnToHeading(92, 1000, {.maxSpeed = 100}, false);
-    // frontWings1.set_value(true);
-    // frontWings1.set_value(true);
-    // Drive.control_drive(700, 127, 92);
-    chassis.moveToPoint(32, 38, 1000, {.maxSpeed = 90}, false);
-    // frontWings1.set_value(false);
-    // frontWings1.set_value(false);
-    // chassis.setPose(32, 38, 92);
-    // chassis.turnToHeading(44, 2000, {.maxSpeed = 30}, false);
-    // pros::delay(500);
-    chassis.moveToPoint(-6, -1, 2000, {.forwards = false, .maxSpeed = 70}, false);
-    chassis.turnToHeading(140, 1000, {.maxSpeed = 100}, false);
-    pros::delay(200);
+    chassis.moveToPoint(-1, -17, 1250, {.forwards = false, .maxSpeed = 100}, false);
+    chassis.turnToHeading(90, 1000, {.maxSpeed = 100}, false);
     intake.move(-127);
-    chassis.moveToPoint(-1, -10, 1000, {.maxSpeed = 100}, false);
-    chassis.turnToHeading(93, 1000, {.maxSpeed = 100}, false);
     pros::delay(200);
-    chassis.moveToPoint(34, -12, 1000, {.maxSpeed = 70}, false);
+    chassis.turnToHeading(0, 1000, {.maxSpeed = 100}, false);
+    chassis.moveToPoint(-1, 15, 1250, {.maxSpeed = 110}, false);
+    chassis.turnToHeading(40, 1000, {.maxSpeed = 115}, false);
+    intake.move(127);
+    chassis.moveToPoint(23, 51, 1000, {.maxSpeed = 100}, false);
+    // frontWings1.set_value(true);
+    // frontWings1.set_value(true);
+    // chassis.moveToPoint(32, 38, 1000, {.maxSpeed = 90}, false);
+    // frontWings1.set_value(false);
+    // chassis.turnToHeading(40, 1000, {.maxSpeed = 100}, false);
+    chassis.moveToPoint(-10, -3, 1750, {.forwards = false, .maxSpeed = 100}, false);
+    wings1.set_value(true);
+    // // chassis.setPose(32, 38, 92);
+    chassis.turnToHeading(-70, 1000, {.maxSpeed = 127}, false);
+    wings1.set_value(false);
+    // // pros::delay(500);
+    chassis.turnToHeading(130, 1000, {.maxSpeed = 100}, false);
+    chassis.moveToPoint(6, -10, 750, {.maxSpeed = 100}, false);
+    intake.move(-127);
+    chassis.turnToHeading(90, 750, {.maxSpeed = 100}, false);
+    chassis.moveToPoint(26, -10, 1000, {.maxSpeed = 127}, false);
+    chassis.moveToPoint(-15, -10, 1000, {.forwards = false, .maxSpeed = 110}, false);
+    chassis.turnToHeading(130, 1000, {.maxSpeed = 100}, false);
+    // chassis.moveToPoint(4, 10, 1000, {.forwards = false, .maxSpeed = 100}, false);
+    wings2.set_value(true);
+    // pros::delay(200);
+    // chassis.turnToHeading(-240, 1000, {.maxSpeed = 100}, false);
+    // intake.move(-127);
+    // pros::delay(200);
+    // chassis.moveToPoint(-5, -1, 1000, {.maxSpeed = 70}, false);
 }
 
 /**
