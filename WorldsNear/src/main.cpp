@@ -83,33 +83,33 @@ void autonomous(){
     wings1.set_value(true);
     chassis.turnToHeading(-90, 1250, {.maxSpeed = 127}, false);
     wings1.set_value(false);
-    chassis.turnToHeading(25.5, 1000, {.maxSpeed = 95}, false);
+    chassis.turnToHeading(27.5, 1000, {.maxSpeed = 100}, false);
     intake.move(127);
-    chassis.moveToPoint(13, 41, 1000, {.maxSpeed = 127}, false);
+    chassis.moveToPoint(14, 41, 1000, {.maxSpeed = 127}, false);
     // Drive.control_drive_back(600, 127, 21);
-    chassis.moveToPoint(11.5, 36.5, 1000, {.forwards = false, .maxSpeed = 100}, false);
-    chassis.turnToHeading(92, 1000, {.maxSpeed = 100}, false);
+    // chassis.moveToPoint(11.5, 36.5, 1000, {.forwards = false, .maxSpeed = 100}, false);
+    // chassis.turnToHeading(92, 1000, {.maxSpeed = 100}, false);
     // frontWings1.set_value(true);
     // frontWings1.set_value(true);
     // Drive.control_drive(700, 127, 92);
-    chassis.moveToPoint(32, 38, 1000, {.maxSpeed = 90}, false);
+    // chassis.moveToPoint(32, 38, 1000, {.maxSpeed = 90}, false);
     // frontWings1.set_value(false);
     // frontWings1.set_value(false);
     // chassis.setPose(32, 38, 92);
     // chassis.turnToHeading(44, 2000, {.maxSpeed = 30}, false);
     // pros::delay(500);
-    chassis.moveToPoint(-11, -1, 2000, {.forwards = false, .maxSpeed = 70}, false);
+    chassis.moveToPoint(-6, -3, 2000, {.forwards = false, .maxSpeed = 70}, false);
     chassis.turnToHeading(140, 1000, {.maxSpeed = 100}, false);
     pros::delay(200);
-    intake.move(-127);
     // frontWings2.set_value(true);
     chassis.moveToPoint(-1, -10, 1000, {.maxSpeed = 100}, false);
     chassis.turnToHeading(93, 1000, {.maxSpeed = 100}, false);
     // frontWings2.set_value(false);
     pros::delay(200);
-    chassis.moveToPoint(31.5, -12, 1000, {.maxSpeed = 70}, false);
-    chassis.waitUntil(31.5);
-    chassis.cancelAllMotions();
+    intake.move(-127);
+    chassis.moveToPoint(34.5, -12, 1000, {.maxSpeed = 100}, false);
+    chassis.waitUntil(34.5);
+    chassis.cancelMotion();
 }
 
 /**
@@ -146,8 +146,6 @@ void opcontrol() {
         double xVal = master.get_analog(ANALOG_LEFT_X);
         double yVal = master.get_analog(ANALOG_LEFT_Y);
 
-        drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intake.move(127);
         }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
@@ -170,6 +168,14 @@ void opcontrol() {
         if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
             leftWing = !leftWing;
             wings1.set_value(leftWing);
+        }
+
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+            drive(35, -35);
+        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+            drive(-35, 35);
+        }else{
+            drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
         }
 
         pros::delay(20);

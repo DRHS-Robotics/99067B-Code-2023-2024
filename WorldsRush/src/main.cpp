@@ -84,39 +84,36 @@ void autonomous(){
     intake.move(0);
     intake.move(127);
     chassis.moveToPoint(-8.2, 46.4, 1000, {.maxSpeed = 127}, false);
-    chassis.moveToPoint(0, -6, 1000, {.forwards = false, .maxSpeed = 110}, false);
+    chassis.moveToPoint(1, -8, 1000, {.forwards = false, .maxSpeed = 110}, false);
     intake.move(-127);
     chassis.turnToHeading(58, 750, {.maxSpeed = 110}, false);
     //intake.move(-127);
-    chassis.turnToHeading(-120, 750, {.maxSpeed = 115}, false);
-    intake.move(0);
-    chassis.moveToPoint(-35, -1, 1000, {.maxSpeed = 115}, false);
+    chassis.turnToHeading(-130, 750, {.maxSpeed = 115}, false);
     intake.move(127);
+    chassis.moveToPoint(-35, -1, 1000, {.maxSpeed = 115}, false);
     chassis.moveToPoint(4.8, 4.3, 1000, {.forwards = false, .maxSpeed = 115}, false);
     wings1.set_value(true);
-    chassis.moveToPoint(9.5, 9.8, 750, {.forwards = false, .maxSpeed = 115}, false);
+    chassis.moveToPoint(9.5, 9.8, 750, {.forwards = false, .maxSpeed = 127}, false);
     wings1.set_value(false);
-    chassis.moveToPoint(18, 32, 1000, {.forwards = false, .maxSpeed = 127}, false);
-    chassis.moveToPoint(18, 19.9, 1000, {.maxSpeed = 115}, false);
+    chassis.moveToPoint(23, 32, 1000, {.forwards = false, .maxSpeed = 127}, false);
+    chassis.moveToPoint(23, 19.9, 1000, {.maxSpeed = 115}, false);
     chassis.turnToHeading(10, 750, {.maxSpeed = 110}, false);
     intake.move(-127);
     chassis.moveToPoint(24, 42, 1000, {.maxSpeed = 127}, false);
     chassis.moveToPoint(21, 20, 1000, {.forwards = false, .maxSpeed = 115}, false);
     chassis.turnToHeading(-433, 600, {.maxSpeed = 110}, false);
     intake.move(127);
-    chassis.moveToPoint(-27, 46, 1000, {.maxSpeed = 115}, false);
+    chassis.moveToPoint(-27, 44.5, 1000, {.maxSpeed = 115}, false);
     chassis.turnToHeading(53.7, 750, {.maxSpeed = 110}, false);
     intake.move(-127);
-    chassis.moveToPoint(13, 49.5, 1000, {.maxSpeed = 115}, false);
-    chassis.moveToPoint(-4.1, 33.4, 1000, {.forwards = false, .maxSpeed = 115}, false);
-    chassis.moveToPoint(-21, 55, 1000, {.maxSpeed = 115}, false);
-    chassis.turnToHeading(90, 750, {.maxSpeed = 110}, false);
     frontWings1.set_value(true);
-    frontWings2.set_value(true);
-    chassis.moveToPoint(10.5, 57.1, 1000, {.maxSpeed = 115}, false);
-    chassis.moveToPoint(0, 55.2, 1000, {.forwards = false, .maxSpeed = 115}, false);
+    chassis.moveToPoint(15, 49.5, 1000, {.maxSpeed = 115}, false);
     frontWings1.set_value(false);
-    frontWings2.set_value(false);
+    // chassis.moveToPoint(-4.1, 33.4, 1000, {.forwards = false, .maxSpeed = 115}, false);
+    // chassis.moveToPoint(-21, 55, 1000, {.maxSpeed = 115}, false);
+    // chassis.turnToHeading(90, 750, {.maxSpeed = 110}, false);
+    // chassis.moveToPoint(10.5, 57.1, 1000, {.maxSpeed = 115}, false);
+    // chassis.moveToPoint(0, 55.2, 1000, {.forwards = false, .maxSpeed = 115}, false);
 
 
 
@@ -193,7 +190,6 @@ void opcontrol() {
         double xVal = master.get_analog(ANALOG_LEFT_X);
         double yVal = master.get_analog(ANALOG_LEFT_Y);
 
-        drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
 
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intake.move(127);
@@ -217,6 +213,14 @@ void opcontrol() {
         if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
             leftWing = !leftWing;
             wings1.set_value(leftWing);
+        }
+
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+            drive(35, -35);
+        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+            drive(-35, 35);
+        }else{
+            drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
         }
 
         pros::delay(20);

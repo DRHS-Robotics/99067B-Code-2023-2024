@@ -59,7 +59,7 @@ void lift_macro(){
     if(liftTask == nullptr){
         liftTask = new pros::Task{[=]{
         pros::Controller master(pros::E_CONTROLLER_MASTER);
-		const double target = 13;
+		const double target = 13.75;
 
         while(true){
             if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){

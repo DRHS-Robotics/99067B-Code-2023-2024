@@ -85,11 +85,11 @@ void autonomous(){
     wings1.set_value(true);
     chassis.moveToPoint(13.5, -40.3, 1000, {.forwards = false, .maxSpeed = 100}, false);
     wings1.set_value(false);
-    chassis.moveToPoint(44, -55, 1000, {.forwards = false, .maxSpeed = 115}, false);
+    chassis.moveToPoint(44, -55, 1000, {.forwards = false, .maxSpeed = 95}, false);
     chassis.moveToPoint(18, -50, 1000, {.maxSpeed = 127}, false);
     chassis.turnToHeading(90, 1000, {.maxSpeed = 100}, false);
     intake.move(-127);
-    chassis.moveToPoint(38, -56.5, 1000, {.maxSpeed = 127}, false);
+    chassis.moveToPoint(38, -56.7, 1000, {.maxSpeed = 127}, false);
     chassis.moveToPoint(20, -47, 1000, {.forwards = false, .maxSpeed = 100}, false);
     chassis.turnToHeading(15.5, 1000, {.maxSpeed = 100}, false);
     intake.move(127);
@@ -99,13 +99,13 @@ void autonomous(){
     pros::delay(500);
     chassis.turnToHeading(67, 1000, {.maxSpeed = 100}, false);
     intake.move(127);
-    chassis.moveToPoint(59, 9, 1000, {.maxSpeed = 100}, false);
+    chassis.moveToPoint(60.5, 9, 1000, {.maxSpeed = 100}, false);
     chassis.turnToHeading(180, 1000, {.maxSpeed = 100}, false);
     frontWings1.set_value(true);
     frontWings2.set_value(true);
     intake.move(0);
-    chassis.moveToPoint(59, -24, 1000, {.maxSpeed = 127}, false);
-    chassis.moveToPoint(59, -12, 1000, {.forwards = false, .maxSpeed = 100}, false);
+    chassis.moveToPoint(62.5, -24, 1000, {.maxSpeed = 127}, false);
+    chassis.moveToPoint(62.5, -12, 1000, {.forwards = false, .maxSpeed = 127}, false);
     frontWings1.set_value(false);
     frontWings2.set_value(false);
 
@@ -145,8 +145,6 @@ void opcontrol() {
         double xVal = master.get_analog(ANALOG_LEFT_X);
         double yVal = master.get_analog(ANALOG_LEFT_Y);
 
-        drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intake.move(127);
         }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
@@ -169,6 +167,14 @@ void opcontrol() {
         if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
             leftWing = !leftWing;
             wings1.set_value(leftWing);
+        }
+
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+            drive(35, -35);
+        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+            drive(-35, 35);
+        }else{
+            drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
         }
 
         pros::delay(20);

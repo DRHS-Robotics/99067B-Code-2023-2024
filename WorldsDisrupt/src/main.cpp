@@ -154,8 +154,6 @@ void opcontrol() {
         double xVal = master.get_analog(ANALOG_LEFT_X);
         double yVal = master.get_analog(ANALOG_LEFT_Y);
 
-        drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
-
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intake.move(127);
         }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
@@ -178,6 +176,14 @@ void opcontrol() {
         if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
             leftWing = !leftWing;
             wings1.set_value(leftWing);
+        }
+
+        if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+            drive(35, -35);
+        }else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+            drive(-35, 35);
+        }else{
+            drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
         }
 
         pros::delay(20);

@@ -59,13 +59,13 @@ void lift_macro(){
     if(liftTask == nullptr){
         liftTask = new pros::Task{[=]{
         pros::Controller master(pros::E_CONTROLLER_MASTER);
-		const double target = 13;
+		const double target = 13.75;
 
         while(true){
             if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)){
                 PTO_State = !PTO_State;
-                PTO.set_value(PTO_State);
 				count = 1; 
+                PTO.set_value(PTO_State);
 				climbRelease.set_value(!PTO_State);
             }
 
@@ -78,10 +78,6 @@ void lift_macro(){
         
             if((PTO_State)){
 				// std::cout << "Position" << position() << std::endl;
-                if(!(count == 1)){
-                    resetPos();
-                }
-                if(count == 1){
                     if(position() < target){
                         fl_drive.move_velocity(600);
                         ml_drive.move_velocity(600);
@@ -105,7 +101,8 @@ void lift_macro(){
                     if(position() > (target/2)){
                         climbRelease.set_value(PTO_State);
                     }
-                }
+            }else{
+                resetPos();
             }
 
             pros::Task::delay(20);
