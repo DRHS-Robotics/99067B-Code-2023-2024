@@ -86,7 +86,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-
+	bool pistonState = false;
 
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
@@ -98,6 +98,34 @@ void opcontrol() {
 		double xVal = master.get_analog(ANALOG_LEFT_X);  // Gets the turn left/right from right joystick
 
 		robot.Drive((pow((yVal+xVal)/100,3)*100), (pow((yVal-xVal)/100,3)*100));
+
+		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
+			pistonState = !pistonState;
+		}
+
+		if(pistonState){
+			clip1.set_value(true);
+			clip2.set_value(true);
+		}else{
+			clip1.set_value(false);
+            clip2.set_value(false);
+		}
+		
+		if(master.get_digital(DIGITAL_R1)){
+			robot.intake.move(127);
+		}else if(master.get_digital(DIGITAL_R2)){
+			robot.intake.move(-127);
+		}else{
+			robot.intake.move(0);
+		}
+
+		if(master.get_digital(DIGITAL_L1)){
+			robot.conveyor.move(127);
+		}else if(master.get_digital(DIGITAL_L2)){
+			robot.conveyor.move(-127);
+		}else{
+			robot.conveyor.move(0);
+		}
 
 		pros::delay(20);                               // Run for 20 ms then update
 	}
