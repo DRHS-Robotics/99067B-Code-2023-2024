@@ -40,8 +40,9 @@
  * You should add more #includes here
  */
 //#include "okapi/api.hpp"
-#include "globals.h"
 #include "lemlib/api.hpp"
+#include "robot.h"
+#include "globals.h"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do

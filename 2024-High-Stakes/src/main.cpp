@@ -1,70 +1,11 @@
 #include "main.h"
-#include "Robot.cpp"
 using namespace std;
 using namespace pros;
 using namespace lemlib;
 
 
-Robot robot({-3,-11,-12}, {4,13, 14}, -2, -6, 5, MotorGears::green, MotorGears::blue);
-
-//Adjust the distances later
-// TrackingWheel horizontal_tracking_wheel(&robot.horizontalRot, Omniwheel::NEW_275, -5.75);
-// vertical tracking wheel
-// TrackingWheel vertical_tracking_wheel(&robot.verticalRot, Omniwheel::NEW_275, -2.5);
-
-pros::Controller master(pros::E_CONTROLLER_MASTER);
-adi::DigitalOut clip1('A');
-adi::DigitalOut clip2('B');
-adi::DigitalOut stick('C');
-
-enum Auto {leftA, rightA};
-Auto auton = rightA;
-
-Drivetrain drivetrain(&robot.leftMotors, // left motor group
-                              &robot.rightMotors, // right motor group
-                              10, // 10 inch track width
-                              Omniwheel::NEW_325, // using new 2.75" omnis
-                              450, // drivetrain rpm is 360
-                              2 // horizontal drift is 2 (for now)
-);
-
-OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
-                            nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
-                            nullptr, // horizontal tracking wheel 1
-                            nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
-                            &robot.imu1 // inertial sensor
-);
-
-// lateral PID controller
-ControllerSettings lateral_controller(10, // proportional gain (kP)
-                                              0, // integral gain (kI)
-                                              3, // derivative gain (kD)
-                                              3, // anti windup
-                                              1, // small error range, in inches
-                                              100, // small error range timeout, in milliseconds
-                                              3, // large error range, in inches
-                                              500, // large error range timeout, in milliseconds
-                                              20 // maximum acceleration (slew)
-);
-
-// angular PID controller
-ControllerSettings angular_controller(2, // proportional gain (kP)
-                                              0, // integral gain (kI)
-                                              10, // derivative gain (kD)
-                                              3, // anti windup
-                                              1, // small error range, in degrees
-                                              100, // small error range timeout, in milliseconds
-                                              3, // large error range, in degrees
-                                              500, // large error range timeout, in milliseconds
-                                              0 // maximum acceleration (slew)
-);
-
-
-Chassis chassis(drivetrain, // drivetrain settings
-                        lateral_controller, // lateral PID settings
-                        angular_controller, // angular PID settings
-                        sensors // odometry sensors
-);
+enum Auto {redR, redL, blueR, blueL};
+Auto auton = blueL;
 
 
 /**
@@ -141,38 +82,40 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	chassis.setPose(0, 0, 0);
-	chassis.moveToPoint(0, -33, 1250, {.forwards = false, .maxSpeed = 115}, false);
-	chassis.turnToHeading(38, 1000, {.maxSpeed = 100});
-	chassis.moveToPoint(-6, -41.25, 1500, {.forwards = false, .maxSpeed = 50}, false);
-	clip1.set_value(true);
-	clip2.set_value(true);
-	delay(300);
-	robot.conveyor.move(127);
-	robot.intake.move(127);
-	chassis.turnToHeading(-24, 1000, {.maxSpeed = 100}, false);
-	chassis.moveToPoint(-10, -33, 1000, {.maxSpeed = 100}, false);
-	robot.conveyor.move(0);
-	delay(675);
-	robot.conveyor.move(127);
-	delay(675);
-	clip1.set_value(false);
-	clip2.set_value(false);
-	chassis.turnToHeading(95, 1000, {.maxSpeed = 90}, false);
-	chassis.moveToPoint(-26.5, -27, 2000, {.forwards = false, .maxSpeed = 50}, false);
-	clip1.set_value(true);
-	clip2.set_value(true);
-	delay(200);
-	chassis.turnToHeading(-47, 1000, {.maxSpeed = 90}, false);
-	chassis.moveToPoint(-46, -10, 2000, {.maxSpeed = 90}, false);
-	stick.set_value(true);
-	chassis.turnToHeading(-151, 1000, {.maxSpeed = 55}, false);
-	stick.set_value(false);
-	chassis.turnToHeading(-132, 1000, {.maxSpeed = 90}, false);
-	chassis.moveToPoint(-57, -14, 1000, {.maxSpeed = 90}, false);
-	chassis.turnToHeading(-175, 1000, {.maxSpeed = 90}, false);
-	chassis.moveToPoint(-57, -20, 1000, {.maxSpeed = 90}, false);
-
+	if(auton == blueL){
+		chassis.setPose(0, 0, 0);
+		chassis.moveToPoint(0, -33, 1250, {.forwards = false, .maxSpeed = 115}, false);
+		chassis.turnToHeading(38, 1000, {.maxSpeed = 100});
+		chassis.moveToPoint(-6, -41.25, 1500, {.forwards = false, .maxSpeed = 50}, false);
+		clip1.set_value(true);
+		clip2.set_value(true);
+		delay(300);
+		robot.conveyor.move(127);
+		robot.intake.move(127);
+		chassis.turnToHeading(-24, 1000, {.maxSpeed = 100}, false);
+		chassis.moveToPoint(-10, -33, 1000, {.maxSpeed = 100}, false);
+		robot.conveyor.move(0);
+		delay(675);
+		robot.conveyor.move(127);
+		delay(675);
+		clip1.set_value(false);
+		clip2.set_value(false);
+		chassis.turnToHeading(95, 1000, {.maxSpeed = 90}, false);
+		chassis.moveToPoint(-26.5, -27, 2000, {.forwards = false, .maxSpeed = 50}, false);
+		clip1.set_value(true);
+		clip2.set_value(true);
+		delay(200);
+		chassis.turnToHeading(-47, 1000, {.maxSpeed = 90}, false);
+		chassis.moveToPoint(-46, -10, 2000, {.maxSpeed = 90}, false);
+		stick.set_value(true);
+		chassis.turnToHeading(-151, 1000, {.maxSpeed = 55}, false);
+		stick.set_value(false);
+		chassis.turnToHeading(-132, 1000, {.maxSpeed = 90}, false);
+		chassis.moveToPoint(-57, -14, 1000, {.maxSpeed = 90}, false);
+		chassis.turnToHeading(-175, 1000, {.maxSpeed = 90}, false);
+		chassis.moveToPoint(-57, -20, 1000, {.maxSpeed = 90}, false);
+	}
+	
 
 	// robot.conveyor.move(127);
 	// delay(500);
