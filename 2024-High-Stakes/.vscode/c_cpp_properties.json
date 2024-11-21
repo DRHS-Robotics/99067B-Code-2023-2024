@@ -4,20 +4,21 @@
       "name": "PROS Project",
       "includePath": [
         "${workspaceFolder}/**",
-        "c:\\Users\\abhin\\OneDrive\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes\\include"
+        "c:\\Users\\abhin\\OneDrive\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes\\include",
+        "c:\\Users\\arjun\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes\\include"
       ],
       "defines": [
         "_DEBUG",
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "c:\\Users\\abhin\\AppData\\Roaming\\Code\\User\\globalStorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\arm-none-eabi-g++",
+      "compilerPath": "c:\\Users\\arjun\\AppData\\Roaming\\Code\\User\\globalStorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\arm-none-eabi-g++",
       "cStandard": "gnu11",
       "cppStandard": "gnu++20",
       "intelliSenseMode": "gcc-arm",
       "browse": {
         "path": [
-          "c:\\Users\\abhin\\OneDrive\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes"
+          "c:\\Users\\arjun\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes"
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""

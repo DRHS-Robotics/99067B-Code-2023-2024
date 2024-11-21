@@ -1,8 +1,10 @@
 #include "main.h"
+#include "lemlib/api.hpp"
 using namespace std;
 using namespace pros;
 using namespace v5;
 using namespace lemlib;
+
 
 class Robot{
     public:
@@ -25,7 +27,6 @@ class Robot{
             rightMotors.move(rightPow);
         }
         void rightAuto(){
-            chassis.setPose(0, 0, 0);
         }
 
         void leftAuto(){
