@@ -5,7 +5,8 @@
       "includePath": [
         "${workspaceFolder}/**",
         "c:\\Users\\abhin\\OneDrive\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes\\include",
-        "c:\\Users\\arjun\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes\\include"
+        "c:\\Users\\arjun\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes\\include",
+        "c:\\Users\\arjun\\Downloads\\99067B-Code-2023-2024\\2024-High-Stakes\\include"
       ],
       "defines": [
         "_DEBUG",
@@ -18,7 +19,7 @@
       "intelliSenseMode": "gcc-arm",
       "browse": {
         "path": [
-          "c:\\Users\\arjun\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes"
+          "c:\\Users\\arjun\\Downloads\\99067B-Code-2023-2024\\2024-High-Stakes"
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""
