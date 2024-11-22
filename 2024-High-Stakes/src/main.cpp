@@ -5,7 +5,7 @@ using namespace lemlib;
 
 
 enum Auto {redR, redL, blueR, blueL, skills};
-Auto auton = blueL;
+Auto auton = redL; 
 
 
 /**
@@ -117,7 +117,22 @@ void autonomous() {
 	}else if(auton == blueR){
 
 	}else if(auton == redL){
-
+		chassis.moveToPoint(.14, -20.13, 1250, {.forwards = false, .maxSpeed = 100}, false);
+		clip1.set_value(true);
+		clip2.set_value(true);
+		delay(250);
+		robot.conveyor.move(127);
+		chassis.turnToHeading(95.32, 1250, {.maxSpeed = 100}, false);
+		robot.intake.move(127);
+		chassis.moveToPoint(15.28, -20.64, 1250, {.maxSpeed = 100}, false);
+		delay(750);
+		chassis.turnToHeading(154.03, 1250, {.maxSpeed = 100}, false);
+		chassis.moveToPoint(23.59, -37.56, 1250, {.maxSpeed = 100}, false);
+		delay(750);
+		chassis.moveToPoint(18.18, -25.81, 1250, {.forwards = false, .maxSpeed = 100}, false);
+		chassis.turnToHeading(190.59, 1250, {.maxSpeed = 100}, false);
+		chassis.moveToPoint(14.26, -42.03, 1250, {.maxSpeed = 100}, false);
+		
 	}else if(auton == redR){
 
 	}else if(auton == skills){
