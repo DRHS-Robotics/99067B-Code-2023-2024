@@ -117,6 +117,12 @@ void autonomous() {
 		chassis.turnToHeading(-175, 1000, {.maxSpeed = 90}, false);
 		chassis.moveToPoint(-57, -20, 1000, {.maxSpeed = 90}, false);
 	}else if(auton == blueR){
+		//I'm going to kick Porter's ass
+		chassis.setPose(0,0,0);
+		chassis.moveToPoint(-0.41, -20.38, 1250, {.forwards = false, .maxSpeed = 80}, false); //slowly into diagonal goal
+		clip1.set_value(true);
+		clip2.set_value(true);
+		
 
 	}else if(auton == redL){
 		//left = +x, right = -x
