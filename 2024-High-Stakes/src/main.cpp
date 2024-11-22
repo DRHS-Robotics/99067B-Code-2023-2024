@@ -5,7 +5,7 @@ using namespace lemlib;
 
 
 enum Auto {redR, redL, blueR, blueL, skills};
-Auto auton = redL; 
+Auto auton = redR; 
 
 
 /**
@@ -82,10 +82,12 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+	//chassis.moveToPoint(x,y,timeout, {.forwards = false, .maxSpeed = -127 - 127}, false)
+	//chassis.turnToHeading(theta, timeout, {.maxspeed = 100}, f);
 	if(auton == blueL){
 		chassis.setPose(0, 0, 0);
 		chassis.moveToPoint(0, -33, 1250, {.forwards = false, .maxSpeed = 115}, false);
-		chassis.turnToHeading(38, 1000, {.maxSpeed = 100});
+		chassis.turnToHeading(38, 1000, {.maxSpeed = 100}, false);
 		chassis.moveToPoint(-6, -41.25, 1500, {.forwards = false, .maxSpeed = 50}, false);
 		clip1.set_value(true);
 		clip2.set_value(true);
@@ -117,23 +119,55 @@ void autonomous() {
 	}else if(auton == blueR){
 
 	}else if(auton == redL){
-		chassis.moveToPoint(.14, -20.13, 1250, {.forwards = false, .maxSpeed = 100}, false);
+		//left = +x, right = -x
+		//forwards = -y, backwards = +y
+		chassis.setPose(0,0,0);
+		chassis.moveToPoint(-2.5, -22, 1250, {.forwards = false, .maxSpeed = 80}, false); //Go slower when backing up into goals
+		clip1.set_value(true); // Clamp
+		clip2.set_value(true);
+		delay(350);
+		robot.conveyor.move(127);
+		chassis.turnToHeading(87, 1250, {.maxSpeed = 100}, false);
+		robot.intake.move(127);
+		robot.conveyor.move(0);
+		chassis.moveToPoint(16, -19, 1250, {.maxSpeed = 100}, false);
+		delay(500);
+		robot.conveyor.move(127);
+		delay(400);
+		chassis.turnToHeading(154, 1250, {.maxSpeed = 100}, false);
+		robot.conveyor.move(0);
+		chassis.moveToPoint(29.5, -35, 1500, {.maxSpeed = 100}, false);
+		delay(500);
+		robot.conveyor.move(127);
+		delay(400);
+		chassis.moveToPoint(29.5, -16, 1500, {.forwards = false, .maxSpeed = 100}, false);
+		chassis.turnToHeading(207, 1250, {.maxSpeed = 100}, false);
+		chassis.moveToPoint(13.5, -48.5, 2000, {.maxSpeed = 100}, false);
+		
+	}else if(auton == redR){
+		chassis.setPose(0, 0, 0);
+		chassis.moveToPoint(-8, -33, 1250, {.forwards = false, .maxSpeed = 115}, false);
+		chassis.turnToHeading(-38, 1000, {.maxSpeed = 100}, false);
+		chassis.moveToPoint(6.5, -45, 1500, {.forwards = false, .maxSpeed = 50}, false);
 		clip1.set_value(true);
 		clip2.set_value(true);
 		delay(250);
 		robot.conveyor.move(127);
-		chassis.turnToHeading(95.32, 1250, {.maxSpeed = 100}, false);
 		robot.intake.move(127);
-		chassis.moveToPoint(15.28, -20.64, 1250, {.maxSpeed = 100}, false);
-		delay(750);
-		chassis.turnToHeading(154.03, 1250, {.maxSpeed = 100}, false);
-		chassis.moveToPoint(23.59, -37.56, 1250, {.maxSpeed = 100}, false);
-		delay(750);
-		chassis.moveToPoint(18.18, -25.81, 1250, {.forwards = false, .maxSpeed = 100}, false);
-		chassis.turnToHeading(190.59, 1250, {.maxSpeed = 100}, false);
-		chassis.moveToPoint(14.26, -42.03, 1250, {.maxSpeed = 100}, false);
-		
-	}else if(auton == redR){
+		chassis.turnToHeading(24, 1000, {.maxSpeed = 100}, false);
+		robot.conveyor.move(0);
+		chassis.moveToPoint(17, -19, 2250, {.maxSpeed = 70}, false);
+		// delay(675);
+		// robot.intake.move(-127);
+		robot.conveyor.move(127);
+		delay(800);
+		clip1.set_value(false);
+		clip2.set_value(false);
+		chassis.turnToHeading(-87, 1000, {.maxSpeed = 100}, false);
+		chassis.moveToPoint(29, -19, 2000, {.forwards = false, .maxSpeed = 70}, false);
+		clip1.set_value(true);
+		clip2.set_value(true);
+
 
 	}else if(auton == skills){
 
