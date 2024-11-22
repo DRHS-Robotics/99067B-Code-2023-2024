@@ -117,7 +117,7 @@ void autonomous() {
 		chassis.turnToHeading(-175, 1000, {.maxSpeed = 90}, false);
 		chassis.moveToPoint(-57, -20, 1000, {.maxSpeed = 90}, false);
 	}else if(auton == blueR){
-		
+
 	}else if(auton == redL){
 		//left = +x, right = -x
 		//forwards = -y, backwards = +y
