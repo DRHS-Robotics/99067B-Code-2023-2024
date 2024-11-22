@@ -6,20 +6,21 @@
         "${workspaceFolder}/**",
         "c:\\Users\\abhin\\OneDrive\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes\\include",
         "c:\\Users\\arjun\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes\\include",
-        "c:\\Users\\arjun\\Downloads\\99067B-Code-2023-2024\\2024-High-Stakes\\include"
+        "c:\\Users\\arjun\\Downloads\\99067B-Code-2023-2024\\2024-High-Stakes\\include",
+        "c:\\Users\\99067\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes\\include"
       ],
       "defines": [
         "_DEBUG",
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "c:\\Users\\arjun\\AppData\\Roaming\\Code\\User\\globalStorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\arm-none-eabi-g++",
+      "compilerPath": "c:\\Users\\99067\\AppData\\Roaming\\Code\\User\\globalStorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\arm-none-eabi-g++",
       "cStandard": "gnu11",
       "cppStandard": "gnu++20",
       "intelliSenseMode": "gcc-arm",
       "browse": {
         "path": [
-          "c:\\Users\\arjun\\Downloads\\99067B-Code-2023-2024\\2024-High-Stakes"
+          "c:\\Users\\99067\\Documents\\99067B-Code-2023-2024\\2024-High-Stakes"
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""
