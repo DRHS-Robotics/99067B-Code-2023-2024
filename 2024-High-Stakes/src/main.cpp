@@ -4,7 +4,7 @@ using namespace pros;
 using namespace lemlib;
 
 
-enum Auto {redR, redL, blueR, blueL};
+enum Auto {redR, redL, blueR, blueL, skills};
 Auto auton = blueL;
 
 
@@ -114,6 +114,14 @@ void autonomous() {
 		chassis.moveToPoint(-57, -14, 1000, {.maxSpeed = 90}, false);
 		chassis.turnToHeading(-175, 1000, {.maxSpeed = 90}, false);
 		chassis.moveToPoint(-57, -20, 1000, {.maxSpeed = 90}, false);
+	}else if(auton == blueR){
+
+	}else if(auton == redL){
+
+	}else if(auton == redR){
+
+	}else if(auton == skills){
+
 	}
 	
 
