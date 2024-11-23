@@ -145,19 +145,23 @@ void autonomous() {
 		//left = +x, right = -x
 		//forwards = -y, backwards = +y
 		chassis.setPose(0,0,0);
-		chassis.moveToPoint(-3, -23, 1250, {.forwards = false, .maxSpeed = 80}, false); //Go slower when backing up into goals
+		chassis.moveToPoint(0, -24, 1750, {.forwards = false, .maxSpeed = 60}, false); //Go slower when backing up into goals
 		clip1.set_value(true); // Clamp
 		clip2.set_value(true);
 		delay(350);
 		robot.conveyor.move(127);
 		delay(300);
-		chassis.turnToHeading(165, 1250, {.maxSpeed = 100}, false);
+		chassis.turnToHeading(165, 1250, {.maxSpeed = 70}, false);
 		robot.intake.move(127);
-		// robot.conveyor.move(0);
-		chassis.moveToPoint(22.28, -27, 1750, {.maxSpeed = 100}, false);
+		robot.conveyor.move(0);
+		chassis.moveToPoint(20, -29, 1750, {.maxSpeed = 100}, false);
+		chassis.moveToPoint(23, -22, 2000, {.maxSpeed = 70}, false);
 		robot.conveyor.move(127);
-		chassis.moveToPoint(31, -23.5, 1750, {.maxSpeed = 100}, false);
-		delay(300);
+		delay(500);
+		robot.conveyor.move(0);
+		chassis.moveToPoint(35, -22, 2000, {.maxSpeed = 70}, false);
+		robot.conveyor.move(0);
+		delay(500);
 		chassis.turnToHeading(-20, 1250, {.maxSpeed = 100}, false);
 		// robot.conveyor.move(0);
 		chassis.moveToPoint(14.5, -9, 1500, {.maxSpeed = 100}, false);
@@ -166,8 +170,9 @@ void autonomous() {
 		// // delay(400);
 		// chassis.moveToPoint(29.5, -16, 1500, {.forwards = false, .maxSpeed = 100}, false);
 		chassis.turnToHeading(207, 1250, {.maxSpeed = 100}, false);
-		robot.intake.move(-127);
-		chassis.moveToPoint(13.5, -40, 2000, {.maxSpeed = 80}, false);
+		// robot.intake.move(-127);
+		chassis.moveToPoint(13.5, -33, 2000, {.maxSpeed = 70}, false);
+		chassis.cancelMotion();
 		
 	}else if(auton == redR){
 		chassis.setPose(0, 0, 0);
