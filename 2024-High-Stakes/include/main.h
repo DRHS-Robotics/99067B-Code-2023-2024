@@ -43,6 +43,7 @@
 #include "lemlib/api.hpp"
 #include "robot.h"
 #include "globals.h"
+#include "functions.h"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do

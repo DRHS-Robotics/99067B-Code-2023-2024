@@ -12,5 +12,6 @@ extern adi::DigitalOut clip2;
 extern adi::DigitalOut stick;
 extern Robot robot;
 extern Controller master;
-
+extern Task* intakeTask;
+extern bool intakeState;
 #endif

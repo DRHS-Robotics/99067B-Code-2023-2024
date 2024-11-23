@@ -12,6 +12,10 @@ adi::DigitalOut clip1('A');
 adi::DigitalOut clip2('B');
 adi::DigitalOut stick('C');
 
+pros::Task* intakeTask = nullptr;
+void intakeMacro();
+bool intakeState = false;
+
 Drivetrain drivetrain(&robot.leftMotors, // left motor group
                               &robot.rightMotors, // right motor group
                               10, // 10 inch track width
@@ -57,3 +61,26 @@ Chassis chassis(drivetrain, // drivetrain settings
                         angular_controller, // angular PID settings
                         sensors // odometry sensors
 );
+
+void intakeMacro(){
+    if(intakeTask == nullptr){
+        if(intakeTask == nullptr){
+        intakeTask = new pros::Task{[=]{
+        
+
+        while(true){
+            if((intakeState)){
+				// std::cout << "Position" << position() << std::endl;
+                if(robot.intake.get_actual_velocity() == 0){
+                    robot.intake.move(-127);
+                }else{
+                    robot.intake.move(127);
+                }
+            }
+
+            pros::Task::delay(20);
+            }
+        }};
+    }
+    }
+}
