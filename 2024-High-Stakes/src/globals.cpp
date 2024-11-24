@@ -1,6 +1,6 @@
 #include "main.h"
 
-Robot robot({-3,-11,-12}, {4,13, 14}, -2, -6, 5, MotorGears::green, MotorGears::blue);
+Robot robot({-3,-11,-12}, {4,13, 14}, {-2, 8}, -6, 5, MotorGears::green, MotorGears::blue);
 
 //Adjust the distances later
 // TrackingWheel horizontal_tracking_wheel(&robot.horizontalRot, Omniwheel::NEW_275, -5.75);

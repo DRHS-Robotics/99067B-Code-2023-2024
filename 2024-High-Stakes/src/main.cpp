@@ -151,10 +151,10 @@ void autonomous() {
 		clip2.set_value(true);
 		delay(350);
 		// robot.conveyor.move(127);
-		intakeState = true;
+		// intakeState = true;
 		delay(300);
 		chassis.turnToHeading(165, 1250, {.maxSpeed = 70}, false);
-		// robot.intake.move(127);
+		robot.intake.move(127);
 		robot.conveyor.move(0);
 		chassis.moveToPoint(20, -29, 1750, {.maxSpeed = 100}, false);
 		chassis.moveToPoint(23, -22, 2000, {.maxSpeed = 70}, false);
