@@ -144,14 +144,14 @@ void autonomous() {
 	}else if(auton == redL){
 		//left = +x, right = -x
 		//forwards = -y, backwards = +y
-		intakeMacro();
+		// intakeMacro();
 		chassis.setPose(0,0,0);
 		chassis.moveToPoint(0, -24, 1750, {.forwards = false, .maxSpeed = 60}, false); //Go slower when backing up into goals
 		clip1.set_value(true); // Clamp
 		clip2.set_value(true);
 		delay(350);
-		robot.conveyor.move(127);
-		// intakeState = true;
+		// robot.conveyor.move(127);
+		intakeState = true;
 		delay(300);
 		chassis.turnToHeading(165, 1250, {.maxSpeed = 70}, false);
 		// robot.intake.move(127);
