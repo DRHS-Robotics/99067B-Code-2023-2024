@@ -93,7 +93,7 @@ void autonomous() {
 		clip2.set_value(true);
 		delay(300);
 		robot.conveyor.move(127);
-		robot.intake.move(127);
+		// //robot.intake.move(127)(127);
 		chassis.turnToHeading(-24, 1000, {.maxSpeed = 100}, false);
 		chassis.moveToPoint(-10, -33, 1000, {.maxSpeed = 100}, false);
 		robot.conveyor.move(0);
@@ -125,7 +125,7 @@ void autonomous() {
 		robot.conveyor.move(127);
 		delay(300);
 		chassis.turnToHeading(-165, 1250, {.maxSpeed = 100}, false);
-		robot.intake.move(127);
+		// //robot.intake.move(127)(127);
 		// robot.conveyor.move(0);
 		chassis.moveToPoint(-22.28, -27, 1750, {.maxSpeed = 100}, false);
 		robot.conveyor.move(127);
@@ -139,7 +139,7 @@ void autonomous() {
 		// // delay(400);
 		// chassis.moveToPoint(29.5, -16, 1500, {.forwards = false, .maxSpeed = 100}, false);
 		chassis.turnToHeading(-207, 1250, {.maxSpeed = 100}, false);
-		robot.intake.move(-127);
+		//robot.intake.move(127)(-127);
 		chassis.moveToPoint(13.5, -40, 2000, {.maxSpeed = 80}, false);
 	}else if(auton == redL){
 		//left = +x, right = -x
@@ -154,7 +154,7 @@ void autonomous() {
 		// intakeState = true;
 		delay(300);
 		chassis.turnToHeading(165, 1250, {.maxSpeed = 70}, false);
-		robot.intake.move(127);
+		//robot.intake.move(127)(127);
 		robot.conveyor.move(0);
 		chassis.moveToPoint(20, -29, 1750, {.maxSpeed = 100}, false);
 		chassis.moveToPoint(23, -22, 2000, {.maxSpeed = 70}, false);
@@ -172,7 +172,7 @@ void autonomous() {
 		// // delay(400);
 		// chassis.moveToPoint(29.5, -16, 1500, {.forwards = false, .maxSpeed = 100}, false);
 		chassis.turnToHeading(207, 1250, {.maxSpeed = 100}, false);
-		// robot.intake.move(-127);
+		// //robot.intake.move(127)(-127);
 		chassis.moveToPoint(13.5, -33, 2000, {.maxSpeed = 70}, false);
 		chassis.cancelMotion();
 		
@@ -185,12 +185,12 @@ void autonomous() {
 		clip2.set_value(true);
 		delay(250);
 		robot.conveyor.move(127);
-		robot.intake.move(127);
+		//robot.intake.move(127)(127);
 		chassis.turnToHeading(24, 1000, {.maxSpeed = 100}, false);
 		robot.conveyor.move(0);
 		chassis.moveToPoint(17, -19, 2250, {.maxSpeed = 70}, false);
 		// delay(675);
-		// robot.intake.move(-127);
+		// //robot.intake.move(127)(-127);
 		robot.conveyor.move(127);
 		delay(800);
 		clip1.set_value(false);
@@ -210,7 +210,7 @@ void autonomous() {
 	// delay(500);
 	// chassis.turnToHeading(-18, 1000, {.maxSpeed = 100});
 	// // robot.conveyor.move(0);
-	// robot.intake.move(127);
+	// //robot.intake.move(127)(127);
 	// // chassis.moveToPoint(-16, -35, 1500, {.maxSpeed = 115}, false);
 	// // robot.conveyor.move(-127);
 	// chassis.moveToPoint(-5, -23, 1500, {.maxSpeed = 70}, false);
@@ -222,16 +222,16 @@ void autonomous() {
 	// chassis.moveToPoint(-17, -23, 2000, {.forwards = false, .maxSpeed = 70}, false);
 	// clip1.set_value(true);
 	// clip2.set_value(true);
-	// robot.intake.move(-127);
+	// //robot.intake.move(127)(-127);
 	// chassis.turnToHeading(-48, 1500, {.maxSpeed = 110}, false);
 	// chassis.moveToPoint(-26, -11, 1500, {.maxSpeed = 100}, false);
 	// stick.set_value(true);
 	// // chassis.moveToPoint(-67, 5, 2000, {.maxSpeed =  90}, false);
-	// robot.intake.move(127);
+	// //robot.intake.move(127)(127);
 	// delay(500);
 	// chassis.turnToHeading(-162, 1000, {.maxSpeed = 100}, false);
 	// chassis.moveToPoint(-62, -25, 2000, {.maxSpeed = 70}, false);
-	// robot.intake.move(0);
+	// //robot.intake.move(127)(0);
 	// chassis.moveToPoint(-1, -27, 1000, {.forwards = false, .maxSpeed = 70}, false);
 	// chassis.turnToHeading(90, 1000, {.maxSpeed = 100});
 	// clip1.set_value(false);
@@ -285,19 +285,19 @@ void opcontrol() {
             clip2.set_value(false);
 		}
 
-		if(stickState){
-			stick.set_value(true);
-		}else{
-			stick.set_value(false);
-		}
+		// if(stickState){
+		// 	stick.set_value(true);
+		// }else{
+		// 	stick.set_value(false);
+		// }
 		
-		if(master.get_digital(DIGITAL_R1)){
-			robot.intake.move(127);
-		}else if(master.get_digital(DIGITAL_R2)){
-			robot.intake.move(-127);
-		}else{
-			robot.intake.move(0);
-		}
+		// if(master.get_digital(DIGITAL_R1)){
+		// 	//robot.intake.move(127)(127);
+		// }else if(master.get_digital(DIGITAL_R2)){
+		// 	//robot.intake.move(127)(-127);
+		// }else{
+		// 	//robot.intake.move(127)(0);
+		// }
 
 		if(master.get_digital(DIGITAL_L1)){
 			robot.conveyor.move(127);

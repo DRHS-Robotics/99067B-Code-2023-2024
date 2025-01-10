@@ -9,14 +9,15 @@ class Robot{
     public:
         MotorGroup leftMotors;
         MotorGroup rightMotors;
-        MotorGroup intake;
+        // MotorGroup intake;
         Motor conveyor;
+        Motor wallStake;
         IMU imu1;
         // Rotation verticalRot;
         // Rotation horizontalRot;
 
-        Robot(std::initializer_list<std::int8_t> leftMotors, std::initializer_list<std::int8_t> rightMotors, std::initializer_list<std::int8_t> intake, int conveyor, int imu1,  MotorGears greenGear, MotorGears blueGear) 
-        : leftMotors(leftMotors, blueGear), rightMotors(rightMotors, blueGear), intake(intake, greenGear), conveyor(conveyor, blueGear), imu1(imu1) {
+        Robot(std::initializer_list<std::int8_t> leftMotors, std::initializer_list<std::int8_t> rightMotors, int conveyor, int wallStake, int imu1,  MotorGears greenGear, MotorGears blueGear) 
+        : leftMotors(leftMotors, blueGear), rightMotors(rightMotors, blueGear), conveyor(conveyor, blueGear), wallStake(wallStake, blueGear), imu1(imu1) {
             // this->verticalRot.set_reversed(true);
             // this->horizontalRot.set_reversed(false);
         }

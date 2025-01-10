@@ -1,6 +1,6 @@
 #include "main.h"
 
-Robot robot({-3,-11,-12}, {4,13, 14}, {-2, 8}, -6, 5, MotorGears::green, MotorGears::blue);
+Robot robot({-18,-16,-13}, {17,11,14}, 15, 9, 4, MotorGears::green, MotorGears::blue);
 
 //Adjust the distances later
 // TrackingWheel horizontal_tracking_wheel(&robot.horizontalRot, Omniwheel::NEW_275, -5.75);
@@ -63,24 +63,24 @@ Chassis chassis(drivetrain, // drivetrain settings
 );
 
 void intakeMacro(){
-    if(intakeTask == nullptr){
-        if(intakeTask == nullptr){
-        intakeTask = new pros::Task{[=]{
+//     if(intakeTask == nullptr){
+//         if(intakeTask == nullptr){
+//         intakeTask = new pros::Task{[=]{
         
 
-        while(true){
-            if((intakeState)){
-				// std::cout << "Position" << position() << std::endl;
-                if(robot.intake.get_actual_velocity() == 0){
-                    robot.intake.move(-127);
-                }else{
-                    robot.intake.move(127);
-                }
-            }
+//         while(true){
+//             if((intakeState)){
+// 				// std::cout << "Position" << position() << std::endl;
+//                 if(robot.intake.get_actual_velocity() == 0){
+//                     robot.intake.move(-127);
+//                 }else{
+//                     robot.intake.move(127);
+//                 }
+//             }
 
-            pros::Task::delay(20);
-            }
-        }};
-    }
-    }
+//             pros::Task::delay(20);
+//             }
+//         }};
+//     }
+//     }
 }
